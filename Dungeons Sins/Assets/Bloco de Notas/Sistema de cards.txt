@@ -1,0 +1,18 @@
+Sistema de cards:
+
+- escolher personagem (7 personagens)
+- 3 tipos de cartas (equipamentos, modificadores (poções) e lacaios
+- Elementos (Fogo, agua, terra e ar)
+- um tipo de dado (0 a 6)
+
+Cada personagem tem uma habilidade diferente e uma ficha
+Na ficha, pode equipar uma bota, uma armadura um chapéu, dois tipos de armas (arma ou escudo) e talvez um espaço pra mochila (item reserva)
+
+Os lacaios tem seu tipo de elemento, nível do lacaio (1, 2 ou 3), qtd de vida e dano causado
+Elemento: dependendo da arma equipada e o elemento do lacaio, o lacaio sofrerá mais ou resistirá mais.
+Fogo --> Planta --> ar --> agua --> fogo (fogo bate na planta, que bate no ar..)
+
+Uma das ideias do player:
+ O jogador escolhe um personagem, terá um monte de cartas e a cada rodada surgir um monstro.
+A cada rodada, surgirá uma quantidade de cartas e o jogador terá que escolher apenas um. 
+Cada rodada durará até o player matar o monstro. O dano causado no monstro dependerá da carta de arma e quanto tirará no dado. O jogo acaba se o player durar até X rodadas. 

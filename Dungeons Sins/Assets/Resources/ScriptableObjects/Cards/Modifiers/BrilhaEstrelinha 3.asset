@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f285d7287c0dcf4cad70bb864f710d8, type: 3}
+  m_Name: BrilhaEstrelinha 3
+  m_EditorClassIdentifier: 
+  cardName: BrilhaEstrelinha
+  description: "Parece mais um perfume infantil mas \xE9 uma po\xE7\xE3o de vitalidade.
+    Pode ser usada somente uma vez e deve ser aplicada antes de qualquer a\xE7\xE3o."
+  artwork: {fileID: 21300000, guid: 2ca7f16909d99e94082708a5eb332859, type: 3}
+  cardType: 1
+  healAmount: 10
+  extraDiceRolls: 0
+  shieldAmount: 0
+  cardMod: 0

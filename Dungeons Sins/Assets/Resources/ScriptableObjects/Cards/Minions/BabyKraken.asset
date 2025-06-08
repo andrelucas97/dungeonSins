@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d258d79e9a6eae7409a0b8190b6b9e40, type: 3}
+  m_Name: BabyKraken
+  m_EditorClassIdentifier: 
+  cardName: Filhote de Kraken
+  description: Olha que coisinha fofa. Nem parece nada em lava e leva seus inimigos
+    com ele.
+  artwork: {fileID: 21300000, guid: c35527778c89e274d83c2b88849fb7a2, type: 3}
+  cardType: 2
+  elementType: 1
+  elementImage: {fileID: 21300000, guid: 2cdc47a1cac1cde4d8bfef0e77886ce1, type: 3}
+  level1:
+    health: 60
+    shield: 9
+    damage: 10
+  level2:
+    health: 70
+    shield: 9
+    damage: 12
+  level3:
+    health: 80
+    shield: 9
+    damage: 15
