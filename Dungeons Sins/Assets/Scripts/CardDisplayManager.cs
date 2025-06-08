@@ -13,7 +13,7 @@ public class CardDisplayManager : MonoBehaviour
     public Transform posEquips;
     public Transform posMinion;
 
-    public List<CardData> cardList = new List<CardData>();
+    private List<CardData> cardList = new List<CardData>();
 
     // LISTA DECK MINIONS
     private List<MinionsCard> deckMinions = new List<MinionsCard>();
@@ -63,14 +63,12 @@ public class CardDisplayManager : MonoBehaviour
     {
         for (int i = 0; i < cardList.Count; i++)
         {
-            SpawnCard(cardList[i], i);
+            SpawnCard(cardList[i], i, posEquips, 1);
         }
     }
 
     public void SpawnRandomCards()
     {
-        Debug.Log("Quantidade de cartas no deck: " + deckAllCards.Count);
-
         ClearCards(spawnedCardEquip);
 
         deckAllCards.AddRange(hand);
@@ -92,7 +90,7 @@ public class CardDisplayManager : MonoBehaviour
 
         for (int i = 0; i < hand.Count; i++)
         {
-            GameObject cardGO = SpawnCard(hand[i], i);
+            GameObject cardGO = SpawnCard(hand[i], i, posEquips, 1);
             spawnedCardEquip.Add(cardGO);
         }
     }
@@ -106,35 +104,13 @@ public class CardDisplayManager : MonoBehaviour
             Debug.LogWarning("Deck de lacaios vazio!");
             return;
         }
-
         int index = UnityEngine.Random.Range(0, deckMinions.Count);
         MinionsCard randomMinion = deckMinions[index];
 
-        GameObject minionGO = SpawnMinionCard(randomMinion);
-        spawnedCardMinion.Add(minionGO);
+        GameObject cardGO = SpawnCard(randomMinion, 0, posMinion, 2);
+        spawnedCardMinion.Add(cardGO);
     }
-
-    private void ClearCards(List<GameObject> spawnedCard)
-    {
-        foreach (var obj in spawnedCard)
-        {
-            Destroy(obj);
-        }
-        spawnedCard.Clear();
-    }
-
-    private GameObject SpawnMinionCard(MinionsCard randomMinion)
-    {
-        GameObject cardGO = Instantiate(cardMinion, posMinion);
-        RectTransform rt = cardGO.GetComponent<RectTransform>();
-        rt.anchoredPosition = Vector2.zero;
-
-        CardMinionUI cardMinionUI = cardGO.GetComponent<CardMinionUI>();
-        cardMinionUI.Setup(randomMinion);
-        return cardGO;
-    }
-
-    private GameObject SpawnCard(CardData cardToShow, int index)
+    private GameObject SpawnCard(CardData cardToShow, int index, Transform position, float scale)
     {
 
         GameObject prefabToUse = null;
@@ -146,6 +122,9 @@ public class CardDisplayManager : MonoBehaviour
         else if (cardToShow is ModifierCard) 
         {
             prefabToUse = cardModifier;
+        } else if (cardToShow is MinionsCard)
+        {
+            prefabToUse = cardMinion;
         }
         else
         {
@@ -154,13 +133,15 @@ public class CardDisplayManager : MonoBehaviour
         }
 
         GameObject cardGO = Instantiate(prefabToUse);
-        cardGO.transform.SetParent(posEquips, false);
+        cardGO.transform.SetParent(position, false);
 
         RectTransform rt = cardGO.GetComponent<RectTransform>();
         rt.pivot = new Vector2(0.5f, 0.5f);
         rt.localRotation = Quaternion.identity;
         rt.localScale = Vector3.one;
         rt.anchoredPosition = new Vector2(index * 110, 0);
+
+        CardUtils.SetCardSize(rt, scale);
 
         if (cardGO.TryGetComponent<CardEquipUI>(out var equipUI))
         {
@@ -170,10 +151,21 @@ public class CardDisplayManager : MonoBehaviour
         {
             modifierUI.Setup(cardToShow);
         }
-
-        return cardGO;
+        else if (cardGO.TryGetComponent<CardMinionUI>(out var minionUI))
+        {
+            minionUI.Setup(cardToShow);
+        }
+            return cardGO;
     }
 
+    private void ClearCards(List<GameObject> spawnedCard)
+    {
+        foreach (var obj in spawnedCard)
+        {
+            Destroy(obj);
+        }
+        spawnedCard.Clear();
+    }
     public void RemoveCardDeck(GameObject cardGO)
     {
         var cardDisplay = cardGO.GetComponent<CardEquipUI>();
