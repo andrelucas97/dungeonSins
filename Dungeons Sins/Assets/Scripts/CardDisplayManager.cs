@@ -7,11 +7,11 @@ using UnityRandom = UnityEngine.Random;
 
 public class CardDisplayManager : MonoBehaviour
 {
-    public GameObject cardEquip;
-    public GameObject cardMinion;
-    public GameObject cardModifier;
-    public Transform posEquips;
-    public Transform posMinion;
+    [SerializeField] private GameObject cardEquip;
+    [SerializeField] private GameObject cardMinion;
+    [SerializeField] private GameObject cardModifier;
+    [SerializeField] private Transform posEquips;
+    [SerializeField] private Transform posMinion;
 
     private List<CardData> cardList = new List<CardData>();
 
@@ -26,11 +26,10 @@ public class CardDisplayManager : MonoBehaviour
     
     //LISTA CARD DATA
     private List<CardData> deckAllCards = new List<CardData>();
-    private List<GameObject> deckGO = new List<GameObject>();
 
     //LISTA CARD NA FICHA
     private List<GameObject> cardsCharSheet = new List<GameObject>();
-
+    public List<GameObject> CardsCharSheet => cardsCharSheet;
     // MINHA MAO COMPRA
     private List<CardData> hand = new List<CardData>();
     
@@ -52,14 +51,12 @@ public class CardDisplayManager : MonoBehaviour
         deckAllCards.AddRange(deckEquip);
         deckAllCards.AddRange(deckModifier);
 
-        Debug.Log("Quantidade de cartas no deck Agora: " + deckAllCards.Count);
-
         // Iniciar Lacaio
         ClearCards(spawnedCardMinion);
         SpawnMinion();
     }
 
-    public void SpawnAllCards()
+    private void SpawnAllCards()
     {
         for (int i = 0; i < cardList.Count; i++)
         {
@@ -67,7 +64,7 @@ public class CardDisplayManager : MonoBehaviour
         }
     }
 
-    public void SpawnRandomCards()
+    private void SpawnRandomCards()
     {
         ClearCards(spawnedCardEquip);
 
@@ -95,7 +92,7 @@ public class CardDisplayManager : MonoBehaviour
         }
     }
 
-    public void SpawnMinion()
+    private void SpawnMinion()
     {
         ClearCards(spawnedCardMinion);       
 
@@ -166,6 +163,9 @@ public class CardDisplayManager : MonoBehaviour
         }
         spawnedCard.Clear();
     }
+
+
+
     public void RemoveCardDeck(GameObject cardGO)
     {
         var cardDisplay = cardGO.GetComponent<CardEquipUI>();
@@ -174,7 +174,6 @@ public class CardDisplayManager : MonoBehaviour
 
         spawnedCardEquip.Remove(cardGO);
         hand.Remove(cardData);
-        Debug.Log("Quantidade de cartas na mão: " + hand.Count);
     }
     public void AddCardDeck(GameObject cardGO)
     {

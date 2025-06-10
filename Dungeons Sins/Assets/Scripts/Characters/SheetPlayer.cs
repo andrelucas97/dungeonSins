@@ -8,18 +8,15 @@ public class SheetPlayer : MonoBehaviour
 {
     [SerializeField] private GameObject cardPrefab;
 
-    public Transform slotWapon1;
-    public Transform slotWapon2;
-    public Transform slotHelmet;
-    public Transform slotArmor;
-    public Transform slotBoots;
-    public Transform slotBackpack;
-
-    private EquipmentCard waponCard;
-    private EquipmentCard helmetCard;
+    [SerializeField] private Transform slotWapon1;
+    [SerializeField] private Transform slotWapon2;
+    [SerializeField] private Transform slotHelmet;
+    [SerializeField] private Transform slotArmor;
+    [SerializeField] private Transform slotBoots;
+    [SerializeField] private Transform slotBackpack;
 
     private CardDisplayManager cardManager;
-    private List<EquipmentCard> cardsCharSheet = new List<EquipmentCard>();
+    [SerializeField] private CharStats charStats;
 
     private void Start()
     {
@@ -79,7 +76,6 @@ public class SheetPlayer : MonoBehaviour
         rt.anchorMin = new Vector2(0.5f, 0.5f);
         rt.anchorMax = new Vector2(0.5f, 0.5f);
         rt.pivot = new Vector2(0.5f, 0.5f);
-
         rt.localRotation = Quaternion.identity;
         rt.localScale = Vector3.one;
 
@@ -97,6 +93,12 @@ public class SheetPlayer : MonoBehaviour
         }           
 
         cardGO.GetComponent<CardEquipUI>().Setup(card);
+
+        Debug.Log("cardGO: " + cardGO);
+        Debug.Log("card: " + card);
+        Debug.Log("slotPlayer: " + slotPlayer);
+
+        charStats.UpdateStats();
     }    
 
     IEnumerator PlayAndDisable(Animator anim, string animName)

@@ -52,7 +52,7 @@ public class CardPriority : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         if (source != null && preview != null)
         {
-            preview.Setup(source.cardData);
+            //preview.Setup(source.cardData);
         }
     }
 

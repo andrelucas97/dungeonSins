@@ -1,0 +1,7 @@
+O QUE FAZER:
+
+- adicionar borda Modifier
+
+- adicionar ataque botão e tirar vida do lacaio
+
+- adicionar dados quebra escudo e ataque

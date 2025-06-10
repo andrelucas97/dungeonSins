@@ -71,8 +71,6 @@ public class CardEquipUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Carta clicada: " + cardData.cardName);
-
         SheetPlayer sheet = FindObjectOfType<SheetPlayer>();
         sheet.EquipCard(gameObject, cardData, cardData.typeCardEquip);
     }

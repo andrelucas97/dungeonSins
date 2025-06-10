@@ -6,30 +6,32 @@ using UnityEngine.UI;
 
 public class CardMinionUI : MonoBehaviour
 {
-    public CardData cardData;
+    [SerializeField] private CardData cardData;
     //IMG EQUIP
-    public Image artworkImage;
+    [SerializeField] private Image artworkImage;
 
     // NAME-DESCRIPT EQUIP
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI descriptionText;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
 
     // NIVEL 1
-    public TextMeshProUGUI healthN1Text;
-    public TextMeshProUGUI shieldN1Text;
-    public TextMeshProUGUI damageN1Text;
+    [SerializeField] private TextMeshProUGUI healthN1Text;
+    [SerializeField] private TextMeshProUGUI shieldN1Text;
+    [SerializeField] private TextMeshProUGUI damageN1Text;
     // NIVEL 2
-    public TextMeshProUGUI healthN2Text;
-    public TextMeshProUGUI shieldN2Text;
-    public TextMeshProUGUI damageN2Text;
+    [SerializeField] private TextMeshProUGUI healthN2Text;
+    [SerializeField] private TextMeshProUGUI shieldN2Text;
+    [SerializeField] private TextMeshProUGUI damageN2Text;
     //NIVEL 3
-    public TextMeshProUGUI healthN3Text;
-    public TextMeshProUGUI shieldN3Text;
-    public TextMeshProUGUI damageN3Text;
+    [SerializeField] private TextMeshProUGUI healthN3Text;
+    [SerializeField] private TextMeshProUGUI shieldN3Text;
+    [SerializeField] private TextMeshProUGUI damageN3Text;
 
-    public GameObject elementObj;
+    [SerializeField] private GameObject elementObj;
     //IMG ELEMENT
-    public Image elementImage;
+    [SerializeField] private Image elementImage;
+
+    private MinionStats minionStat;
     public void Setup(CardData card)
     {
         cardData = card;
@@ -58,5 +60,10 @@ public class CardMinionUI : MonoBehaviour
         {
             elementObj.SetActive(false);
         }
+
+        if (minionStat == null)
+            minionStat = GetComponent<MinionStats>();
+
+        minionStat.Initialize(minion);
     }
 }

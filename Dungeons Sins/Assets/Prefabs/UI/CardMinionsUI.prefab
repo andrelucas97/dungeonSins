@@ -184,8 +184,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.67057335, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.2000122, y: -0.00002670288}
-  m_SizeDelta: {x: -0.16999817, y: -0.29999924}
+  m_AnchoredPosition: {x: -0.2000122, y: -0.074977875}
+  m_SizeDelta: {x: -0.17, y: -0.15004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4475745611260393976
 CanvasRenderer:
@@ -1593,8 +1593,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.34, y: 0}
   m_AnchorMax: {x: 0.66, y: 1}
-  m_AnchoredPosition: {x: 0.07147217, y: 0.25}
-  m_SizeDelta: {x: 0.545, y: 0.5}
+  m_AnchoredPosition: {x: -0.00005531311, y: 0}
+  m_SizeDelta: {x: 0.000011444, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1779360467005396642
 CanvasRenderer:
@@ -2873,8 +2873,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.67, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.12854004, y: 0.25}
-  m_SizeDelta: {x: -0.455, y: 0.5}
+  m_AnchoredPosition: {x: -0.12854004, y: 0}
+  m_SizeDelta: {x: -0.455, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4221142685069844684
 CanvasRenderer:
@@ -3141,8 +3141,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.33914006, y: 0}
   m_AnchorMax: {x: 0.67057335, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: -0.00002670288}
-  m_SizeDelta: {x: -0.16999817, y: -0.29999924}
+  m_AnchoredPosition: {x: -0.5, y: -0.074977875}
+  m_SizeDelta: {x: -0.17, y: -0.15004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6533243990356299384
 CanvasRenderer:
@@ -3275,8 +3275,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.33, y: 1}
-  m_AnchoredPosition: {x: 0.12849426, y: 0.25}
-  m_SizeDelta: {x: -0.455, y: 0.5}
+  m_AnchoredPosition: {x: 0.12849426, y: 0}
+  m_SizeDelta: {x: -0.455, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1451907499308505807
 CanvasRenderer:
@@ -3464,6 +3464,7 @@ GameObject:
   - component: {fileID: 2022098992160096767}
   - component: {fileID: 5310792748567287820}
   - component: {fileID: 1441701734903414204}
+  - component: {fileID: 7493081519434162182}
   m_Layer: 5
   m_Name: CardMinionsUI
   m_TagString: Untagged
@@ -3628,6 +3629,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7493081519434162182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845391556583920274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e99a68499bdf3645b286848cdd2df85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelMinion: 2
+  currentHealth: 0
+  shield: 0
+  damage: 0
 --- !u!1 &8929005100401099270
 GameObject:
   m_ObjectHideFlags: 0

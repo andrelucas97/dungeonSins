@@ -1,35 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CharUI : MonoBehaviour
 {
-    public Image artworkImage;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI codeNameText;
+    [SerializeField] private Image artworkImage;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI codeNameText;
 
-    public TextMeshProUGUI health;
-    public TextMeshProUGUI shield;
+    [SerializeField] private TextMeshProUGUI health;
+    [SerializeField] private TextMeshProUGUI shield;
 
-    public TextMeshProUGUI damage;
+    [SerializeField] private TextMeshProUGUI damage;
 
     // Cor Correspondente ao Personagem
-    public Image backgroundImage;
-    public Image backgroundPointer;
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private Image backgroundPointer;
 
-    public Image[] slots;
+    [SerializeField] private Image[] slots;
+
+    private CharStats charStats;
+
     public void Setup(CharacterData character)
     {
-        artworkImage.sprite = character.portrait;
-        nameText.text = character.charName;
-        codeNameText.text = character.codeName;
-        health.text = character.maxHealth.ToString();
-        shield.text = character.shield.ToString();
-        damage.text = character.damage.ToString();
+        artworkImage.sprite = character.Portrait;
+        nameText.text = character.CharName;
+        codeNameText.text = character.CodeName;
+        health.text = character.MaxHealth.ToString();
+        shield.text = character.Shield.ToString();
+        damage.text = character.Damage.ToString();
 
-        Color baseColor = charColors.GetColor(character.charColor);
+        Color baseColor = charColors.GetColor(character.CharColor);
         backgroundImage.color = baseColor;
 
         float darkenFactor = 0.65f;
@@ -41,5 +45,11 @@ public class CharUI : MonoBehaviour
         {
             slot.color = darkColor;
         }
+
+        if (charStats == null)
+            charStats = GetComponent<CharStats>();
+
+        charStats.Initialize(character);
+
     }
 }
