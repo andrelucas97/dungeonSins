@@ -1865,6 +1865,7 @@ GameObject:
   - component: {fileID: 4457603868867313220}
   - component: {fileID: 1854723980782595122}
   - component: {fileID: 6763875749158105962}
+  - component: {fileID: 8136633515238122641}
   m_Layer: 5
   m_Name: CharacterPanel
   m_TagString: Untagged
@@ -1984,6 +1985,7 @@ MonoBehaviour:
   slotArmor: {fileID: 5220386459130529043}
   slotBoots: {fileID: 3379793701085024673}
   slotBackpack: {fileID: 7716520299072561478}
+  charStats: {fileID: 0}
 --- !u!114 &6763875749158105962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,6 +1998,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65101b75f3056e24597be7ba1b1a1430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testCharacterData: {fileID: 0}
+  charUI: {fileID: 0}
+  currentHealth: 0
+  shield: 0
+  damage: 0
+  cardDisplayManager: {fileID: 0}
+--- !u!114 &8136633515238122641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3136078384311252845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e9ec5f5f99e0748806142f0d3ef708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCard: {fileID: 6763875749158105962}
+  minionCard: {fileID: 7493081519434162182, guid: f0abe8153bbd97342a88ae4864603722, type: 3}
 --- !u!1 &3460182769970835167
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class CardMinionUI : MonoBehaviour
 {
+    // VAR PRIVADAS
+
+    [Header("Card Data")]
     [SerializeField] private CardData cardData;
     //IMG EQUIP
     [SerializeField] private Image artworkImage;
@@ -14,6 +17,7 @@ public class CardMinionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descriptionText;
 
+    [Header("Level Stats")]
     // NIVEL 1
     [SerializeField] private TextMeshProUGUI healthN1Text;
     [SerializeField] private TextMeshProUGUI shieldN1Text;
@@ -27,6 +31,7 @@ public class CardMinionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI shieldN3Text;
     [SerializeField] private TextMeshProUGUI damageN3Text;
 
+    [Header("Element    ")]
     [SerializeField] private GameObject elementObj;
     //IMG ELEMENT
     [SerializeField] private Image elementImage;
@@ -36,27 +41,27 @@ public class CardMinionUI : MonoBehaviour
     {
         cardData = card;
 
-        artworkImage.sprite = card.artwork;
-        nameText.text = card.cardName;
-        descriptionText.text = card.description;
+        artworkImage.sprite = card.Artwork;
+        nameText.text = card.CardName;
+        descriptionText.text = card.Description;
 
         MinionsCard minion = card as MinionsCard;        
 
-        elementImage.sprite = minion.elementImage;
+        elementImage.sprite = minion.ElementImage;
 
-        healthN1Text.text = minion.level1.health.ToString();
-        shieldN1Text.text = minion.level1.shield.ToString();
-        damageN1Text.text = minion.level1.damage.ToString();
+        healthN1Text.text = minion.Level1.Health.ToString();
+        shieldN1Text.text = minion.Level1.Shield.ToString();
+        damageN1Text.text = minion.Level1.Damage.ToString();
 
-        healthN2Text.text = minion.level2.health.ToString();
-        shieldN2Text.text = minion.level2.shield.ToString();
-        damageN2Text.text = minion.level2.damage.ToString();
+        healthN2Text.text = minion.Level2.Health.ToString();
+        shieldN2Text.text = minion.Level2.Shield.ToString();
+        damageN2Text.text = minion.Level2.Damage.ToString();
 
-        healthN3Text.text = minion.level3.health.ToString();
-        shieldN3Text.text = minion.level3.shield.ToString();
-        damageN3Text.text = minion.level3.damage.ToString();
+        healthN3Text.text = minion.Level3.Health.ToString();
+        shieldN3Text.text = minion.Level3.Shield.ToString();
+        damageN3Text.text = minion.Level3.Damage.ToString();
 
-        if (minion.elementType == ElementType.None)
+        if (minion.ElementType == ElementType.None)
         {
             elementObj.SetActive(false);
         }

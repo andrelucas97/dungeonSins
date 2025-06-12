@@ -7,6 +7,8 @@ using UnityRandom = UnityEngine.Random;
 
 public class CardDisplayManager : MonoBehaviour
 {
+    // VAR PRIVADAS
+
     [SerializeField] private GameObject cardEquip;
     [SerializeField] private GameObject cardMinion;
     [SerializeField] private GameObject cardModifier;
@@ -64,7 +66,15 @@ public class CardDisplayManager : MonoBehaviour
         }
     }
 
-    private void SpawnRandomCards()
+    public void ButtonSpawnCards()
+    {
+
+        SpawnCardsEquips();
+
+        
+    }
+
+    private void SpawnCardsEquips()
     {
         ClearCards(spawnedCardEquip);
 
@@ -168,12 +178,24 @@ public class CardDisplayManager : MonoBehaviour
 
     public void RemoveCardDeck(GameObject cardGO)
     {
-        var cardDisplay = cardGO.GetComponent<CardEquipUI>();
-        var cardData = cardDisplay.CardData;
+        var cardEquip = cardGO.GetComponent<CardEquipUI>();
 
+        if (cardEquip != null)
+        {
+            var cardData = cardEquip.CardData;
+            spawnedCardEquip.Remove(cardGO);
+            hand.Remove(cardData);
+        }
 
-        spawnedCardEquip.Remove(cardGO);
-        hand.Remove(cardData);
+        var cardModifier = cardGO.GetComponent<CardModifierUI>();
+
+        if (cardModifier != null)
+        {
+            var cardData = cardModifier.CardData;
+            spawnedCardEquip.Remove(cardGO);
+            hand.Remove(cardData);
+        }
+
     }
     public void AddCardDeck(GameObject cardGO)
     {

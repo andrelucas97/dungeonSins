@@ -5,13 +5,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEquipment", menuName = "CardsGame/Cards/Equipment")]
 public class EquipmentCard : CardData
 {
-    public int attackBonus;
-    public int defenseBonus;
+    // VAR PRIVADAS
+    [Header("Bonus")]
+    [SerializeField] private CardStats cardStat;
+    [SerializeField] private int attackBonus;
+    [SerializeField] private int defenseBonus;
 
-    public TypeCardEquip typeCardEquip;
+    [Header("Type")]
+    [SerializeField] private TypeCardEquip typeCardEquip;
 
-    public CardStats cardStat;
-    public CardLabel cardLabel;
+    [Header("Label")]
+    [SerializeField] private CardLabel cardLabel;
 
+    // VAR PUBLICAS
+    public CardStats CardStat => cardStat;
+    public int AttackBonus => attackBonus;
+    public int DefenseBonus => defenseBonus;
+    public TypeCardEquip TypeCard => typeCardEquip;
+    public CardLabel CardLabel => cardLabel;
 
 }

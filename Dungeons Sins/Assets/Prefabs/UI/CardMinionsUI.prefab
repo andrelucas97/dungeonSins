@@ -2822,7 +2822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 0.83137256, b: 0.41960785, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3460,11 +3460,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7414713272019697950}
   - component: {fileID: 6466172489404534794}
+  - component: {fileID: 7493081519434162182}
   - component: {fileID: 5840920984209518081}
   - component: {fileID: 2022098992160096767}
   - component: {fileID: 5310792748567287820}
   - component: {fileID: 1441701734903414204}
-  - component: {fileID: 7493081519434162182}
   m_Layer: 5
   m_Name: CardMinionsUI
   m_TagString: Untagged
@@ -3526,6 +3526,22 @@ MonoBehaviour:
   damageN3Text: {fileID: 8624633816684369100}
   elementObj: {fileID: 4543743621158527028}
   elementImage: {fileID: 5074994771530766348}
+--- !u!114 &7493081519434162182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845391556583920274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e99a68499bdf3645b286848cdd2df85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelMinion: 1
+  currentHealth: 0
+  shield: 0
+  damage: 0
 --- !u!222 &5840920984209518081
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3629,22 +3645,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7493081519434162182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8845391556583920274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e99a68499bdf3645b286848cdd2df85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelMinion: 2
-  currentHealth: 0
-  shield: 0
-  damage: 0
 --- !u!1 &8929005100401099270
 GameObject:
   m_ObjectHideFlags: 0

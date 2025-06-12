@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,14 @@ using UnityEngine;
 [System.Serializable]
 public struct MinionLevelStats
 {
-    public int health;
-    public int shield;
-    public int damage;
+    // VAR PRIVADAS
+    [Header("Stats")]
+    [SerializeField] private int health;
+    [SerializeField] private int shield;
+    [SerializeField] private int damage;
+
+    // VAR PUBLICAS
+    public int Health => health;
+    public int Shield => shield;
+    public int Damage => damage;    
 }

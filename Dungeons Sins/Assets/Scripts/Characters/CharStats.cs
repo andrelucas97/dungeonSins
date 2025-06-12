@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CharStats : MonoBehaviour
 {
-    //Teste
+    // VAR PRIVADAS
     [SerializeField] private CharacterData testCharacterData;
     [SerializeField] private CharUI charUI;
 
@@ -15,6 +15,12 @@ public class CharStats : MonoBehaviour
 
     private CharacterData baseData;
     [SerializeField] private CardDisplayManager cardDisplayManager;
+
+    // VAR PUBLICAS
+    public int CurrentHealth => currentHealth;
+    public int Shield => shield;
+    public int Damage => damage;
+
     public void Initialize(CharacterData data)
     {
         baseData = data;
@@ -33,6 +39,8 @@ public class CharStats : MonoBehaviour
         {
             charUI.Setup(testCharacterData);
             Debug.Log("Character initialized in test mode: " + testCharacterData.CharName);
+
+            StatusDisplay.Instance.AttStatusPlayer(this);
         }
     }
 
@@ -53,19 +61,19 @@ public class CharStats : MonoBehaviour
             {
                 EquipmentCard equip = cardEquipUI.CardData;
 
-                switch (equip.cardStat)
+                switch (equip.CardStat)
                 {
                     case CardStats.ATK:
-                        damage += equip.attackBonus;
+                        damage += equip.AttackBonus;
                         break;
                     case CardStats.DEF:
-                        shield += equip.defenseBonus;
+                        shield += equip.DefenseBonus;
                         break;
                 }
             }            
         }
-
-        Debug.Log("Dano final: " + damage);
+        StatusDisplay.Instance.AttStatusPlayer(this);
+        
     }
 
 }

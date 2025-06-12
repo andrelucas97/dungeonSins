@@ -23,8 +23,10 @@ public class SheetPlayer : MonoBehaviour
         cardManager = FindObjectOfType<CardDisplayManager>();
     }
 
-    public void EquipCard(GameObject cardGO, EquipmentCard card, TypeCardEquip type)
+    public void EquipCard(GameObject cardGO, CardData card, TypeCardEquip type)
     {
+        Debug.Log("sou do tipo: " + type);
+
         switch (type)
         {
             case TypeCardEquip.Weapon:
@@ -35,10 +37,15 @@ public class SheetPlayer : MonoBehaviour
                 } else if (slotWapon2.childCount == 0)
                 {
                     ShowCardInSlot(cardGO, card, slotWapon2);
+                } else if ((slotWapon1.childCount >= 1)&& (slotWapon2.childCount >= 1) )
+                {
+                    ShowCardInSlot(cardGO, card, slotBackpack);
+
                 } else
                 {
                     Debug.Log("Ambos os slots de arma estão ocupados!");
-                }             
+
+                }
                 break;
 
             case TypeCardEquip.Helmet:
@@ -50,10 +57,13 @@ public class SheetPlayer : MonoBehaviour
             case TypeCardEquip.Boots:
                 ShowCardInSlot(cardGO, card, slotBoots);
                 break;
+            case TypeCardEquip.Modifier:
+                ShowCardInSlot(cardGO, card, slotBackpack);
+                break;
         }
     }
 
-    private void ShowCardInSlot(GameObject cardGO, EquipmentCard card, Transform slotPlayer)
+    private void ShowCardInSlot(GameObject cardGO, CardData card, Transform slotPlayer)
     {
         if (slotPlayer.childCount > 0)
         {
@@ -79,7 +89,7 @@ public class SheetPlayer : MonoBehaviour
         rt.localRotation = Quaternion.identity;
         rt.localScale = Vector3.one;
 
-        CardUtils.SetCardSize(rt, 0.80f);
+        CardUtils.SetCardSize(rt, 0.75f);
 
         var fitter = cardGO.GetComponent<ContentSizeFitter>();
         if (fitter != null)
@@ -90,14 +100,23 @@ public class SheetPlayer : MonoBehaviour
         {
             StartCoroutine(PlayAndDisable(anim, "Disabled"));
             
-        }           
+        }
 
-        cardGO.GetComponent<CardEquipUI>().Setup(card);
+        if (cardGO.TryGetComponent<CardEquipUI>(out var equipUI))
+        {
+            cardGO.GetComponent<CardEquipUI>().Setup(card);
+            card.isEquippedSheet();
+        } else if (cardGO.TryGetComponent<CardModifierUI>(out var modifierUI))
+        {
+            cardGO.GetComponent<CardModifierUI>().Setup(card);
 
-        Debug.Log("cardGO: " + cardGO);
-        Debug.Log("card: " + card);
-        Debug.Log("slotPlayer: " + slotPlayer);
+        }
 
+        if (slotPlayer == slotBackpack)
+        {
+            Debug.Log("Carta equipada na mochila!");
+            return;
+        }
         charStats.UpdateStats();
     }    
 

@@ -1,24 +1,47 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MinionStats : MonoBehaviour
 {
-    [SerializeField] private int levelMinion;
+    // VAR PRIVADAS
 
+    [Header("Stats")]
+    [SerializeField] private int levelMinion;
     [SerializeField] private int currentHealth;
     [SerializeField] private int shield;
     [SerializeField] private int damage;
 
-    private MinionsCard baseData;
+    [Header("Canvas")]
+    [SerializeField] private TextMeshProUGUI messageStats;
 
+    private CardData cardData;
+    private MinionLevelStats cardLevelStats;
+
+    // VAR PUBLICAS
+    public int CurrentHealth => currentHealth;
+    public int Shield => shield;
+    public int Damage => damage;
     public void Initialize(MinionsCard card)
     {
-
-        baseData = card;
+        cardData = card;
         ApplyStats(card);
-        Debug.Log("Minion iniciado com HP: " + currentHealth);
+        StatusDisplay.Instance.AttStatusMinion(this);
+    }
+
+    public void TakeDamage(int hitDamage, int damageMultiplier)
+    {
+        currentHealth -= (hitDamage * damageMultiplier);
+
+        StatusDisplay.Instance.AttStatusMinion(this);
+
+        if (currentHealth <= 0)
+        {
+            currentHealth = Mathf.Max(currentHealth, 0);
+            Debug.Log($"{cardData.CardName} foi derrotado.");
+        }
     }
 
     private void ApplyStats(MinionsCard card)
@@ -26,24 +49,24 @@ public class MinionStats : MonoBehaviour
         switch (levelMinion)
         {
             case 1:
-                currentHealth = card.level1.health;
-                shield = card.level1.shield;
-                damage = card.level1.damage;
+                currentHealth = card.Level1.Health;
+                shield = card.Level1.Shield;
+                damage = card.Level1.Damage;
                 break;
             case 2:
-                currentHealth = card.level2.health;
-                shield = card.level2.shield;
-                damage = card.level2.damage;
+                currentHealth = card.Level2.Health;
+                shield = card.Level2.Shield;
+                damage = card.Level2.Damage;
                 break;
             case 3:
-                currentHealth = card.level3.health;
-                shield = card.level3.shield;
-                damage = card.level3.damage;
+                currentHealth = card.Level3.Health;
+                shield = card.Level3.Shield;
+                damage = card.Level3.Damage;
                 break;
 
             default:
                 Debug.LogWarning("Minion level inválido. Usando nível 1 como padrão.");
-                currentHealth = card.level1.health;
+                currentHealth = card.Level1.Health;
                 break;
 
 

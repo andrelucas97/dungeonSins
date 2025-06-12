@@ -5,21 +5,28 @@ using UnityEngine.UI;
 
 public class CardEquipUI : MonoBehaviour, IPointerClickHandler
 {
+    // VAR PRIVADAS
+
+    [Header("Card Data")]
     //IMG EQUIP
-    public Image artworkImage;
-
+    [SerializeField] private Image artworkImage;
     // NAME-DESCRIPT EQUIP
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI descriptionText;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
 
+    [Header("Pointer")]
     // POINTER DEF/ATK
-    public TextMeshProUGUI pointer;
-    public TextMeshProUGUI stat;
+    [SerializeField] private TextMeshProUGUI pointer;
+    [Header("Stat")]
+    [SerializeField] private TextMeshProUGUI stat;
 
+    [Header("Label")]
     // 1 mão ou 2 mãos
-    public TextMeshProUGUI handLabel;
+    [SerializeField] private TextMeshProUGUI handLabel;    
 
     private EquipmentCard cardData;
+
+    // VAR PUBLICAS
     public EquipmentCard CardData => cardData;
     public void Setup(CardData card)
     {
@@ -32,23 +39,23 @@ public class CardEquipUI : MonoBehaviour, IPointerClickHandler
         }
         cardData = cardEquip;
 
-        artworkImage.sprite = card.artwork;
-        nameText.text = card.cardName;
-        descriptionText.text = card.description;
+        artworkImage.sprite = card.Artwork;
+        nameText.text = card.CardName;
+        descriptionText.text = card.Description;
 
-        switch (cardEquip.cardStat)
+        switch (cardEquip.CardStat)
         {
             case (CardStats.DEF):
                 stat.text = CardStats.DEF.ToString();
-                pointer.text = cardEquip.defenseBonus.ToString();
+                pointer.text = cardEquip.DefenseBonus.ToString();
                 break;
             case (CardStats.ATK):
                 stat.text = CardStats.ATK.ToString();
-                pointer.text = cardEquip.attackBonus.ToString();
+                pointer.text = cardEquip.AttackBonus.ToString();
                 break;
         }
 
-        switch (cardEquip.cardLabel)
+        switch (cardEquip.CardLabel)
         {
             case CardLabel.OneHand:
                 handLabel.text = "Arma de uma mão";
@@ -71,7 +78,12 @@ public class CardEquipUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SheetPlayer sheet = FindObjectOfType<SheetPlayer>();
-        sheet.EquipCard(gameObject, cardData, cardData.typeCardEquip);
+
+        if (!cardData.IsEquipped)
+        {
+            SheetPlayer sheet = FindObjectOfType<SheetPlayer>();
+            sheet.EquipCard(gameObject, cardData, cardData.TypeCard);
+        }
+        
     }
 }

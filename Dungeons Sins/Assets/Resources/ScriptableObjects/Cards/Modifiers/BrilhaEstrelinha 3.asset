@@ -21,3 +21,4 @@ MonoBehaviour:
   extraDiceRolls: 0
   shieldAmount: 0
   cardMod: 0
+  typeCard: 4

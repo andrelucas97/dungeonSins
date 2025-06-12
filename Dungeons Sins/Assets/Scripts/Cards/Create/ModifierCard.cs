@@ -5,8 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewModifier", menuName = "CardsGame/Cards/Modifier")]
 public class ModifierCard : CardData
 {
-    public int healAmount;
-    public int extraDiceRolls;
-    public int shieldAmount;    
-    public CardMod cardMod;
+    // VAR PRIVADAS
+    [Header("")]
+    [SerializeField] private int healAmount;
+    [SerializeField] private int extraDiceRolls;
+    [SerializeField] private int shieldAmount;
+    [SerializeField] private CardMod cardMod;
+
+    [Header("Card Type")]
+    [SerializeField] private TypeCardEquip typeCard;
+
+    // VAR PUBLICAS
+    public TypeCardEquip TypeCard => typeCard;
 }

@@ -19,6 +19,7 @@ MonoBehaviour:
   cardType: 2
   elementType: 4
   elementImage: {fileID: 21300000, guid: d067fdc94509bdb4bb248eaccd25c563, type: 3}
+  level: 1
   level1:
     health: 45
     shield: 6
