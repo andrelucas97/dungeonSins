@@ -8,6 +8,7 @@ public class TakeDamage : MonoBehaviour
     [SerializeField] private CharStats playerCard;
     [SerializeField] private DiceRoller diceRoller;
     [SerializeField] private GameObject buttonAttack;
+    [SerializeField] private GameObject textShield;
 
     private MinionStats minionStat;
     public void OnAttackButton()
@@ -20,7 +21,9 @@ public class TakeDamage : MonoBehaviour
             }
 
             buttonAttack.GetComponent<Button>().interactable = false;
-            diceRoller.ShowDicePanel();            
+            diceRoller.TextShield.SetActive(true);
+            diceRoller.TextDamage.SetActive(false);
+            diceRoller.ShowDicePanel();
         }
     }
 

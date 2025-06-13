@@ -14,27 +14,22 @@ public class CardDisplayManager : MonoBehaviour
     [SerializeField] private GameObject cardModifier;
     [SerializeField] private Transform posEquips;
     [SerializeField] private Transform posMinion;
-
+    [SerializeField] private ActionManager actionManager;
     private List<CardData> cardList = new List<CardData>();
-
     // LISTA DECK MINIONS
     private List<MinionsCard> deckMinions = new List<MinionsCard>();
-
     // LISTA DECK EQUIP
     private List<EquipmentCard> deckEquip = new List<EquipmentCard>();
-
     // LISTA DECK MODIFIER
-    private List<ModifierCard> deckModifier = new List<ModifierCard>();
-    
+    private List<ModifierCard> deckModifier = new List<ModifierCard>();    
     //LISTA CARD DATA
     private List<CardData> deckAllCards = new List<CardData>();
-
+    private List<CardData> minionsInGame = new List<CardData>();
     //LISTA CARD NA FICHA
     private List<GameObject> cardsCharSheet = new List<GameObject>();
     public List<GameObject> CardsCharSheet => cardsCharSheet;
     // MINHA MAO COMPRA
-    private List<CardData> hand = new List<CardData>();
-    
+    private List<CardData> hand = new List<CardData>();    
     // LIMPAR GAME OBJECT CARD
     private List<GameObject> spawnedCardEquip = new List<GameObject>();
     private List<GameObject> spawnedCardMinion = new List<GameObject>();
@@ -42,19 +37,19 @@ public class CardDisplayManager : MonoBehaviour
 
     void Start()
     {
-        //SpawnAllCards();
 
         List<EquipmentCard> deckEquip = Resources.LoadAll<EquipmentCard>("ScriptableObjects/Cards/Equipments").ToList();
         List<ModifierCard> deckModifier = Resources.LoadAll<ModifierCard>("ScriptableObjects/Cards/Modifiers").ToList();
+        List<MinionsCard> deckMinions = Resources.LoadAll<MinionsCard>("ScriptableObjects/Cards/Minions").ToList();
 
-        deckMinions = Resources.LoadAll<MinionsCard>("ScriptableObjects/Cards/Minions").ToList();
         
         // Add Cartas Equips + Modifier
         deckAllCards.AddRange(deckEquip);
         deckAllCards.AddRange(deckModifier);
+        minionsInGame.AddRange(deckMinions);
 
         // Iniciar Lacaio
-        ClearCards(spawnedCardMinion);
+        //ClearCards(spawnedCardMinion);
         SpawnMinion();
     }
 
@@ -68,18 +63,29 @@ public class CardDisplayManager : MonoBehaviour
 
     public void ButtonSpawnCards()
     {
+        SpawnCardsEquips();        
+    }
+    public void ClearShopCards()
+    {
 
-        SpawnCardsEquips();
-
-        
+        ReturnHandToDeck();
+    }
+    public void SpawnMinion()
+    {
+        SpawnMinionGame();
+    }
+    public void RemoveCardDeck(GameObject cardGO)
+    {
+        RemoveDeck(cardGO);
+    }
+    public void AddCardDeck(GameObject cardGO)
+    {
+        cardsCharSheet.Add(cardGO);
     }
 
     private void SpawnCardsEquips()
     {
-        ClearCards(spawnedCardEquip);
-
-        deckAllCards.AddRange(hand);
-        hand.Clear();
+        ReturnHandToDeck();
 
         if (deckAllCards.Count < 3)
         {
@@ -87,6 +93,7 @@ public class CardDisplayManager : MonoBehaviour
             return;
         }
 
+        actionManager.TryUseAction();
         var selected = deckAllCards.OrderBy(x => UnityRandom.value).Take(3).ToList();
 
         foreach (var card in selected)
@@ -101,18 +108,24 @@ public class CardDisplayManager : MonoBehaviour
             spawnedCardEquip.Add(cardGO);
         }
     }
-
-    private void SpawnMinion()
+    private void ReturnHandToDeck()
     {
-        ClearCards(spawnedCardMinion);       
+        ClearCards(spawnedCardEquip);
+        deckAllCards.AddRange(hand);
+        Debug.Log("Qtd de cartas na mão: " + hand.Count);
+        hand.Clear();
+    }
+    private void SpawnMinionGame()
+    {
+        ClearCards(spawnedCardMinion, spawnedCardMinion);
 
-        if (deckMinions.Count == 0)
+        if (minionsInGame.Count == 0)
         {
             Debug.LogWarning("Deck de lacaios vazio!");
             return;
         }
-        int index = UnityEngine.Random.Range(0, deckMinions.Count);
-        MinionsCard randomMinion = deckMinions[index];
+        int index = UnityEngine.Random.Range(0, minionsInGame.Count);
+        CardData randomMinion = minionsInGame[index];
 
         GameObject cardGO = SpawnCard(randomMinion, 0, posMinion, 2);
         spawnedCardMinion.Add(cardGO);
@@ -164,19 +177,23 @@ public class CardDisplayManager : MonoBehaviour
         }
             return cardGO;
     }
-
-    private void ClearCards(List<GameObject> spawnedCard)
+    private void ClearCards(List<GameObject> spawnedCard, List<GameObject> removeList = null)
     {
-        foreach (var obj in spawnedCard)
+        for (int i = spawnedCard.Count - 1; i >= 0; i--)
         {
+            GameObject obj = spawnedCard[i];
+
+            if (removeList != null)
+            {
+                var cardDisplay = obj.GetComponent<CardMinionUI>();
+
+                minionsInGame.Remove(cardDisplay.CardData);
+            }
             Destroy(obj);
         }
         spawnedCard.Clear();
     }
-
-
-
-    public void RemoveCardDeck(GameObject cardGO)
+    private void RemoveDeck(GameObject cardGO)
     {
         var cardEquip = cardGO.GetComponent<CardEquipUI>();
 
@@ -195,10 +212,5 @@ public class CardDisplayManager : MonoBehaviour
             spawnedCardEquip.Remove(cardGO);
             hand.Remove(cardData);
         }
-
-    }
-    public void AddCardDeck(GameObject cardGO)
-    {
-        cardsCharSheet.Add(cardGO);
     }
 }

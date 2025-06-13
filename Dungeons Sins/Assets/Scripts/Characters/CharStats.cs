@@ -40,7 +40,7 @@ public class CharStats : MonoBehaviour
             charUI.Setup(testCharacterData);
             Debug.Log("Character initialized in test mode: " + testCharacterData.CharName);
 
-            StatusDisplay.Instance.AttStatusPlayer(this);
+            StatusDisplay.Instance.AttStatusPlayer(this, testCharacterData);
         }
     }
 
@@ -72,8 +72,7 @@ public class CharStats : MonoBehaviour
                 }
             }            
         }
-        StatusDisplay.Instance.AttStatusPlayer(this);
-        
+        StatusDisplay.Instance.AttStatusPlayer(this, testCharacterData);        
     }
 
 }

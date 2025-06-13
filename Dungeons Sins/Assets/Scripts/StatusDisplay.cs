@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class StatusDisplay : MonoBehaviour
 {
+    [SerializeField] private MinionsCard minionData;
     [SerializeField] private TextMeshProUGUI damageTextMinion;
     [SerializeField] private TextMeshProUGUI damageTextPlayer;
     [SerializeField] private TextMeshProUGUI nameMinion;
@@ -22,16 +23,20 @@ public class StatusDisplay : MonoBehaviour
         text.text = message;
     }
 
-    public void AttStatusPlayer(CharStats charStats)
+    public void AttStatusPlayer(CharStats charStats, CharacterData charData)
     {
+        namePlayer.text = charData.CharName + charData.CodeName;
+
         StatusDisplay.Instance.ShowStatus(
             $"Vida atual: {charStats.CurrentHealth}" +
             $"\nDefesa: {charStats.Shield}" +
             $"\nAtaque Atual: {charStats.Damage}"
             , damageTextPlayer);
     }
-    public void AttStatusMinion(MinionStats minionStats)
+    public void AttStatusMinion(MinionStats minionStats, CardData cardData)
     {
+        
+        nameMinion.text = cardData.CardName;
 
         StatusDisplay.Instance.ShowStatus(
             $"Vida atual: {minionStats.CurrentHealth}" +

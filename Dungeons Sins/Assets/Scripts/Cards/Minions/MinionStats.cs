@@ -7,6 +7,7 @@ using UnityEngine;
 public class MinionStats : MonoBehaviour
 {
     // VAR PRIVADAS
+    [SerializeField] private MinionsCard minionData;
 
     [Header("Stats")]
     [SerializeField] private int levelMinion;
@@ -19,6 +20,7 @@ public class MinionStats : MonoBehaviour
 
     private CardData cardData;
     private MinionLevelStats cardLevelStats;
+    [SerializeField] private CardDisplayManager cardDisplayManager;
 
     // VAR PUBLICAS
     public int CurrentHealth => currentHealth;
@@ -28,19 +30,26 @@ public class MinionStats : MonoBehaviour
     {
         cardData = card;
         ApplyStats(card);
-        StatusDisplay.Instance.AttStatusMinion(this);
+        StatusDisplay.Instance.AttStatusMinion(this, cardData);
     }
 
     public void TakeDamage(int hitDamage, int damageMultiplier)
     {
-        currentHealth -= (hitDamage * damageMultiplier);
+        int totalDamage = hitDamage * damageMultiplier;
+        currentHealth -= totalDamage;
 
-        StatusDisplay.Instance.AttStatusMinion(this);
+        currentHealth = Mathf.Max(currentHealth, 0);
 
-        if (currentHealth <= 0)
+        StatusDisplay.Instance.AttStatusMinion(this, cardData);
+
+        if (currentHealth == 0)
         {
-            currentHealth = Mathf.Max(currentHealth, 0);
             Debug.Log($"{cardData.CardName} foi derrotado.");
+
+            if (cardDisplayManager == null)
+                cardDisplayManager = FindObjectOfType<CardDisplayManager>();
+
+            cardDisplayManager.SpawnMinion();
         }
     }
 

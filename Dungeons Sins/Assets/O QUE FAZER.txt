@@ -1,7 +1,17 @@
 O QUE FAZER:
 
-- adicionar borda Modifier
+- Adicionar nomes no StatusGame
+- Destruir lacaio e surgir o proximo
+- tirar vida player (falha critica) 
+- adicionar ações (3 por turno)
+- Lacaio atacar (rolagem de dados automatico)
+- tirar vida player com lacaio atacando (e diminuindo barra)
+- Fazer troca de carta, mochila e etc
+- Adicionar habilidades dos personagens (como button e usa-los)
 
-- adicionar ataque botão e tirar vida do lacaio
+- Background (status, fundo jogo, etc)
 
-- adicionar dados quebra escudo e ataque
+PRA ARRUMAR:
+- BLOQUEAR BUTTON CARD BARALHO E BOTAO ATAQUE (SE TIVER 3 CARTAS PRA COMPRA)
+- está com o slot wapon e mochila preenchido, compra 3 cartas e so vem arma/modifier. O que fazer?
+Comprar até vir? Gastou uma ação pra nada?

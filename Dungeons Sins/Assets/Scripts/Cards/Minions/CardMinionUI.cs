@@ -37,6 +37,9 @@ public class CardMinionUI : MonoBehaviour
     [SerializeField] private Image elementImage;
 
     private MinionStats minionStat;
+
+    // VAR PUBLICAS
+    public CardData CardData => cardData;
     public void Setup(CardData card)
     {
         cardData = card;

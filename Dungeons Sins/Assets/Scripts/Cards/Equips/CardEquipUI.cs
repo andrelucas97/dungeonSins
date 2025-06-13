@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,6 +26,7 @@ public class CardEquipUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TextMeshProUGUI handLabel;    
 
     private EquipmentCard cardData;
+    private CardDisplayManager cardDisplayManager;
 
     // VAR PUBLICAS
     public EquipmentCard CardData => cardData;
@@ -78,12 +80,16 @@ public class CardEquipUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        EquipCard();
+    }
 
+    private void EquipCard()
+    {
         if (!cardData.IsEquipped)
         {
             SheetPlayer sheet = FindObjectOfType<SheetPlayer>();
+            
             sheet.EquipCard(gameObject, cardData, cardData.TypeCard);
         }
-        
     }
 }

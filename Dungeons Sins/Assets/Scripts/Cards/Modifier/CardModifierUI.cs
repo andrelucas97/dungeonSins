@@ -37,8 +37,17 @@ public class CardModifierUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SheetPlayer sheet = FindObjectOfType<SheetPlayer>();
-        sheet.EquipCard(gameObject, cardData, cardData.TypeCard);
+        EquipCard();
+    }
+
+    private void EquipCard()
+    {
+        if (!cardData.IsEquipped)
+        {
+            SheetPlayer sheet = FindObjectOfType<SheetPlayer>();
+
+            sheet.EquipCard(gameObject, cardData, cardData.TypeCard);
+        }
     }
 
 }

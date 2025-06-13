@@ -71,7 +71,9 @@ public class SheetPlayer : MonoBehaviour
             return;
         }
         cardManager.RemoveCardDeck(cardGO);
+        cardManager.ClearShopCards();
         cardManager.AddCardDeck(cardGO);
+
 
         cardGO.transform.SetParent(slotPlayer, false);
         RectTransform rt = cardGO.GetComponent<RectTransform>();
