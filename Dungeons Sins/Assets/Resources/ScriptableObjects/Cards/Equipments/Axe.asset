@@ -17,8 +17,8 @@ MonoBehaviour:
     famoso.
   artwork: {fileID: 21300000, guid: 7b03d2e3b48fe5341893fb6073e55b3b, type: 3}
   cardType: 0
+  cardStat: 1
   attackBonus: 4
   defenseBonus: 0
   typeCardEquip: 3
-  cardStat: 1
-  cardLabel: 1
+  cardLabel: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardModifierUI : MonoBehaviour, IPointerClickHandler
+public class CardModifierUI : MonoBehaviour
 {
     // VAR PRIVADAS
 
@@ -20,11 +20,29 @@ public class CardModifierUI : MonoBehaviour, IPointerClickHandler
 
     private ModifierCard cardData;
 
+    // Arrastando Cards
+    private RectTransform rectTransform;
+    private Transform originalParent;
+    private Vector2 originalPosition;
+    private LayoutElement layoutElement;
+    private Canvas canvas;
+    private CanvasGroup canvasGroup;
+
+
     // VAR PUBLICAS
     public ModifierCard CardData => cardData;
 
-    public void Setup(CardData card)
+    public void Awake()
     {
+        layoutElement = GetComponent<LayoutElement>();
+        rectTransform = GetComponent<RectTransform>();
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
+
+    public void Setup(CardData card)
+    {      
+
+
         artworkImage.sprite = card.Artwork;
         nameText.text = card.CardName;
         descriptionText.text = card.Description;
@@ -33,21 +51,6 @@ public class CardModifierUI : MonoBehaviour, IPointerClickHandler
 
         cardData = modifierCard;
 
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        EquipCard();
-    }
-
-    private void EquipCard()
-    {
-        if (!cardData.IsEquipped)
-        {
-            SheetPlayer sheet = FindObjectOfType<SheetPlayer>();
-
-            sheet.EquipCard(gameObject, cardData, cardData.TypeCard);
-        }
     }
 
 }

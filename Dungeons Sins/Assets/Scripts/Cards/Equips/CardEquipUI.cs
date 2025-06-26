@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardEquipUI : MonoBehaviour, IPointerClickHandler
+public class CardEquipUI : MonoBehaviour
 {
     // VAR PRIVADAS
 
@@ -29,7 +29,11 @@ public class CardEquipUI : MonoBehaviour, IPointerClickHandler
     private CardDisplayManager cardDisplayManager;
 
     // VAR PUBLICAS
+
+
+    // VAR PUBLICAS
     public EquipmentCard CardData => cardData;
+
     public void Setup(CardData card)
     {
         var cardEquip = card as EquipmentCard;
@@ -75,21 +79,6 @@ public class CardEquipUI : MonoBehaviour, IPointerClickHandler
             case CardLabel.None:
                 handLabel.text = "";
                 break;
-        }
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        EquipCard();
-    }
-
-    private void EquipCard()
-    {
-        if (!cardData.IsEquipped)
-        {
-            SheetPlayer sheet = FindObjectOfType<SheetPlayer>();
-            
-            sheet.EquipCard(gameObject, cardData, cardData.TypeCard);
         }
     }
 }

@@ -19,6 +19,7 @@ public class CharUI : MonoBehaviour
     // Cor Correspondente ao Personagem
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Image backgroundPointer;
+    [SerializeField] private Image backgroundStatusGame;
 
     [SerializeField] private Image[] slots;
 
@@ -27,7 +28,7 @@ public class CharUI : MonoBehaviour
     public void Setup(CharacterData character)
     {
         artworkImage.sprite = character.Portrait;
-        nameText.text = character.CharName;
+        nameText.text = $"{character.CharName},";
         codeNameText.text = character.CodeName;
         health.text = character.MaxHealth.ToString();
         shield.text = character.Shield.ToString();
@@ -35,6 +36,7 @@ public class CharUI : MonoBehaviour
 
         Color baseColor = charColors.GetColor(character.CharColor);
         backgroundImage.color = baseColor;
+        backgroundStatusGame.color = baseColor;
 
         float darkenFactor = 0.65f;
         Color darkColor = new Color(baseColor.r * darkenFactor, baseColor.g * darkenFactor, baseColor.b * darkenFactor, baseColor.a);
@@ -50,6 +52,5 @@ public class CharUI : MonoBehaviour
             charStats = GetComponent<CharStats>();
 
         charStats.Initialize(character);
-
     }
 }

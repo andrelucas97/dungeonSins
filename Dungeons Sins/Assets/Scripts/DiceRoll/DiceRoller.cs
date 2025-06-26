@@ -10,6 +10,8 @@ using Button = UnityEngine.UI.Button;
 public class DiceRoller : MonoBehaviour
 {
     // VAR PRIVADAS
+    [SerializeField] private ActionManager actionManager;
+    [SerializeField] private CardDisplayManager cardDisplayManager;
 
     [Header("Dice")]
     [SerializeField] private TextMeshProUGUI resultDiceShield;
@@ -29,9 +31,14 @@ public class DiceRoller : MonoBehaviour
     [Header("Button Play")]
     [SerializeField] private GameObject buttonPlay;
     private MinionStats minionStat;
+    
 
     private bool isSucessful = true;
-    private int resultDie;
+    //private int resultDie;
+
+    public TextMeshProUGUI ShieldText => resultDiceShield;
+    public TextMeshProUGUI DamageText => resultDiceDamage;
+
 
     // VAR PUBLICAS
     public GameObject TextShield => textShield;
@@ -40,18 +47,52 @@ public class DiceRoller : MonoBehaviour
 
     // BUTTON
     #region Button 
-    public void ButtonDiceDamage()
+
+    public void OnClick_Shield()
     {
-        RollAndAttack(resultDiceDamage);
+        ButtonDiceShield("playerAttacking", actionManager, cardDisplayManager);
     }
-    public void ButtonDiceShield()
+
+    public void OnClick_Damage()
     {
-        RollAndAttack(resultDiceShield);
+        ButtonDiceDamage("playerAttacking", actionManager, cardDisplayManager);
+    }
+
+    public void ButtonDiceDamage(string attacking, ActionManager action, CardDisplayManager cardDisplay)
+    {
+        RollAndAttack(resultDiceDamage, attacking, action, cardDisplay);
+    }
+    public void ButtonDiceShield(string attacking, ActionManager action, CardDisplayManager cardDisplay)
+    {
+        RollAndAttack(resultDiceShield, attacking, action, cardDisplay);
     }
     #endregion
+    public void ShowDicePanel(bool isInteractable)
+    {
+        diceShield.GetComponent<Button>().interactable = isInteractable;
+        diceDamage.GetComponent<Button>().interactable = isInteractable;
+        gameObject.SetActive(true);
+    }
 
     // Dice Rolls
-    private IEnumerator RollDice(int min, int max, TextMeshProUGUI diceResultTxt, GameObject typeDie,int rollTimes = 10, float delay = 0.1f)
+    private void RollAndAttack(TextMeshProUGUI resultDice, string attacking, ActionManager action, CardDisplayManager cardDisplay)
+    {
+        if (minionStat == null)
+        {
+            minionStat = FindObjectOfType<MinionStats>();
+        }
+
+        if (resultDice == resultDiceShield)
+        {
+            StartCoroutine(RollDice(1, 20, resultDiceShield, diceShield, attacking, action, cardDisplay));
+
+        } else if (resultDice == resultDiceDamage)
+        {
+            Debug.Log("Jogando dado Damage");
+            StartCoroutine(RollDice(1, 6, resultDiceDamage, diceDamage, attacking, action, cardDisplay));
+        }        
+    }
+    private IEnumerator RollDice(int min, int max, TextMeshProUGUI diceResultTxt, GameObject typeDie,string attacking, ActionManager action, CardDisplayManager cardDisplay, int rollTimes = 10, float delay = 0.1f)
     {
         int result = min;
 
@@ -65,7 +106,7 @@ public class DiceRoller : MonoBehaviour
 
             yield return new WaitForSeconds(delay);
         }
-        ResultDice(result, diceResultTxt);
+        ResultDice(result, diceResultTxt, attacking, action, cardDisplay);
     }
 
     private void DisabledButton(Button button)
@@ -79,82 +120,91 @@ public class DiceRoller : MonoBehaviour
         button.interactable = false;
     }
 
-    private void RollAndAttack(TextMeshProUGUI resultDice)
+
+    private void ResultDice(int resultado, TextMeshProUGUI resultDieTxt, string attacking, ActionManager action, CardDisplayManager cardDisplay)
     {
-        if (minionStat == null)
+
+        BaseStats atkStats = null;
+        BaseStats defStats = null;
+
+        if (attacking == "playerAttacking")
         {
-            minionStat = FindObjectOfType<MinionStats>();
+            defStats = minionStat;
+            atkStats = playerCard;
+
+        } else if (attacking == "minionAttacking")
+        {
+            defStats = playerCard;
+            atkStats = minionStat;
         }
-
-        if (resultDice == resultDiceShield)
-        {
-            StartCoroutine(RollDice(1, 20, resultDiceShield, diceShield));                      
-
-        } else if (resultDice == resultDiceDamage)
-        {
-            StartCoroutine(RollDice(1, 6, resultDiceDamage, diceDamage));
-        }        
-    }
-
-    private void ResultDice(int resultado, TextMeshProUGUI resultDieTxt)
-    {
-        resultDie = resultado;
 
         if (resultDieTxt == resultDiceShield)
         {
-            if (resultDie > minionStat.Shield)
+            if (resultado > defStats.Shield)
             {
+                if (resultado == 20)
+                {
+                    textMessageBox.text = BattleMessages.Instance.CriticalAttack();
+                    messageBox.SetActive(true);
+                }
+
                 isSucessful = true;
                 diceShield.GetComponent<Button>().interactable = false;
-                textShield.SetActive(false);
-
-                diceDamage.SetActive(true);
-                textDamage.SetActive(true);
+                textShield.SetActive(false);                        
             }
             else
             {
                 isSucessful = false;
-
                 if (resultado == 1)
                 {
                     textMessageBox.text = BattleMessages.Instance.CriticalFail();
                     messageBox.SetActive(true);
-
-                } else
+                }
+                else
                 {
                     textMessageBox.text = BattleMessages.Instance.GetRandomFailMessage();
                     messageBox.SetActive(true);
                 }
-                diceShield.GetComponent <Button>().interactable = false;
-                StartCoroutine(ResolveDiceRoll(isSucessful, resultado));
+                diceShield.GetComponent<Button>().interactable = false;                
             }
-        } else if (resultDieTxt == resultDiceDamage)
-        {
+
+            StartCoroutine(ResolveDiceRoll(isSucessful, resultado, atkStats, defStats, action, cardDisplay));
+        }
+        else if (resultDieTxt == resultDiceDamage)
+        {           
+
             diceDamage.GetComponent<Button>().interactable = false;
-            StartCoroutine(ResolveDiceRoll(isSucessful, resultDie));
+            StartCoroutine(ResolveDiceRoll(isSucessful, resultado, atkStats, defStats, action, cardDisplay));
         }
     }
 
     // Panel
-    public void ShowDicePanel()
-    {
-        diceShield.GetComponent<Button>().interactable = true;
-        diceDamage.GetComponent<Button>().interactable = true;
-        gameObject.SetActive(true);
-    }
 
-    private IEnumerator ResolveDiceRoll(bool sucess, int result)
+    private IEnumerator ResolveDiceRoll(bool sucess, int result, BaseStats atkStats,BaseStats defStats, ActionManager action, CardDisplayManager cardDisplay)
     {
         yield return new WaitForSeconds(2f);
 
         gameObject.SetActive(false);
+        messageBox.SetActive(false);
+
         buttonPlay.GetComponent<Button>().interactable = true;
 
         if (sucess)
         {
-            minionStat.TakeDamage(playerCard.Damage, result);
-        }
+            if (result == 20)
+            {
+                defStats.TakeDamage(atkStats.Damage*2, result, action, cardDisplay);
 
+            } else
+            {
+                defStats.TakeDamage(atkStats.Damage, result, action, cardDisplay);
+            }
+
+        } else if (result == 1) // Falha Critica
+        {
+            atkStats.TakeDamage(atkStats.Damage, result, action, cardDisplay);
+        }
+            actionManager.CheckEndOfTurn(cardDisplayManager);
         diceDamage.SetActive(false);
     }
 }

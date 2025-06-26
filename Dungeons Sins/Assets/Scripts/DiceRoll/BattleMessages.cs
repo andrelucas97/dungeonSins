@@ -29,13 +29,27 @@ public class BattleMessages : MonoBehaviour
     };
 
     private readonly string[] criticalFailMessages = new string[]
-{
-    "Falha crítica! Você tropeçou no próprio ego. Tome o dano!",
-    "O inimigo nem percebeu que você atacou. Tome o dano!",
-    "Sua arma falhou... e o orgulho também. Tome o dano!",
-    "Uma falha tão grande que até o universo ficou constrangido. Tome o dano!",
-    "Você perdeu a chance e ganhou vergonha. Tome o dano!"
-};
+    {
+        "Falha crítica! Você tropeçou no próprio ego. Tome o dano!",
+        "O inimigo nem percebeu que você atacou. Tome o dano!",
+        "Sua arma falhou... e o orgulho também. Tome o dano!",
+        "Uma falha tão grande que até o universo ficou constrangido. Tome o dano!",
+        "Você perdeu a chance e ganhou vergonha. Tome o dano!"
+    };
+
+    private readonly string[] criticalAttack = new string[]
+    {
+        "Acerto perfeito! O golpe vai com força dobrada!",
+        "Crítico certeiro! O inimigo vai sentir em dobro.",
+        "Um ataque de mestre! Prepare-se pro impacto em dobro.",
+        "Foi direto no ponto fraco! Dano dobrado!",
+        "O destino sorriu pra você... e o dano dobrou.",
+        "Seu ataque brilhou com fúria! Vai doer em dobro.",
+        "Você mirou com precisão mortal. Dano dobrado ativado!",
+        "A sorte virou sua aliada — golpe crítico, dano multiplicado!",
+        "O dado tremeu... e o inimigo também. Dano em dobro!",
+        "Crítico devastador! A força do ataque foi duplicada."
+    };
 
     public string GetRandomFailMessage()
     {
@@ -45,5 +59,10 @@ public class BattleMessages : MonoBehaviour
     public string CriticalFail()
     {
         return criticalFailMessages[Random.Range(0, criticalFailMessages.Length)];
+    }
+
+    public string CriticalAttack()
+    {
+        return criticalAttack[Random.Range(0, criticalAttack.Length)];
     }
 }

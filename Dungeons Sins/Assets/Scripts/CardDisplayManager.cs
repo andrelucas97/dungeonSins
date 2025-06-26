@@ -2,19 +2,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityRandom = UnityEngine.Random;
 
 public class CardDisplayManager : MonoBehaviour
 {
     // VAR PRIVADAS
 
+    [Header("Cards")]
     [SerializeField] private GameObject cardEquip;
     [SerializeField] private GameObject cardMinion;
     [SerializeField] private GameObject cardModifier;
+
+    [Header("Buttons")]
+    [SerializeField] private GameObject buttonSkip;
+    [SerializeField] private GameObject buttonAttack;
+
+    [Header("Positions")]
     [SerializeField] private Transform posEquips;
     [SerializeField] private Transform posMinion;
+
+    [Header("Others")]
     [SerializeField] private ActionManager actionManager;
+    [SerializeField] private DiceRoller diceRoller;
+
     private List<CardData> cardList = new List<CardData>();
     // LISTA DECK MINIONS
     private List<MinionsCard> deckMinions = new List<MinionsCard>();
@@ -65,9 +78,13 @@ public class CardDisplayManager : MonoBehaviour
     {
         SpawnCardsEquips();        
     }
+    public void ButtonSkipCards()
+    {
+        ReturnHandToDeck();
+        actionManager.CheckEndOfTurn(this);
+    }
     public void ClearShopCards()
     {
-
         ReturnHandToDeck();
     }
     public void SpawnMinion()
@@ -78,13 +95,38 @@ public class CardDisplayManager : MonoBehaviour
     {
         RemoveDeck(cardGO);
     }
-    public void AddCardDeck(GameObject cardGO)
+    public void AddCardSheet(GameObject cardGO)
     {
         cardsCharSheet.Add(cardGO);
+    }
+    public void RemoveCardSheet(GameObject cardGO)
+    {
+        cardsCharSheet.Remove(cardGO);
+    }
+
+    public void SkipCard()
+    {
+        CheckButtonSkip();
+    }
+
+
+    private void CheckButtonSkip()
+    {
+        if (hand.Count > 0)
+        {
+            buttonSkip.SetActive(true);
+        }
+        else
+        {
+            buttonSkip.SetActive(false);
+        }
     }
 
     private void SpawnCardsEquips()
     {
+        var hasActive = actionManager.TryUseAction();
+        if (!hasActive) return;
+
         ReturnHandToDeck();
 
         if (deckAllCards.Count < 3)
@@ -93,7 +135,6 @@ public class CardDisplayManager : MonoBehaviour
             return;
         }
 
-        actionManager.TryUseAction();
         var selected = deckAllCards.OrderBy(x => UnityRandom.value).Take(3).ToList();
 
         foreach (var card in selected)
@@ -107,13 +148,19 @@ public class CardDisplayManager : MonoBehaviour
             GameObject cardGO = SpawnCard(hand[i], i, posEquips, 1);
             spawnedCardEquip.Add(cardGO);
         }
+
+        buttonAttack.GetComponent<Button>().enabled = false;
+
+        SkipCard();
     }
     private void ReturnHandToDeck()
     {
         ClearCards(spawnedCardEquip);
         deckAllCards.AddRange(hand);
-        Debug.Log("Qtd de cartas na mão: " + hand.Count);
         hand.Clear();
+        buttonSkip.SetActive(false);
+        buttonAttack.GetComponent<Button>().enabled = true;
+
     }
     private void SpawnMinionGame()
     {
@@ -173,9 +220,27 @@ public class CardDisplayManager : MonoBehaviour
         }
         else if (cardGO.TryGetComponent<CardMinionUI>(out var minionUI))
         {
+
             minionUI.Setup(cardToShow);
+
+            MinionAttack minionAttack = cardGO.GetComponent<MinionAttack>();
+
+
+            if (diceRoller == null)
+            {
+                Debug.LogError("diceRoller está NULL!", this);     
+                diceRoller = FindObjectOfType<DiceRoller>();
+
+            }
+
+            if (diceRoller == null)
+            {
+                Debug.LogError("diceRoller está NULL!", this);
+            }
+            minionAttack.SetDependencies(diceRoller, actionManager);
+
         }
-            return cardGO;
+        return cardGO;
     }
     private void ClearCards(List<GameObject> spawnedCard, List<GameObject> removeList = null)
     {

@@ -10,7 +10,6 @@ public abstract class CardData : ScriptableObject
     [SerializeField] private string description;
     [SerializeField] private Sprite artwork;
     [SerializeField] private CardType cardType;
-    private bool isEquipped = false;
 
 
     // VAR PUBLICAS
@@ -18,10 +17,5 @@ public abstract class CardData : ScriptableObject
     public string Description => description;
     public Sprite Artwork => artwork;
     public CardType CardType => cardType;
-    public bool IsEquipped => isEquipped;
-
-    public void isEquippedSheet()
-    {
-        isEquipped = true;
-    }
+    
 }

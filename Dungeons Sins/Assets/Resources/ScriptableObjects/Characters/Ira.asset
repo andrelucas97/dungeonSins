@@ -12,18 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf80a5dc15ce9d45baf05d378c8a14b, type: 3}
   m_Name: Ira
   m_EditorClassIdentifier: 
-  charName: Akin,
-  codeName: Ira
+  charName: Akin
+  codeName: IRA
   portrait: {fileID: 21300000, guid: a3228670825fcdd4bad8b643ffa027b7, type: 3}
   charColor: 6
   maxHealth: 60
   currentHealth: 0
   shield: 4
   damage: 4
-  ability: 2
-  weaponSlot1: {fileID: 0}
-  weaponSlot2: {fileID: 0}
-  armor: {fileID: 0}
-  boots: {fileID: 0}
-  hat: {fileID: 0}
-  backpack: {fileID: 0}
+  abilities: 
+  characterPrefab: {fileID: 3136078384311252845, guid: 1e853863b453f764e884c037f212bb15, type: 3}

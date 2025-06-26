@@ -1,20 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CharStats : MonoBehaviour
+public class CharStats : MonoBehaviour, BaseStats
 {
     // VAR PRIVADAS
-    [SerializeField] private CharacterData testCharacterData;
-    [SerializeField] private CharUI charUI;
 
+    [Header("Stats")]
     [SerializeField] private int currentHealth;
     [SerializeField] private int shield;
     [SerializeField] private int damage;
+    [SerializeField] private Slider healthSlider;
+    private Coroutine healthBarCoroutine;
 
-    private CharacterData baseData;
+    [Header("Class")]
+    [SerializeField] private CharacterData charData;
+    [SerializeField] private CharUI charUI;
     [SerializeField] private CardDisplayManager cardDisplayManager;
+    [SerializeField] private ActionManager actionManager;
+
+    [SerializeField] private List<Transform> equipmentSlots;
 
     // VAR PUBLICAS
     public int CurrentHealth => currentHealth;
@@ -23,56 +31,102 @@ public class CharStats : MonoBehaviour
 
     public void Initialize(CharacterData data)
     {
-        baseData = data;
+        charData = data;
+
 
         // Instanciando variaveis
         currentHealth = data.MaxHealth;
         shield = data.Shield;
         damage = data.Damage;
+
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+
     }
 
 
     // Chamada TESTE
     private void Start()
     {
-        if (testCharacterData != null)
-        {
-            charUI.Setup(testCharacterData);
-            Debug.Log("Character initialized in test mode: " + testCharacterData.CharName);
-
-            StatusDisplay.Instance.AttStatusPlayer(this, testCharacterData);
-        }
+        actionManager = FindObjectOfType<ActionManager>();        
     }
 
-    public void UpdateStats()
+    public void UpdateStats(string teste)
     {
-        Debug.Log("Atualizando Status Personagem");
 
-        currentHealth = baseData.MaxHealth;
-        shield = baseData.Shield;
-        damage = baseData.Damage;
-
-        foreach (GameObject card in cardDisplayManager.CardsCharSheet)
+        if (teste != "slotBackpack")
         {
-            Debug.Log("Carta equipada: " + card.name);
+            shield = charData.Shield;
+            damage = charData.Damage;
 
-            CardEquipUI cardEquipUI = card.GetComponent<CardEquipUI>();
-            if (cardEquipUI != null) 
+            foreach (Transform slot in equipmentSlots)
             {
-                EquipmentCard equip = cardEquipUI.CardData;
+                if (slot.childCount == 0) continue;
 
-                switch (equip.CardStat)
+                GameObject card = slot.GetChild(0).gameObject;
+                CardEquipUI cardEquipUI = card.GetComponent<CardEquipUI>();
+                if (cardEquipUI != null)
                 {
-                    case CardStats.ATK:
-                        damage += equip.AttackBonus;
-                        break;
-                    case CardStats.DEF:
-                        shield += equip.DefenseBonus;
-                        break;
+                    EquipmentCard equip = cardEquipUI.CardData;
+                    switch (equip.CardStat)
+                    {
+                        case CardStats.ATK:
+
+                            Debug.Log("Valor do Dano: " + equip.AttackBonus);
+                            damage += equip.AttackBonus;
+                            break;
+                        case CardStats.DEF:
+                            shield += equip.DefenseBonus;
+                            break;
+                    }
                 }
-            }            
+            }
         }
-        StatusDisplay.Instance.AttStatusPlayer(this, testCharacterData);        
+
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+        actionManager.CheckEndOfTurn(cardDisplayManager);
     }
 
+    public void TakeDamage(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
+    {
+        ApplyDamage(hitDamage, resultDie);
+    }
+
+    private void ApplyDamage(int hitDamage, int resultDie)
+    {
+        currentHealth -= hitDamage;
+
+        currentHealth = Mathf.Max(currentHealth, 0);
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+
+
+        if (healthBarCoroutine != null)
+            StopCoroutine(healthBarCoroutine);
+        healthBarCoroutine = StartCoroutine(AnimateHealthBar(currentHealth));
+
+
+        if (currentHealth == 0)
+        {
+            Debug.Log("Game Over! Você foi derrotado!!");
+        }
+    }
+
+    private IEnumerator AnimateHealthBar (int targetHealth)
+    {
+        float duration = 0.4f;
+        float elapsed = 0f;
+
+        float startValue = healthSlider.value;
+        float endValue = targetHealth;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            healthSlider.value = Mathf.Lerp(startValue, endValue, t);
+            yield return null;
+        }
+
+        healthSlider.value = endValue;
+
+    }
 }

@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class MinionStats : MonoBehaviour
+public class MinionStats : MonoBehaviour, BaseStats
 {
     // VAR PRIVADAS
     [SerializeField] private MinionsCard minionData;
 
     [Header("Stats")]
     [SerializeField] private int levelMinion;
+
     [SerializeField] private int currentHealth;
     [SerializeField] private int shield;
     [SerializeField] private int damage;
@@ -21,6 +22,7 @@ public class MinionStats : MonoBehaviour
     private CardData cardData;
     private MinionLevelStats cardLevelStats;
     [SerializeField] private CardDisplayManager cardDisplayManager;
+    [SerializeField] private ActionManager actionManager;
 
     // VAR PUBLICAS
     public int CurrentHealth => currentHealth;
@@ -28,16 +30,23 @@ public class MinionStats : MonoBehaviour
     public int Damage => damage;
     public void Initialize(MinionsCard card)
     {
+        if (actionManager == null)
+        {
+            actionManager = FindObjectOfType<ActionManager>();
+        }
         cardData = card;
         ApplyStats(card);
         StatusDisplay.Instance.AttStatusMinion(this, cardData);
     }
 
-    public void TakeDamage(int hitDamage, int damageMultiplier)
+    public void TakeDamage(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
     {
-        int totalDamage = hitDamage * damageMultiplier;
-        currentHealth -= totalDamage;
+        ApplyDamage(hitDamage, resultDie);        
+    }
 
+    private void ApplyDamage(int hitDamage, int resultDie)
+    {
+        currentHealth -= hitDamage;
         currentHealth = Mathf.Max(currentHealth, 0);
 
         StatusDisplay.Instance.AttStatusMinion(this, cardData);

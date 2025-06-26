@@ -17,8 +17,8 @@ MonoBehaviour:
     gritando o nome de sua cidade."
   artwork: {fileID: 21300000, guid: 262dcfa57a4bc704fa101f33fe86d9ff, type: 3}
   cardType: 0
+  cardStat: 1
   attackBonus: 3
   defenseBonus: 0
   typeCardEquip: 3
-  cardStat: 1
   cardLabel: 0

@@ -25,7 +25,8 @@ public class StatusDisplay : MonoBehaviour
 
     public void AttStatusPlayer(CharStats charStats, CharacterData charData)
     {
-        namePlayer.text = charData.CharName + charData.CodeName;
+
+        namePlayer.text = $"{charData.CharName}, {charData.CodeName}";
 
         StatusDisplay.Instance.ShowStatus(
             $"Vida atual: {charStats.CurrentHealth}" +

@@ -19,6 +19,16 @@ public enum TypeCardEquip
     Modifier
 }
 
+public enum SlotType
+{
+    Armor,
+    Helmet,
+    Boots,
+    Weapon1,
+    Weapon2,
+    Backpack
+}
+
 public enum CardLabel 
 {
     OneHand,

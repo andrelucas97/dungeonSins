@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ActionManager : MonoBehaviour
@@ -11,9 +12,20 @@ public class ActionManager : MonoBehaviour
 
     [SerializeField] private CharStats playerStat;
     [SerializeField] private StatusDisplay displayStats;
+    [SerializeField] private MinionAttack attackMinion;
+    [SerializeField] private DiceRoller diceRoller;
+    [SerializeField] private GameObject turnMinionBox;
+    [SerializeField] private TextMeshProUGUI textTurnMinion;
+
+    [SerializeField] private TextMeshProUGUI textActionManager;
 
     void Start()
     {
+        if (attackMinion == null)
+        {
+            attackMinion = FindObjectOfType<MinionAttack>();
+        }
+
         StartTurn();
     }
 
@@ -35,18 +47,41 @@ public class ActionManager : MonoBehaviour
             return false;
         }
     }
-
-    private void ExecuteAction()
+    public void CheckEndOfTurn(CardDisplayManager cardDisplay)
     {
-        currentAction--;
-        Debug.Log("Ações: " + currentAction);
-    }
+        if (currentAction == 0)
+        {
+            turnMinionBox.SetActive(true);
+            textTurnMinion.text = "TURNO DO LACAIO!!";
 
+            StartCoroutine(StartEnemy(attackMinion, cardDisplay));
+        } else
+        {
+            Debug.Log($"Restam {currentAction} jogada(s)");
+        }
+    }
     private void InitializeTurn()
     {
         currentAction = maxActions;
-        Debug.Log("Novo turno! Ações disponíveis: " + currentAction);
+        UpdateTextAction(currentAction);
     }
+    private void ExecuteAction()
+    {
+        currentAction--;
+        UpdateTextAction(currentAction);
+    }
+    private IEnumerator StartEnemy(MinionAttack minionAttack, CardDisplayManager cardDisplay)
+    {
+        yield return new WaitForSeconds(2f);
+        turnMinionBox.SetActive(false);
+        minionAttack.StartAttackMinion(diceRoller, this, cardDisplay);
+    }
+    private void UpdateTextAction(int currentAction)
+    {
+        textActionManager.text = ($"Ações: {currentAction}");
+
+    }
+
 
 
 }

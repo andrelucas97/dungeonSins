@@ -17,8 +17,8 @@ MonoBehaviour:
     o inimigo uma casa para tr\xE1s."
   artwork: {fileID: 21300000, guid: ced71d32ccc8a7a4194afa975f776a7d, type: 3}
   cardType: 0
+  cardStat: 1
   attackBonus: 4
   defenseBonus: 0
   typeCardEquip: 3
-  cardStat: 1
-  cardLabel: 0
+  cardLabel: 1

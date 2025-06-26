@@ -1,33 +1,58 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SelectPlayer : MonoBehaviour
 {
+    [Header("List Images")]
+    [SerializeField] private Sprite[] characterSprites;
 
-    public GameObject characterSelectPanel;
-    public GameObject panelChar;
-    public GameObject deck;
-    public GameObject cardsController;
-    public GameObject buttonMinion;
+    [Header("ImageUI")]
+    [SerializeField] private Image selectedCharacterImage;
 
-    public GameObject inGame;
-
-    public CharacterData[] characters;
-    public CharUI fichaUI;
-
-
+    private int selectedCharacterIndex = -1;
 
     void Start()
     {
-        characterSelectPanel.SetActive(true);
-        inGame.SetActive(false);
+        ButtonSelectCharacter(0);
     }
 
-    public void OnCharacterSelected(int index)
+    // FUNÇÕES PUBLICAS
+    public void ButtonSelectCharacter(int index)
     {
-        inGame.SetActive(true);
-        characterSelectPanel.SetActive(false);
-        fichaUI.Setup(characters[index]);
+        UpdateSelectedCharacter(index);       
+    }
+    public void ButtonStartGame()
+    {
+        StartGame();
+    }
+
+    // FUNÇÕES PRIVADAS
+    private void StartGame()
+    {
+
+        if (selectedCharacterIndex == -1)
+        {
+            return;
+        }
+        GameData.SelectedCharacterIndex = selectedCharacterIndex;
+
+        SceneManager.LoadScene("GameScene");
+    }
+    private void UpdateSelectedCharacter(int index)
+    {
+        if (index < 0 || index >= characterSprites.Length)
+        {
+            Debug.LogError("Índice do personagem inválido!");
+            return;
+        }
+        selectedCharacterIndex = index;
+
+        if (selectedCharacterImage != null)
+            selectedCharacterImage.sprite = characterSprites[index];
     }
 }

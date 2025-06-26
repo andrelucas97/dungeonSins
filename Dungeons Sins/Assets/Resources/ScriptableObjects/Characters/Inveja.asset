@@ -20,10 +20,5 @@ MonoBehaviour:
   currentHealth: 0
   shield: 3
   damage: 5
-  ability: 2
-  weaponSlot1: {fileID: 0}
-  weaponSlot2: {fileID: 0}
-  armor: {fileID: 0}
-  boots: {fileID: 0}
-  hat: {fileID: 0}
-  backpack: {fileID: 0}
+  abilities: 
+  characterPrefab: {fileID: 3136078384311252845, guid: 1e853863b453f764e884c037f212bb15, type: 3}

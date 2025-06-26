@@ -72,6 +72,9 @@ public class CardMinionUI : MonoBehaviour
         if (minionStat == null)
             minionStat = GetComponent<MinionStats>();
 
-        minionStat.Initialize(minion);
+        minionStat.Initialize(minion);       
+
+
+
     }
 }
