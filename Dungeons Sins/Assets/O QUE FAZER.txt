@@ -9,4 +9,7 @@ O QUE FAZER:
 - Background (status, fundo jogo, etc)
 
 ARRUMAR:
-- Dano/Escudo somando toda vez q troca de lote
+
+- Barra vida não diminui
+- por pra sair o som do click por completo
+- Interface escolha de player

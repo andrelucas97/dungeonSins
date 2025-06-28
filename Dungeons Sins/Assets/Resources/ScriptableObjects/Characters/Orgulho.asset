@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf80a5dc15ce9d45baf05d378c8a14b, type: 3}
   m_Name: Orgulho
   m_EditorClassIdentifier: 
-  charName: Lester Freyjor,
+  charName: Lester Freyjor
   codeName: Orgulho
+  age: 33
+  classChar: Paladino
   portrait: {fileID: 21300000, guid: 35f62a12bdc02994aab54ece55f2a3bf, type: 3}
   charColor: 0
   maxHealth: 75
   currentHealth: 0
   shield: 4
   damage: 2
-  abilities: 
+  abilities: 170000001100000008000000
   characterPrefab: {fileID: 3136078384311252845, guid: 1e853863b453f764e884c037f212bb15, type: 3}

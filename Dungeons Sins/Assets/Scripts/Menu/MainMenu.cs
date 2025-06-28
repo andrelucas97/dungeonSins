@@ -6,6 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private AudioClip clickSound;
+    private AudioManager audioManager;
+
+    private void Start()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
 
     // FUNÇÕES PUBLICAS
     public void ButtonPlayGame(string sceneName)
@@ -36,8 +44,23 @@ public class MainMenu : MonoBehaviour
     // FUNÇÕES PRIVADAS
     private void StartGame(string newScene)
     {
+        if (audioManager != null)
+        {
+            StartCoroutine(PlaySoundThenChangeScene(newScene));
+        }
+        else
+        {
+            SceneManager.LoadScene(newScene);
+
+        }
+
+    }
+    private IEnumerator PlaySoundThenChangeScene(string newScene)
+    {
+        yield return StartCoroutine(audioManager.PlaySoundAndWait(clickSound));
         SceneManager.LoadScene(newScene);
     }
+
     private void MainMenuScene()
     {
         SceneManager.LoadScene("MainMenu");

@@ -47,7 +47,9 @@ public class CharStats : MonoBehaviour, BaseStats
     // Chamada TESTE
     private void Start()
     {
-        actionManager = FindObjectOfType<ActionManager>();        
+        actionManager = FindObjectOfType<ActionManager>();
+        healthSlider.maxValue = charData.MaxHealth;
+        healthSlider.value = currentHealth;
     }
 
     public void UpdateStats(string teste)

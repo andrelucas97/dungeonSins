@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf80a5dc15ce9d45baf05d378c8a14b, type: 3}
   m_Name: Avareza
   m_EditorClassIdentifier: 
-  charName: Suspeito 19,
+  charName: Suspeito 19
   codeName: Avareza
+  age: 23
+  classChar: Arqueiro
   portrait: {fileID: 21300000, guid: 5c7d22bcb56b89b4ea79f9105fe8bec2, type: 3}
   charColor: 2
   maxHealth: 25
   currentHealth: 0
   shield: 3
   damage: 5
-  abilities: 
+  abilities: 030000000400000005000000
   characterPrefab: {fileID: 3136078384311252845, guid: 1e853863b453f764e884c037f212bb15, type: 3}

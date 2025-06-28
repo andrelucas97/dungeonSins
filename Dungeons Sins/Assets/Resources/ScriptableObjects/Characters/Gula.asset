@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf80a5dc15ce9d45baf05d378c8a14b, type: 3}
   m_Name: Gula
   m_EditorClassIdentifier: 
-  charName: Dona Hilda,
-  codeName: Gulla
+  charName: Dona Hilda
+  codeName: Gula
+  age: 56
+  classChar: Tank
   portrait: {fileID: 21300000, guid: 9ff4978871dd7c74eb97e1f3fa88fb85, type: 3}
   charColor: 1
   maxHealth: 75
   currentHealth: 0
   shield: 5
   damage: 2
-  abilities: 
+  abilities: 170000000f00000005000000
   characterPrefab: {fileID: 3136078384311252845, guid: 1e853863b453f764e884c037f212bb15, type: 3}

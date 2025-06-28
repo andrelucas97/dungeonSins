@@ -7,16 +7,20 @@ using UnityEngine.UI;
 
 public class CharUI : MonoBehaviour
 {
+    [Header("Image")]
     [SerializeField] private Image artworkImage;
+
+    [Header("Profile")]
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI codeNameText;
 
+    [Header("Stats")]
     [SerializeField] private TextMeshProUGUI health;
     [SerializeField] private TextMeshProUGUI shield;
-
     [SerializeField] private TextMeshProUGUI damage;
 
     // Cor Correspondente ao Personagem
+    [Header("Colors")]
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Image backgroundPointer;
     [SerializeField] private Image backgroundStatusGame;
@@ -30,6 +34,7 @@ public class CharUI : MonoBehaviour
         artworkImage.sprite = character.Portrait;
         nameText.text = $"{character.CharName},";
         codeNameText.text = character.CodeName;
+
         health.text = character.MaxHealth.ToString();
         shield.text = character.Shield.ToString();
         damage.text = character.Damage.ToString();
