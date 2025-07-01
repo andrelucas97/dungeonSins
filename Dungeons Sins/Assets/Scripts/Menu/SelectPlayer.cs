@@ -26,6 +26,7 @@ public class SelectPlayer : MonoBehaviour
 
     [Header("Char Abilities")]
     [SerializeField] private GameObject abilityTextPrefab;
+    [SerializeField] private AbilityDatabase abilityDatabase;
     public Transform abilityContainer;
 
     private int selectedCharacterIndex = -1;
@@ -42,7 +43,6 @@ public class SelectPlayer : MonoBehaviour
 
         CharacterData selectedData = characterDatas[index];
 
-        Debug.Log("Selecionado: " + selectedCharacterIndex);
         UpdateSelectedCharacter(index, selectedData);
     }
     public void ButtonStartGame()
@@ -53,7 +53,6 @@ public class SelectPlayer : MonoBehaviour
     // FUNÇÕES PRIVADAS
     private void StartGame()
     {
-        Debug.Log("Selected: " + selectedCharacterIndex);
 
         if (selectedCharacterIndex == -1)
         {
@@ -89,18 +88,40 @@ public class SelectPlayer : MonoBehaviour
 
         foreach (CharacterAbility ability in selectedData.Abilities)
         {
+            // Busca o AbilityData pelo enum
+            AbilityData abilityData = abilityDatabase.GetAbilityData(ability);
+            if (abilityData == null)
+            {
+                Debug.LogWarning($"AbilityData não encontrado para: {ability}");
+                continue;
+            }
+
+            // Instancia o botão
             GameObject obj = Instantiate(abilityTextPrefab, abilityContainer);
             obj.SetActive(true);
 
+            // Atualiza o texto do botão
             TextMeshProUGUI text = obj.GetComponentInChildren<TextMeshProUGUI>();
             if (text != null)
             {
-                text.text = ability.ToString();
+                text.text = abilityData.AbilityName;
                 text.enabled = true;
             }
             else
             {
                 Debug.LogWarning("TextMeshProUGUI não encontrado no prefab!");
+            }
+
+            // Passa o AbilityData completo pro handler
+            AbilityButtonHandler handler = obj.GetComponent<AbilityButtonHandler>();
+            if (handler != null)
+            {
+                GameObject tooltip = obj.transform.Find("ToolTipPanel")?.gameObject;
+                TextMeshProUGUI tooltipText = tooltip?.GetComponentInChildren<TextMeshProUGUI>();
+
+                handler.SetAbilityData(abilityData);
+                handler.SetTooltipPanel(tooltip);
+                handler.SetTooltipText(tooltipText);
             }
         }
 

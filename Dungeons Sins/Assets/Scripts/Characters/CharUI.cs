@@ -18,6 +18,7 @@ public class CharUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI health;
     [SerializeField] private TextMeshProUGUI shield;
     [SerializeField] private TextMeshProUGUI damage;
+    [SerializeField] private Image[] slots;
 
     // Cor Correspondente ao Personagem
     [Header("Colors")]
@@ -25,7 +26,10 @@ public class CharUI : MonoBehaviour
     [SerializeField] private Image backgroundPointer;
     [SerializeField] private Image backgroundStatusGame;
 
-    [SerializeField] private Image[] slots;
+    [Header("Abilities")]
+    [Header("Char Abilities")]
+    [SerializeField] private GameObject abilityTextPrefab;
+    [SerializeField] private Transform abilityContainer;
 
     private CharStats charStats;
 
@@ -55,6 +59,29 @@ public class CharUI : MonoBehaviour
 
         if (charStats == null)
             charStats = GetComponent<CharStats>();
+
+        foreach (Transform child in abilityContainer)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (CharacterAbility ability in character.Abilities)
+        {
+            GameObject obj = Instantiate(abilityTextPrefab, abilityContainer);
+            obj.SetActive(true);
+
+            TextMeshProUGUI text = obj.GetComponentInChildren<TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.text = ability.ToString();
+                text.color = Color.black;
+                text.enabled = true;
+            }
+            else
+            {
+                Debug.LogWarning("TextMeshProUGUI não encontrado no prefab!");
+            }
+        }
 
         charStats.Initialize(character);
     }
