@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 2
   abilityName: Burn Baby Burn
-  description: 2
-  effectType: 0
-  targetType: 0
-  baseValue: 0
+  description: Inimigo queima 3 de dano por rodada.
+  effectType: 5
+  targetType: 2
+  baseValue: 3
   requiresCondition: 0
   conditionText: 
-  duration: 0
+  duration: 1

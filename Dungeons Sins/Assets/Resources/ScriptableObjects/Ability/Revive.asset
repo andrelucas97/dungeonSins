@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 19
   abilityName: Reviver
-  description: 19
-  effectType: 0
-  targetType: 0
+  description: Revive um aliado (ainda desativada).
+  effectType: 6
+  targetType: 1
   baseValue: 0
   requiresCondition: 0
   conditionText: 

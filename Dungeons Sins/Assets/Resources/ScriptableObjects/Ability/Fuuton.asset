@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 7
   abilityName: Fuuuuton
-  description: 7
-  effectType: 0
+  description: Ganha +5 de armadura.
+  effectType: 4
   targetType: 0
-  baseValue: 0
+  baseValue: 5
   requiresCondition: 0
   conditionText: 
   duration: 0

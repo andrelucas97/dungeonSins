@@ -6,10 +6,8 @@ O QUE FAZER:
 - Fazer troca de carta, mochila e etc
 - Adicionar habilidades dos personagens (como button e usa-los)
 
-- Background (status, fundo jogo, etc)
+- Finalizar MainMenu
 
 ARRUMAR:
 
-- Barra vida não diminui
-- por pra sair o som do click por completo
-- Interface escolha de player
+

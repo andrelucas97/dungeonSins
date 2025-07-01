@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 18
   abilityName: Venenoso
-  description: 18
-  effectType: 0
-  targetType: 0
+  description: Envenena inimigo por 3 rodadas.
+  effectType: 5
+  targetType: 2
   baseValue: 0
   requiresCondition: 0
   conditionText: 
-  duration: 0
+  duration: 3

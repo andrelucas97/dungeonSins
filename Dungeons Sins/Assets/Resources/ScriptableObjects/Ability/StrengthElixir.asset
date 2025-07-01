@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 22
   abilityName: "Elixir de for\xE7a"
-  description: 22
-  effectType: 0
+  description: "Aumenta a for\xE7a."
+  effectType: 2
   targetType: 0
   baseValue: 0
   requiresCondition: 0

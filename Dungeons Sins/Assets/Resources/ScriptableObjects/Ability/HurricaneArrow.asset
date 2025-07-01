@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 10
   abilityName: "Flecha de Furac\xE3o"
-  description: 10
+  description: "Atira 3 flechas em um \xFAnico alvo."
   effectType: 0
-  targetType: 0
+  targetType: 2
   baseValue: 0
   requiresCondition: 0
   conditionText: 

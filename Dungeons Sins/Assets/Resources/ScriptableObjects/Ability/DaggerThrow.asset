@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 4
   abilityName: Arremesso de Adaga
-  description: 4
+  description: Atira adagas no inimigo (custa adagas).
   effectType: 0
-  targetType: 0
+  targetType: 2
   baseValue: 0
   requiresCondition: 0
   conditionText: 

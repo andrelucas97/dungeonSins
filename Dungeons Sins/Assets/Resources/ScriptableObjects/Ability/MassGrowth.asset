@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: MassGrowth
   m_EditorClassIdentifier: 
   abilityID: 15
-  abilityName: "Crescimento maci\xE7o"
-  description: 15
-  effectType: 0
+  abilityName: Crescimento de massa
+  description: "Ganha 10 de vida extra ao usar \u201CConsumir\u201D."
+  effectType: 1
   targetType: 0
-  baseValue: 0
+  baseValue: 10
   requiresCondition: 0
   conditionText: 
   duration: 0

@@ -7,43 +7,41 @@ using UnityEngine;
 
 public class StatusDisplay : MonoBehaviour
 {
-    [SerializeField] private MinionsCard minionData;
-    [SerializeField] private TextMeshProUGUI damageTextMinion;
-    [SerializeField] private TextMeshProUGUI damageTextPlayer;
-    [SerializeField] private TextMeshProUGUI nameMinion;
-    [SerializeField] private TextMeshProUGUI namePlayer;
+    // ATUALIZANDO
+    [Header("Stats Minion")]
+    [SerializeField] private TextMeshProUGUI nivelMinion;
+    [SerializeField] private TextMeshProUGUI healthMinion;
+    [SerializeField] private TextMeshProUGUI shieldMinion;
+    [SerializeField] private TextMeshProUGUI damageMinion;
+
+    [Header("Stats Player")]
+    [SerializeField] private TextMeshProUGUI nivelPlayer;
+    [SerializeField] private TextMeshProUGUI healthPlayer;
+    [SerializeField] private TextMeshProUGUI shieldPlayer;
+    [SerializeField] private TextMeshProUGUI damagePlayer;
     public static StatusDisplay Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;       
     }
-    private void ShowStatus(string message, TextMeshProUGUI text)
+
+    private void ShowStatusNew(int nivel, int health, int shield, int damage, TextMeshProUGUI nivelText, TextMeshProUGUI healthText, TextMeshProUGUI shieldText, TextMeshProUGUI damageText)
     {
-        text.text = message;
+        nivelText.text = "1"; // adicionar!!!
+        healthText.text = health.ToString();
+        shieldText.text = shield.ToString();
+        damageText.text = damage.ToString();
     }
 
     public void AttStatusPlayer(CharStats charStats, CharacterData charData)
     {
 
-        namePlayer.text = $"{charData.CharName}, {charData.CodeName}";
-
-        StatusDisplay.Instance.ShowStatus(
-            $"Vida atual: {charStats.CurrentHealth}" +
-            $"\nDefesa: {charStats.Shield}" +
-            $"\nAtaque Atual: {charStats.Damage}"
-            , damageTextPlayer);
+        ShowStatusNew(1, charStats.CurrentHealth, charStats.Shield, charStats.Damage, nivelPlayer, healthPlayer, shieldPlayer, damagePlayer);
     }
     public void AttStatusMinion(MinionStats minionStats, CardData cardData)
     {
-        
-        nameMinion.text = cardData.CardName;
 
-        StatusDisplay.Instance.ShowStatus(
-            $"Vida atual: {minionStats.CurrentHealth}" +
-            $"\nDefesa: {minionStats.Shield}" +
-            $"\nAtaque Atual: {minionStats.Damage}"
-            , damageTextMinion
-            );
+        ShowStatusNew(1, minionStats.CurrentHealth, minionStats.Shield, minionStats.Damage, nivelMinion, healthMinion, shieldMinion, damageMinion);
     }
 }

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 0
   abilityName: Elixir de Armadura
-  description: 1
-  effectType: 0
+  description: Aumenta a armadura.
+  effectType: 2
   targetType: 0
   baseValue: 0
   requiresCondition: 0

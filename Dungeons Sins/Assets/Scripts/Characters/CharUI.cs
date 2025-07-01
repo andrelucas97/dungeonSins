@@ -45,7 +45,11 @@ public class CharUI : MonoBehaviour
 
         Color baseColor = charColors.GetColor(character.CharColor);
         backgroundImage.color = baseColor;
-        backgroundStatusGame.color = baseColor;
+
+        Color colorAlpha = baseColor;
+        colorAlpha.a = 80f / 255f; // ou 0.3137f
+        backgroundStatusGame.color = colorAlpha;
+
 
         float darkenFactor = 0.65f;
         Color darkColor = new Color(baseColor.r * darkenFactor, baseColor.g * darkenFactor, baseColor.b * darkenFactor, baseColor.a);

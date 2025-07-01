@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 12
   abilityName: Leroy
-  description: 12
+  description: Ataca sem precisar de rolagem de dado.
   effectType: 0
   targetType: 0
   baseValue: 0

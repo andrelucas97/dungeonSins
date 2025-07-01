@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 17
   abilityName: Armadura perfeita
-  description: 17
-  effectType: 0
+  description: "Escudo vira 20 e s\xF3 esse valor pode ser atingido."
+  effectType: 4
   targetType: 0
-  baseValue: 0
+  baseValue: 20
   requiresCondition: 0
   conditionText: 
   duration: 0

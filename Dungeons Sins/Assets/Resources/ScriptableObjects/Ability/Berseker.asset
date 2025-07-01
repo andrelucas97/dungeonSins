@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 1
   abilityName: Berseker
-  description: "Cause o dobro de dano. Se obtiver acerto cr\xEDtico, o dano \xE9
-    multiplicado por 4."
-  effectType: 0
+  description: "Dano dobrado e 4x em cr\xEDticos."
+  effectType: 2
   targetType: 0
-  baseValue: 2
+  baseValue: 0
   requiresCondition: 0
   conditionText: 
   duration: 0

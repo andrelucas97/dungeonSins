@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 20
   abilityName: Golpe sombrio
-  description: 20
+  description: "Dobra o dano se estiver invis\xEDvel."
   effectType: 0
-  targetType: 0
-  baseValue: 0
+  targetType: 2
+  baseValue: 2
   requiresCondition: 0
   conditionText: 
   duration: 0
