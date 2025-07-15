@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -107,6 +108,9 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
             cardManager.AddCardSheet(cardEquip.gameObject);
             cardManager.SkipCard();
 
+            CombatLog.Instance.AddMessage($"Carta Equipada: {cardEquip.CardData.CardName}");
+
+
             charStats.UpdateStats(typeCard);
             return;
         }
@@ -134,12 +138,22 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
         cardEquip.transform.localPosition = Vector3.zero;
         cardEquip.transform.SetSiblingIndex(transform.childCount - 1);
 
-        Debug.Log($"cardManager: {cardManager}, cardEquip: {cardEquip}");
-
         cardManager.RemoveCardDeck(cardEquip.gameObject);
         cardManager.ClearShopCards();
         cardManager.AddCardSheet(cardEquip.gameObject);
         cardManager.SkipCard();
+
+        switch (cardEquip.CardData.CardStat) // Atualizar: Deixar Value em geral, e não separar
+        {
+            case CardStats.DEF:
+                CombatLog.Instance.AddMessage($"Carta Equipada: {cardEquip.CardData.CardName} (+{cardEquip.CardData.DefenseBonus} {cardEquip.CardData.CardStat})");
+                break;
+            case CardStats.ATK:
+                CombatLog.Instance.AddMessage($"Carta Equipada: {cardEquip.CardData.CardName} (+{cardEquip.CardData.AttackBonus} {cardEquip.CardData.CardStat})");
+                break;
+        }
+
+        
 
         charStats.UpdateStats(typeCard);
     }

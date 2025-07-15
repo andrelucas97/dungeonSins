@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class AbilityButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -13,46 +14,40 @@ public class AbilityButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointe
     [SerializeField] private AbilityButtonMode mode;
     [SerializeField] private AbilityData ability;
     [SerializeField] private CharacterAbility abilityData;
-    [SerializeField] private GameObject tooltipPanel;
     [SerializeField] private TextMeshProUGUI tooltipText;
 
+    void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            mode = AbilityButtonMode.InGame;
+
+        } else if (SceneManager.GetActiveScene().name == "CharacterSelection")
+        {
+            mode = AbilityButtonMode.CharacterSelect;
+        }
+    }
 
     public CharacterAbility AbilityData => abilityData;
 
-    private void Awake()
-    {
-        if (tooltipPanel == null)
-        {
-            tooltipPanel = transform.Find("ToolTipPanel")?.gameObject;
-
-            if (tooltipPanel == null)
-                Debug.LogWarning("TooltipPanel filho não encontrado!");
-        }
-    }
-    private void Start()
-    {
-            tooltipPanel.SetActive(false);
-    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        if (mode == AbilityButtonMode.InGame)
+        {
+            Debug.Log("Botao Clicado");
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (mode == AbilityButtonMode.CharacterSelect && tooltipPanel != null)
-        {
-            tooltipPanel.SetActive(true);
-        }
+        SetTooltipText(tooltipText);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (mode == AbilityButtonMode.CharacterSelect && tooltipPanel != null)
-        {
-            tooltipPanel.SetActive(false);
-        }
+        TooltipManager.Instance.HideTooltip();
+
     }
 
     public void SetAbility(CharacterAbility ability)
@@ -60,10 +55,6 @@ public class AbilityButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointe
         abilityData = ability;
     }
 
-    public void SetTooltipPanel(GameObject panel)
-    {
-        tooltipPanel = panel;
-    }
 
     public void SetTooltipText(TextMeshProUGUI tooltipText)
     {
@@ -74,11 +65,20 @@ public class AbilityButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointe
             if (ability.RequiresCondition && !string.IsNullOrEmpty(ability.ConditionText))
                 desc += $"\n<color=#888><i>Condição: {ability.ConditionText}</i></color>";
 
-            tooltipText.text = desc;
+            if (mode == AbilityButtonMode.InGame)
+            {
+                Vector3 mousePos = Input.mousePosition;
+                TooltipManager.Instance.ShowTooltip(desc, mousePos);
+            }
+            else
+            {
+                TooltipManager.Instance.ShowTooltip(desc);
+            }
+
         }
         else
         {
-            tooltipText.text = "Habilidade não configurada.";
+            TooltipManager.Instance.ShowTooltip("Habilidade não configurada.");
         }
     }
 

@@ -28,15 +28,12 @@ public class TakeDamage : MonoBehaviour
 
     public void OnAttackButton()
     {
-        Debug.Log("[TakeDamage] OnAttackButton chamado");
 
         if (actionManager == null)
         {
             Debug.LogWarning("actionManager está nulo!");
             return;
         }
-
-        Debug.Log("actionManager está OK, testando cardDisplayManager...");
 
         if (playerCard != null)
         {
@@ -61,7 +58,6 @@ public class TakeDamage : MonoBehaviour
             if (diceRoller != null && diceRoller.TextShield != null)
             {
                 diceRoller.TextShield.SetActive(true);
-                diceRoller.TextDamage.SetActive(false);
                 diceRoller.ShowDicePanel(true);
             }
             else
@@ -70,7 +66,6 @@ public class TakeDamage : MonoBehaviour
             }
 
             diceRoller.TextShield.SetActive(true);
-            diceRoller.TextDamage.SetActive(false);
             diceRoller.ShowDicePanel(true);
         }
     }

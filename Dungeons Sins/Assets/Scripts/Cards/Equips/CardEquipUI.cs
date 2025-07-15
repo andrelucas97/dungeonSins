@@ -29,9 +29,6 @@ public class CardEquipUI : MonoBehaviour
     private CardDisplayManager cardDisplayManager;
 
     // VAR PUBLICAS
-
-
-    // VAR PUBLICAS
     public EquipmentCard CardData => cardData;
 
     public void Setup(CardData card)

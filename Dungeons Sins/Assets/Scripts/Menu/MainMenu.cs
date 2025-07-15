@@ -6,20 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private AudioClip clickSound;
-    private AudioManager audioManager;
+    [SerializeField] private TemporaryMessageManager messageManager;
 
     private void Start()
     {
-        audioManager = FindObjectOfType<AudioManager>();
-    }
+        Time.timeScale = 1f;
 
+    }
 
     // FUNÇÕES PUBLICAS
     public void ButtonPlayGame(string sceneName)
     {
-        StartGame(sceneName);
+        PlayGame(sceneName);
     }
+
+    public void ButtonStartGame()
+    {
+        StartGame();
+    }
+
+
     public void ButtonBackToMenu()
     {
         MainMenuScene();
@@ -36,45 +42,42 @@ public class MainMenu : MonoBehaviour
     {
         MenuSettings();
     }
+
     public void ButtonExit()
     {
 
     }
 
     // FUNÇÕES PRIVADAS
-    private void StartGame(string newScene)
+    private void PlayGame(string newScene)
     {
-        if (audioManager != null)
-        {
-            StartCoroutine(PlaySoundThenChangeScene(newScene));
-        }
-        else
-        {
-            SceneManager.LoadScene(newScene);
-
-        }
-
-    }
-    private IEnumerator PlaySoundThenChangeScene(string newScene)
-    {
-        yield return StartCoroutine(audioManager.PlaySoundAndWait(clickSound));
         SceneManager.LoadScene(newScene);
-    }
 
+    }    
+    private void StartGame()
+    {
+        if (GameData.SelectedCharacterIndex == -1)
+        {
+            Debug.LogWarning("Nenhum personagem selecionado!");
+            return;
+        }
+        SceneManager.LoadScene("GameScene");
+    }
     private void MainMenuScene()
     {
         SceneManager.LoadScene("MainMenu");
     }
     private void HowToPlay()
     {
-        throw new NotImplementedException();
+        messageManager.ShowMessage(2f);
     }
     private void OpenCollections()
     {
-        throw new NotImplementedException();
+        messageManager.ShowMessage(2f);
     }
     private void MenuSettings()
     {
-        throw new NotImplementedException();
+        messageManager.ShowMessage(2f);
     }
+
 }

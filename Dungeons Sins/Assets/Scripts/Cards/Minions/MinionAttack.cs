@@ -12,14 +12,11 @@ public class MinionAttack : MonoBehaviour
     [SerializeField] private TextMeshProUGUI resultDiceDamage;
     [SerializeField] private ActionManager actionManager;
 
-    public void StartAttackMinion(DiceRoller dice, ActionManager action, CardDisplayManager cardDisplay)
+    public IEnumerator StartAttackMinion(DiceRoller dice, ActionManager action, CardDisplayManager cardDisplay)
     {
-        Debug.Log("Iniciando ataque!");
+        Debug.Log("2.Iniciando ataque!");
         dice.ShowDicePanel(false);
-        dice.ButtonDiceShield("minionAttacking", action, cardDisplay);
-        dice.ButtonDiceDamage("minionAttacking", action, cardDisplay);
-        action.StartTurn();
-
+        yield return dice.DiceShieldMinion("Minion", action, cardDisplay);
     }
 
     public void SetDependencies(DiceRoller dice, ActionManager action)

@@ -1,15 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActionManager : MonoBehaviour
 {
+    [Header("Turn")]
+    [SerializeField] private TextMeshProUGUI textTurnManager;
+    [SerializeField] private int currentTurn = 1;
 
-    private int maxActions = 3;
-    private int currentAction;
-
+    [Header("Action")]
     [SerializeField] private CharStats playerStat;
     [SerializeField] private StatusDisplay displayStats;
     [SerializeField] private MinionAttack attackMinion;
@@ -18,6 +21,10 @@ public class ActionManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textTurnMinion;
 
     [SerializeField] private TextMeshProUGUI textActionManager;
+
+    private int maxActions = 3;
+    [SerializeField] private int currentAction;
+    public int CurrentTurn => currentTurn;
 
     void Start()
     {
@@ -47,41 +54,60 @@ public class ActionManager : MonoBehaviour
             return false;
         }
     }
+
     public void CheckEndOfTurn(CardDisplayManager cardDisplay)
     {
+
         if (currentAction == 0)
         {
             turnMinionBox.SetActive(true);
             textTurnMinion.text = "TURNO DO LACAIO!!";
-
+            CombatLog.Instance.AddMessage("TURNO DO LACAIO!!");
+        
             StartCoroutine(StartEnemy(attackMinion, cardDisplay));
-        } else
+        }
+        else
         {
-            Debug.Log($"Restam {currentAction} jogada(s)");
+           CombatLog.Instance.AddMessage($"<align=center>---- Restam { currentAction} jogada(s) ----</align>");
         }
     }
     private void InitializeTurn()
     {
+        currentTurn++;
         currentAction = maxActions;
-        UpdateTextAction(currentAction);
+        UpdateTextAction(currentAction, currentTurn);
     }
     private void ExecuteAction()
     {
         currentAction--;
-        UpdateTextAction(currentAction);
+        UpdateTextAction(currentAction, currentTurn);
     }
     private IEnumerator StartEnemy(MinionAttack minionAttack, CardDisplayManager cardDisplay)
     {
         yield return new WaitForSeconds(2f);
         turnMinionBox.SetActive(false);
-        minionAttack.StartAttackMinion(diceRoller, this, cardDisplay);
+
+        yield return StartCoroutine(HandleMinionAttackThenStartTurn(minionAttack, cardDisplay));
     }
-    private void UpdateTextAction(int currentAction)
+
+    private IEnumerator HandleMinionAttackThenStartTurn(MinionAttack minionAttack, CardDisplayManager cardDisplay)
     {
-        textActionManager.text = ($"Ações: {currentAction}");
+        yield return minionAttack.StartAttackMinion(diceRoller, this, cardDisplay);
+    }
+
+    private void UpdateTextAction(int currentAction, int currentTurn)
+    {
+        textTurnManager.text = $"TURNO {currentTurn}";
+        textActionManager.text = $"AÇÕES: {currentAction}";
 
     }
 
+    internal void CallCheckEndOfTurn(CardDisplayManager cardDisplayManager)
+    {
 
+        if (currentAction == 0)
+            StartTurn();
 
+        CheckEndOfTurn(cardDisplayManager);
+    }
 }

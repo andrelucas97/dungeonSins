@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CharUI : MonoBehaviour
@@ -30,9 +31,9 @@ public class CharUI : MonoBehaviour
     [Header("Char Abilities")]
     [SerializeField] private GameObject abilityTextPrefab;
     [SerializeField] private Transform abilityContainer;
+    [SerializeField] private AbilityDatabase abilityDatabase;
 
     private CharStats charStats;
-
     public void Setup(CharacterData character)
     {
         artworkImage.sprite = character.Portrait;
@@ -71,22 +72,33 @@ public class CharUI : MonoBehaviour
 
         foreach (CharacterAbility ability in character.Abilities)
         {
+
+            AbilityData abilityData = abilityDatabase.GetAbilityData(ability);
+            if (abilityData == null)
+            {
+                Debug.LogWarning($"AbilityData não encontrado para: {ability}");
+                continue;
+            }
+
             GameObject obj = Instantiate(abilityTextPrefab, abilityContainer);
             obj.SetActive(true);
 
             TextMeshProUGUI text = obj.GetComponentInChildren<TextMeshProUGUI>();
             if (text != null)
             {
-                text.text = ability.ToString();
+                text.text = abilityData.AbilityName;
                 text.color = Color.black;
+                text.fontSize = 18;
                 text.enabled = true;
             }
-            else
-            {
-                Debug.LogWarning("TextMeshProUGUI não encontrado no prefab!");
-            }
-        }
 
+            AbilityButtonHandler handler = obj.GetComponentInChildren<AbilityButtonHandler>();
+            if (handler != null)
+            {
+                handler.SetAbilityData(abilityData);                
+            }
+            
+        }
         charStats.Initialize(character);
     }
 }

@@ -18,11 +18,18 @@ public class SelectPlayer : MonoBehaviour
 
     [Header("Profile Char")]
     [SerializeField] private CharacterData[] characterDatas;
+
+    [Header("Char Stats")]
     [SerializeField] private TextMeshProUGUI namePlayer;
     [SerializeField] private TextMeshProUGUI profileChar;
     [SerializeField] private TextMeshProUGUI attackPlayer;
     [SerializeField] private TextMeshProUGUI defensePlayer;
     [SerializeField] private TextMeshProUGUI shieldPlayer;
+    [SerializeField] private GameObject boxName;
+    [SerializeField] private GameObject boxAbility;
+    [SerializeField] private GameObject boxResume;
+    [SerializeField] private GameObject[] boxStats;
+
 
     [Header("Char Abilities")]
     [SerializeField] private GameObject abilityTextPrefab;
@@ -39,28 +46,23 @@ public class SelectPlayer : MonoBehaviour
     // FUNÇÕES PUBLICAS
     public void ButtonSelectCharacter(int index)
     {
+
+        var manager = CharacterSelectionManager.GetInstance();
+
         selectedCharacterIndex = index; 
 
         CharacterData selectedData = characterDatas[index];
 
         UpdateSelectedCharacter(index, selectedData);
-    }
-    public void ButtonStartGame()
-    {
-        StartGame();
+
+
+        GameData.SelectedCharacterIndex = selectedCharacterIndex;
+        CharacterSelectionManager.Instance.SelectedCharacter = selectedData;
+
     }
 
     // FUNÇÕES PRIVADAS
-    private void StartGame()
-    {
 
-        if (selectedCharacterIndex == -1)
-        {
-            return;
-        }
-        GameData.SelectedCharacterIndex = selectedCharacterIndex;
-        SceneManager.LoadScene("GameScene");
-    }
     private void UpdateSelectedCharacter(int index, CharacterData selectedData)
     {
         if (index < 0 || index >= characterSprites.Length)
@@ -81,6 +83,8 @@ public class SelectPlayer : MonoBehaviour
         defensePlayer.text = selectedData.MaxHealth.ToString();
         shieldPlayer.text = selectedData.Shield.ToString();
 
+        SetBoxColor(selectedData, boxName, boxAbility, boxStats, boxResume);
+
         foreach (Transform child in abilityContainer)
         {
             Destroy(child.gameObject);
@@ -88,7 +92,6 @@ public class SelectPlayer : MonoBehaviour
 
         foreach (CharacterAbility ability in selectedData.Abilities)
         {
-            // Busca o AbilityData pelo enum
             AbilityData abilityData = abilityDatabase.GetAbilityData(ability);
             if (abilityData == null)
             {
@@ -105,6 +108,7 @@ public class SelectPlayer : MonoBehaviour
             if (text != null)
             {
                 text.text = abilityData.AbilityName;
+                text.fontSize = 50;
                 text.enabled = true;
             }
             else
@@ -113,17 +117,42 @@ public class SelectPlayer : MonoBehaviour
             }
 
             // Passa o AbilityData completo pro handler
-            AbilityButtonHandler handler = obj.GetComponent<AbilityButtonHandler>();
+            AbilityButtonHandler handler = obj.GetComponentInChildren<AbilityButtonHandler>();
             if (handler != null)
             {
                 GameObject tooltip = obj.transform.Find("ToolTipPanel")?.gameObject;
-                TextMeshProUGUI tooltipText = tooltip?.GetComponentInChildren<TextMeshProUGUI>();
+                TextMeshProUGUI tooltipText = tooltip?.GetComponent<TextMeshProUGUI>();
 
                 handler.SetAbilityData(abilityData);
-                handler.SetTooltipPanel(tooltip);
                 handler.SetTooltipText(tooltipText);
             }
+            else
+                Debug.Log("handler é null");
         }
 
+    }
+
+    private void SetBoxColor(CharacterData selectedData, GameObject boxName, GameObject boxAbility, GameObject[] boxStats, GameObject boxResume)
+    {       
+
+        ApplyColorBox(boxName, selectedData);
+        ApplyColorBox(boxAbility, selectedData);
+        ApplyColorBox(boxResume, selectedData);
+        // Aplica nos boxStats
+        foreach (GameObject statBox in boxStats)
+        {
+            ApplyColorBox(statBox, selectedData);
+        }
+
+    }
+
+    private void ApplyColorBox(GameObject box, CharacterData selectedData)
+    {
+        Color baseColor = charColors.GetColor(selectedData.CharColor);
+
+        if (box != null && box.TryGetComponent<Image>(out Image image))
+        {
+            image.color = baseColor;
+        }
     }
 }

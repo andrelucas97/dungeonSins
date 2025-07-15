@@ -76,7 +76,7 @@ public class CardDisplayManager : MonoBehaviour
 
     public void ButtonSpawnCards()
     {
-        SpawnCardsEquips();        
+        SpawnCardsEquips();
     }
     public void ButtonSkipCards()
     {

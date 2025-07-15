@@ -10,23 +10,16 @@ public class GameSceneController : MonoBehaviour
 
     void Start()
     {
-        int selected = GameData.SelectedCharacterIndex;
-
-        if (selected < 0 || selected >= characterDatas.Length)
-            selected = 0;
-
-        CharacterData selectedData = characterDatas[selected];
+        CharacterData selectedData = CharacterSelectionManager.Instance.SelectedCharacter;
 
         CharStats stats = playerPrefab.GetComponent<CharStats>();
         if (stats != null)
-        {
             stats.Initialize(selectedData);
-        }
 
         CharUI ui = playerPrefab.GetComponentInChildren<CharUI>();
         if (ui != null)
-        {
             ui.Setup(selectedData);
-        }
+
+        AudioManager.Instance.PlayGameMusic();
     }
 }

@@ -28,8 +28,10 @@ public class MinionStats : MonoBehaviour, BaseStats
     public int CurrentHealth => currentHealth;
     public int Shield => shield;
     public int Damage => damage;
+    public CardData CardData => cardData;
     public void Initialize(MinionsCard card)
     {
+
         if (actionManager == null)
         {
             actionManager = FindObjectOfType<ActionManager>();
@@ -37,6 +39,8 @@ public class MinionStats : MonoBehaviour, BaseStats
         cardData = card;
         ApplyStats(card);
         StatusDisplay.Instance.AttStatusMinion(this, cardData);
+        CombatLog.Instance.AddMessage($"{card.CardName} | ATK: {card.Level1.Damage} | DEF: {card.Level1.Shield} | Vida: {card.Level1.Health}");       
+
     }
 
     public void TakeDamage(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
@@ -49,11 +53,11 @@ public class MinionStats : MonoBehaviour, BaseStats
         currentHealth -= hitDamage;
         currentHealth = Mathf.Max(currentHealth, 0);
 
-        StatusDisplay.Instance.AttStatusMinion(this, cardData);
+        StatusDisplay.Instance.AttStatusMinion(this, cardData);        
 
         if (currentHealth == 0)
         {
-            Debug.Log($"{cardData.CardName} foi derrotado.");
+            CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {cardData.CardName} foi derrotado.");
 
             if (cardDisplayManager == null)
                 cardDisplayManager = FindObjectOfType<CardDisplayManager>();

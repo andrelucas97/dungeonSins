@@ -33,9 +33,11 @@ public class ButtonTextColorHover : MonoBehaviour, IPointerEnterHandler, IPointe
 
     void Update()
     {
-        text.color = Color.Lerp(text.color, targetColor, Time.deltaTime * transitionSpeed);
 
-        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
+        float dt = Time.unscaledDeltaTime;
+
+        text.color = Color.Lerp(text.color, targetColor, dt * transitionSpeed);
+        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, dt * scaleSpeed);
 
     }
 
@@ -46,6 +48,12 @@ public class ButtonTextColorHover : MonoBehaviour, IPointerEnterHandler, IPointe
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        targetColor = normalColor;
+        targetScale = originalScale;
+    }
+
+    public void ResetHoverState()
     {
         targetColor = normalColor;
         targetScale = originalScale;

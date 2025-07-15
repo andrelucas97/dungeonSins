@@ -28,11 +28,14 @@ public class CharStats : MonoBehaviour, BaseStats
     public int CurrentHealth => currentHealth;
     public int Shield => shield;
     public int Damage => damage;
+    public CharacterData CharData => charData;
 
     public void Initialize(CharacterData data)
     {
         charData = data;
 
+        healthSlider.maxValue = charData.MaxHealth;
+        healthSlider.value = currentHealth;
 
         // Instanciando variaveis
         currentHealth = data.MaxHealth;
@@ -48,8 +51,7 @@ public class CharStats : MonoBehaviour, BaseStats
     private void Start()
     {
         actionManager = FindObjectOfType<ActionManager>();
-        healthSlider.maxValue = charData.MaxHealth;
-        healthSlider.value = currentHealth;
+        
     }
 
     public void UpdateStats(string teste)
@@ -72,8 +74,6 @@ public class CharStats : MonoBehaviour, BaseStats
                     switch (equip.CardStat)
                     {
                         case CardStats.ATK:
-
-                            Debug.Log("Valor do Dano: " + equip.AttackBonus);
                             damage += equip.AttackBonus;
                             break;
                         case CardStats.DEF:
@@ -105,10 +105,9 @@ public class CharStats : MonoBehaviour, BaseStats
             StopCoroutine(healthBarCoroutine);
         healthBarCoroutine = StartCoroutine(AnimateHealthBar(currentHealth));
 
-
         if (currentHealth == 0)
         {
-            Debug.Log("Game Over! Você foi derrotado!!");
+            CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Game Over! Você foi derrotado!!");
         }
     }
 

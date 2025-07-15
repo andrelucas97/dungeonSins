@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatusDisplay : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class StatusDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthPlayer;
     [SerializeField] private TextMeshProUGUI shieldPlayer;
     [SerializeField] private TextMeshProUGUI damagePlayer;
+    [SerializeField] private Image backgroundStatus;
     public static StatusDisplay Instance { get; private set; }
 
     private void Awake()
