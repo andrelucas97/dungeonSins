@@ -35,7 +35,7 @@ public class AbilityButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         if (mode == AbilityButtonMode.InGame)
         {
-            Debug.Log("Botao Clicado");
+            TakeDamage.Instance.UseAbility(ability);
         }
     }
 

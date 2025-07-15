@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 
 public class TakeDamage : MonoBehaviour
 {
+    public static TakeDamage Instance;
+
     [SerializeField] private CharStats playerCard;
     [SerializeField] private DiceRoller diceRoller;
     [SerializeField] private GameObject buttonAttack;
@@ -13,10 +16,20 @@ public class TakeDamage : MonoBehaviour
     [SerializeField] private CharacterAbility activeAbility;
 
     private MinionStats minionStat;
+    private Dictionary<CharacterAbility, Action<AbilityData>> abilityActions;
+
 
     void Awake()
     {
+        Instance = this;
         actionManager = FindObjectOfType<ActionManager>();
+
+        abilityActions = new Dictionary<CharacterAbility, Action<AbilityData>>
+        {
+            { CharacterAbility.CriticalArrow, UseCriticalArrow },
+            { CharacterAbility.LightArrow, UseLightArrow },
+            { CharacterAbility.HurricaneArrow, UseHurricaneArrow },
+        };
 
         if (diceRoller == null)
         {
@@ -25,6 +38,7 @@ public class TakeDamage : MonoBehaviour
                 Debug.LogWarning("DiceRoller não encontrado na cena!");
         }
     }
+
 
     public void OnAttackButton()
     {
@@ -70,13 +84,23 @@ public class TakeDamage : MonoBehaviour
         }
     }
 
-    public void ButtonAbility()
+    public void UseAbility(AbilityData abilityData)
     {
-        switch (activeAbility)
+        if (abilityData == null)
         {
-            case CharacterAbility.Berserker:
-                Debug.Log("Ativando Habilidade " + CharacterAbility.Berserker);
-                break;
+            Debug.LogWarning("AbilityData é nulo!");
+            return;
+        }
+
+        CharacterAbility ability = abilityData.AbilityID;
+
+        if (abilityActions.TryGetValue(ability, out Action<AbilityData> action))
+        {
+            action.Invoke(abilityData);
+        }
+        else
+        {
+            Debug.LogWarning("Nenhuma ação definida para a habilidade: " + ability);
         }
     }
     public void SetActionManager(ActionManager manager)
@@ -88,4 +112,21 @@ public class TakeDamage : MonoBehaviour
         buttonAttack = button.gameObject;
     }
 
+    // HABILIDADES
+    #region ABILITIES
+    private void UseHurricaneArrow(AbilityData abilityData)
+    {
+        Debug.Log($"Usou {abilityData.AbilityName}! Acerta vários inimigos.");
+    }
+
+    private void UseLightArrow(AbilityData abilityData)
+    {
+        Debug.Log($"Usou {abilityData.AbilityName}! Ataca e ilumina o alvo.");
+    }
+
+    private void UseCriticalArrow(AbilityData abilityData)
+    {
+        Debug.Log($"Usou {abilityData.AbilityName}! Aplica dano crítico.");
+    }
+    #endregion
 }

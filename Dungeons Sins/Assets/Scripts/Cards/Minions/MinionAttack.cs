@@ -14,7 +14,6 @@ public class MinionAttack : MonoBehaviour
 
     public IEnumerator StartAttackMinion(DiceRoller dice, ActionManager action, CardDisplayManager cardDisplay)
     {
-        Debug.Log("2.Iniciando ataque!");
         dice.ShowDicePanel(false);
         yield return dice.DiceShieldMinion("Minion", action, cardDisplay);
     }
