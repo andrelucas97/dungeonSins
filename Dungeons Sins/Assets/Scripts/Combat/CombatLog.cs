@@ -13,6 +13,9 @@ public class CombatLog : MonoBehaviour
 
     private Queue<GameObject> messages = new Queue<GameObject>();
 
+    [Header("Box Ability")]
+    [SerializeField] private TextMeshProUGUI textBoxAbility;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -31,6 +34,12 @@ public class CombatLog : MonoBehaviour
             GameObject oldMsg = messages.Dequeue();
             Destroy(oldMsg);
         }
+    }
+
+    public void MessageBoxAbility(string abilityName)
+    {
+        textBoxAbility.text = $"Deseja ativar habilidade: \n" +
+            $"{abilityName}?";
     }
 
 }

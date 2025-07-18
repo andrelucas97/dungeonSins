@@ -191,18 +191,47 @@ public class DiceRoller : MonoBehaviour
 
         buttonPlay.GetComponent<Button>().interactable = true;
 
+        int damageMultiplier = 1;
+        int finalDamage = 0;
         if (sucess)
         {
-            if (result == 20)
+
+            var abilityData = TakeDamage.Instance.CurrentAbilityData;
+
+
+            if (abilityData != null && abilityData.AbilityID == CharacterAbility.Berseker && attacking == "Player")
             {
-                defStats.TakeDamage(atkStats.Damage * 2, result, action, cardDisplay);
-                CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Ataque crítico! O /{nameAtk} causou ({atkStats.Damage})x2! Total: {atkStats.Damage *2} de dano em {nameDef}");
+
+                if (result == 20)
+                {
+                    damageMultiplier = abilityData.BaseValue * 2;
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] CRÍTICO MÁXIMO DO BERSERKER!! O {nameAtk} causou {atkStats.Damage} (x{damageMultiplier})! Total: {atkStats.Damage * 4} de dano em {nameDef}");
+                }
+                else 
+                {
+                    damageMultiplier = abilityData.BaseValue;
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Crítico do Berserker! O {nameAtk} atacou com força (dado: {result}), causando {atkStats.Damage} (x{damageMultiplier}) de dano em {nameDef}!");
+                }
+
+                TakeDamage.Instance.UseCurrentAbility();
+
             }
             else
             {
-                defStats.TakeDamage(atkStats.Damage, result, action, cardDisplay);
-                CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] O {nameAtk} atacou com força ({result}), causando {atkStats.Damage} de dano em {nameDef}!");
+                if (result == 20)
+                {
+                    damageMultiplier = 2;
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Ataque crítico! O {nameAtk} causou {atkStats.Damage} (x2)! Total: {atkStats.Damage * 2} de dano em {nameDef}");
+                }
+                else
+                {
+                    damageMultiplier = 1;
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] O {nameAtk} atacou com força (dado: {result}), causando {atkStats.Damage} de dano em {nameDef}!");
+                }
             }
+
+            finalDamage = atkStats.Damage * damageMultiplier;
+            defStats.TakeDamage(finalDamage, result, action, cardDisplay);
 
         }
         else if (result == 1) // Falha Critica

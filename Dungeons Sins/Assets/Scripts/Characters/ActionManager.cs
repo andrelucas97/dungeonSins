@@ -68,7 +68,7 @@ public class ActionManager : MonoBehaviour
         }
         else
         {
-           CombatLog.Instance.AddMessage($"<align=center>---- Restam { currentAction} jogada(s) ----</align>");
+           CombatLog.Instance.AddMessage($"<align=center>---- Resta(m) { currentAction} jogada(s) ----</align>");
         }
     }
     private void InitializeTurn()

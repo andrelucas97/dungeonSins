@@ -17,7 +17,7 @@ MonoBehaviour:
   description: "Dano dobrado e 4x em cr\xEDticos."
   effectType: 2
   targetType: 0
-  baseValue: 0
+  baseValue: 2
   requiresCondition: 0
   conditionText: 
   duration: 0

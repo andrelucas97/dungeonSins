@@ -5,7 +5,7 @@ using UnityEngine;
 public enum CharacterAbility
 {
     ArmorElixir,
-    Berserker,
+    Berseker,
     BurnBabyBurn,
     CriticalArrow,
     DaggerThrow,

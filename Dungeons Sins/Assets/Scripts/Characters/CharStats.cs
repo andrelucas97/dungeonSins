@@ -22,6 +22,10 @@ public class CharStats : MonoBehaviour, BaseStats
     [SerializeField] private CardDisplayManager cardDisplayManager;
     [SerializeField] private ActionManager actionManager;
 
+    [Header("Abilities")]
+    [SerializeField] private AbilityDatabase abilityDatabase;
+    private List<AbilityInstance> abilityInstances = new List<AbilityInstance>();
+
     [SerializeField] private List<Transform> equipmentSlots;
 
     // VAR PUBLICAS
@@ -29,35 +33,46 @@ public class CharStats : MonoBehaviour, BaseStats
     public int Shield => shield;
     public int Damage => damage;
     public CharacterData CharData => charData;
-
-    public void Initialize(CharacterData data)
-    {
-        charData = data;
-
-        healthSlider.maxValue = charData.MaxHealth;
-        healthSlider.value = currentHealth;
-
-        // Instanciando variaveis
-        currentHealth = data.MaxHealth;
-        shield = data.Shield;
-        damage = data.Damage;
-
-        StatusDisplay.Instance.AttStatusPlayer(this, charData);
-
-    }
-
-
-    // Chamada TESTE
+    public List<AbilityInstance> Abilities => abilityInstances;
     private void Start()
     {
         actionManager = FindObjectOfType<ActionManager>();
         
     }
 
-    public void UpdateStats(string teste)
+    public void Initialize(CharacterData charData)
+    {
+        this.charData = charData;
+
+        healthSlider.maxValue = this.charData.MaxHealth;
+        healthSlider.value = currentHealth;
+
+        // Instanciando variaveis
+        currentHealth = charData.MaxHealth;
+        shield = charData.Shield;
+        damage = charData.Damage;
+
+        // Instanciando Habilidades
+        abilityInstances.Clear();
+
+        var abilityDatas = abilityDatabase.GetAbilityDataList(this.charData.Abilities);
+
+        foreach (var data in abilityDatas)
+        {
+            abilityInstances.Add(new AbilityInstance(data));
+        }
+
+        StatusDisplay.Instance.AttStatusPlayer(this, this.charData);
+
+    }
+
+
+    // Chamada TESTE
+
+    public void UpdateStatsSlot(string slotType)
     {
 
-        if (teste != "slotBackpack")
+        if (slotType != "slotBackpack")
         {
             shield = charData.Shield;
             damage = charData.Damage;

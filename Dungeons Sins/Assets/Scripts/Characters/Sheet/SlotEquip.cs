@@ -111,7 +111,7 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
             CombatLog.Instance.AddMessage($"Carta Equipada: {cardEquip.CardData.CardName}");
 
 
-            charStats.UpdateStats(typeCard);
+            charStats.UpdateStatsSlot(typeCard);
             return;
         }
 
@@ -155,7 +155,7 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
 
         
 
-        charStats.UpdateStats(typeCard);
+        charStats.UpdateStatsSlot(typeCard);
     }
 
     private void RemoveOldCard(Transform slot, CardEquipUI cardEquip)
@@ -213,7 +213,7 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
             cardManager.SkipCard();
 
 
-            charStats.UpdateStats(typeCard);
+            charStats.UpdateStatsSlot(typeCard);
         }        
     }
 }

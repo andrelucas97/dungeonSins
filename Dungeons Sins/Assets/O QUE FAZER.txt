@@ -13,3 +13,6 @@ ARRUMAR:
 - Quando voltar ao menu, tocar a musica correta
 - Atualizar Scriptable Equips: Deixar Value geral, separar somente CardStats! E não attack/defensebonus
 - desativar todos os botões quando estiver fazendo ação. Ex: Botao de atacar, não é capaz de clicar e baralho até girar o dado
+
+HABILIDADES ADICIONADAS:
+ - IRA: BERSEKER E LEROY OK
