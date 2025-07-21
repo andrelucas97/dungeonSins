@@ -8,6 +8,6 @@ public interface BaseStats
     int CurrentHealth { get; }
     int Damage { get; }
 
-    void TakeDamage(int hitDamage, int damageMultiplier, ActionManager action, CardDisplayManager cardDisplay);
+    void TakeDamageApply(int hitDamage, int damageMultiplier, ActionManager action, CardDisplayManager cardDisplay);
 
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   description: "Acerto cr\xEDtico ocorre com rolagem de 17 a 20."
   effectType: 2
   targetType: 0
-  baseValue: 0
+  baseValue: 17
   requiresCondition: 0
   conditionText: 
   duration: 0

@@ -17,6 +17,7 @@ public class AbilityInstance
     public bool IsActivated => _isActivated;
     public float CooldownRemaining => _cooldownRemaining;
     public bool WasUsed => _wasUsed;
+    public static AbilityInstance Instance;
     public AbilityInstance(AbilityData data)
     {
         _data = data;

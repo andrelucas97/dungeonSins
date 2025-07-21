@@ -20,4 +20,4 @@ MonoBehaviour:
   baseValue: 0
   requiresCondition: 0
   conditionText: 
-  duration: 0
+  duration: 1

@@ -43,7 +43,7 @@ public class MinionStats : MonoBehaviour, BaseStats
 
     }
 
-    public void TakeDamage(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
+    public void TakeDamageApply(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
     {
         ApplyDamage(hitDamage, resultDie);        
     }

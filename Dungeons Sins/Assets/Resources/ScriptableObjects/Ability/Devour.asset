@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Causa 5 de dano e recupera 10 de vida.
   effectType: 0
   targetType: 0
-  baseValue: 0
+  baseValue: 5
   requiresCondition: 0
   conditionText: 
   duration: 0

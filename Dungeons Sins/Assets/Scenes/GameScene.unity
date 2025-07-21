@@ -5403,7 +5403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedCharacter: {fileID: 0}
-  defaultCharacter: {fileID: 11400000, guid: 92ffe684082d4c045958b8d3a33391ff, type: 2}
+  defaultCharacter: {fileID: 11400000, guid: 0c7748ac88bb59446b60949e80f25533, type: 2}
 --- !u!4 &892482036
 Transform:
   m_ObjectHideFlags: 0
@@ -11407,6 +11407,10 @@ PrefabInstance:
       propertyPath: cardManager
       value: 
       objectReference: {fileID: 41334808}
+    - target: {fileID: 6763875749158105962, guid: 1e853863b453f764e884c037f212bb15, type: 3}
+      propertyPath: abilityDatabase
+      value: 
+      objectReference: {fileID: 11400000, guid: 5497bda950b5ca24c96cd9f2082bf324, type: 2}
     - target: {fileID: 6763875749158105962, guid: 1e853863b453f764e884c037f212bb15, type: 3}
       propertyPath: cardDisplayManager
       value: 

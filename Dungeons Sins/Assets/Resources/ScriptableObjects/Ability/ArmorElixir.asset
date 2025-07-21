@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Aumenta a armadura.
   effectType: 2
   targetType: 0
-  baseValue: 0
+  baseValue: 5
   requiresCondition: 0
   conditionText: 
   duration: 0

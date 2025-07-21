@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -198,8 +199,10 @@ public class DiceRoller : MonoBehaviour
 
             var abilityData = TakeDamage.Instance.CurrentAbilityData;
 
+            AbilityInstance bersekerInstance = playerCard.Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.Berseker);
 
-            if (abilityData != null && abilityData.AbilityID == CharacterAbility.Berseker && attacking == "Player")
+
+            if (abilityData != null && bersekerInstance != null && bersekerInstance.IsActivated && attacking == "Player")
             {
 
                 if (result == 20)
@@ -214,7 +217,7 @@ public class DiceRoller : MonoBehaviour
                 }
 
                 TakeDamage.Instance.UseCurrentAbility();
-
+                bersekerInstance.Desactivate();
             }
             else
             {
@@ -231,12 +234,12 @@ public class DiceRoller : MonoBehaviour
             }
 
             finalDamage = atkStats.Damage * damageMultiplier;
-            defStats.TakeDamage(finalDamage, result, action, cardDisplay);
+            defStats.TakeDamageApply(finalDamage, result, action, cardDisplay);
 
         }
         else if (result == 1) // Falha Critica
         {
-            atkStats.TakeDamage(atkStats.Damage, result, action, cardDisplay);
+            atkStats.TakeDamageApply(atkStats.Damage, result, action, cardDisplay);
             CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Falha crítica! {nameAtk} tomará {atkStats.Damage} de dano!");
         }
         else

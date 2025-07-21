@@ -103,9 +103,20 @@ public class CharStats : MonoBehaviour, BaseStats
         actionManager.CheckEndOfTurn(cardDisplayManager);
     }
 
-    public void TakeDamage(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
+    public void TakeDamageApply(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
     {
         ApplyDamage(hitDamage, resultDie);
+    }
+
+    public void AdicionalShield(int value)
+    {
+        AddShield(value);
+    }
+
+    private void AddShield(int amount)
+    {
+        shield += amount;
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
     }
 
     private void ApplyDamage(int hitDamage, int resultDie)

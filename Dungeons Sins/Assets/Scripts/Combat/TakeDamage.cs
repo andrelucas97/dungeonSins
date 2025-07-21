@@ -117,15 +117,19 @@ public class TakeDamage : MonoBehaviour
 
             var abilityData = TakeDamage.Instance.CurrentAbilityData;
 
-            if (abilityData != null && abilityData.AbilityID == CharacterAbility.Leroy)
+            AbilityInstance leroyInstance = playerCard.Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.Leroy);
+
+
+            if (abilityData != null && leroyInstance != null && leroyInstance.IsActivated)
             {
                 Debug.Log("Leroy funcionou!");
-                minionStat.TakeDamage(playerCard.Damage, (minionStat.Shield+1), actionManager, cardDisplayManager);
-                actionManager.CheckEndOfTurn(cardDisplayManager);
+                minionStat.TakeDamageApply(playerCard.Damage, (minionStat.Shield + 1), actionManager, cardDisplayManager);
 
                 CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {playerCard.CharData.CodeName} usou Leroy: dano direto de {playerCard.Damage} em {minionStat.CardData.CardName}.");
 
+                actionManager.CheckEndOfTurn(cardDisplayManager);
                 ConsumeAbility();
+                leroyInstance.Desactivate();
             }
             else
             {
@@ -150,7 +154,7 @@ public class TakeDamage : MonoBehaviour
 
                 diceRoller.TextShield.SetActive(true);
                 diceRoller.ShowDicePanel(true);
-            }            
+            }
         }
     }
 
@@ -213,10 +217,9 @@ public class TakeDamage : MonoBehaviour
 
         if (currentAbilityAction != null && currentAbilityInstance != null)
         {
-            currentAbilityAction.Invoke(currentAbilityInstance);
-
             CombatLog.Instance.AddMessage($"Habilidade Ativada: {currentAbilityInstance.Data.AbilityName}");
 
+            currentAbilityAction.Invoke(currentAbilityInstance);
 
             boxMessageAbility.SetActive(false);            
 
@@ -273,6 +276,8 @@ public class TakeDamage : MonoBehaviour
     }
     private void UseDevour(AbilityInstance ability)
     {
+        // Causa 5 de dano
+        // Recupera 10 de vida
         Debug.Log($"Usou {ability.Data.AbilityName}!");
 
     }
@@ -353,8 +358,15 @@ public class TakeDamage : MonoBehaviour
     }
     private void UseTaunt(AbilityInstance ability)
     {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
 
+        playerCard.AdicionalShield(ability.Data.BaseValue);
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        actionManager.CheckEndOfTurn(cardDisplayManager);
+        CombatLog.Instance.AddMessage($"{playerCard.CharData.CodeName} ganhou {ability.Data.BaseValue} de escudo ao utilizar {ability.Data.AbilityName}");
+
+        UseCurrentAbility();
+        ability.Desactivate();
     }
     #endregion
 }
