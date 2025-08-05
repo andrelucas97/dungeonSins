@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 16
   abilityName: Cochilo
   description: "Recupera 10 de vida, mas perde o pr\xF3ximo turno."
-  effectType: 1
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 10
   requiresCondition: 0
   conditionText: 

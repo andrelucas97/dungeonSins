@@ -97,8 +97,26 @@ public class CharUI : MonoBehaviour
             {
                 handler.SetAbilityData(abilityData);                
             }
-            
+
+            Button button = obj.GetComponentInChildren<Button>();
+            if (abilityData.Type == AbilityType.Passive)
+            {
+                StartCoroutine(DelayDisableButton(button));
+                text.color = Color.gray;
+            }
+            else
+            {
+                button.interactable = true;
+            }
+
         }
         charStats.Initialize(character);
+    }
+
+    private IEnumerator DelayDisableButton(Button button)
+    {
+        yield return new WaitForEndOfFrame(); // espera 1 frame
+        button.interactable = false;
+        Debug.Log("Desativado com delay");
     }
 }

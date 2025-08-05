@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 5
   abilityName: Consumir
-  description: Causa 5 de dano e recupera 10 de vida.
+  description: Causa 3 de dano e recupera 5 de vida.
   effectType: 0
   targetType: 0
-  baseValue: 5
+  type: 0
+  baseValue: 3
   requiresCondition: 0
   conditionText: 
   duration: 0

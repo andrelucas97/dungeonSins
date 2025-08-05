@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 9
   abilityName: Curar
   description: Cura 20 de vida.
-  effectType: 1
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 20
   requiresCondition: 0
   conditionText: 

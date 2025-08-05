@@ -423,7 +423,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52.25
+  m_fontSize: 46
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1599,10 +1599,10 @@ RectTransform:
   - {fileID: 1904047360}
   m_Father: {fileID: 1366153867}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 130}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0.26333338, y: 0.11333337}
+  m_AnchorMax: {x: 0.74666667, y: 0.60333335}
+  m_AnchoredPosition: {x: -1.5, y: 2.5}
+  m_SizeDelta: {x: 5, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &150864366
 MonoBehaviour:
@@ -3992,8 +3992,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00049973, y: 81.8266}
-  m_SizeDelta: {x: 1000, y: 300}
+  m_AnchoredPosition: {x: 0, y: 81.8266}
+  m_SizeDelta: {x: 1039.4, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &641523965
 MonoBehaviour:
@@ -5403,7 +5403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedCharacter: {fileID: 0}
-  defaultCharacter: {fileID: 11400000, guid: 0c7748ac88bb59446b60949e80f25533, type: 2}
+  defaultCharacter: {fileID: 11400000, guid: 8633e73c9f17c8f438a77a2bf915626e, type: 2}
 --- !u!4 &892482036
 Transform:
   m_ObjectHideFlags: 0
@@ -5842,10 +5842,10 @@ RectTransform:
   - {fileID: 1366153867}
   m_Father: {fileID: 1969382727}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.45066664, y: 0.29885188}
-  m_AnchorMax: {x: 0.6835625, y: 0.6834074}
-  m_AnchoredPosition: {x: -1.1000061, y: -0.440094}
-  m_SizeDelta: {x: 3.0499878, y: -4.2800293}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 735, y: 151.98999}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1020523295
 MonoBehaviour:
@@ -6770,8 +6770,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.24212502, y: 0}
   m_AnchorMax: {x: 0.78616667, y: 1}
-  m_AnchoredPosition: {x: -17.16, y: -1.9799805}
-  m_SizeDelta: {x: -44.56, y: -3.96}
+  m_AnchoredPosition: {x: 2.5599976, y: -1.9799805}
+  m_SizeDelta: {x: -5.12, y: -3.96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1205456859
 MonoBehaviour:
@@ -7449,8 +7449,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: -310}
-  m_SizeDelta: {x: 1000, y: 452.4858}
+  m_AnchoredPosition: {x: 29.72, y: -313.31}
+  m_SizeDelta: {x: 880, y: 452.4858}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1412603528
 GameObject:
@@ -7686,6 +7686,7 @@ GameObject:
   - component: {fileID: 1437672636}
   - component: {fileID: 1437672635}
   - component: {fileID: 1437672634}
+  - component: {fileID: 1437672637}
   m_Layer: 5
   m_Name: DeckEquip
   m_TagString: Untagged
@@ -7757,9 +7758,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 41334808}
-        m_TargetAssemblyTypeName: CardDisplayManager, Assembly-CSharp
-        m_MethodName: ButtonSpawnCards
+      - m_Target: {fileID: 1437672637}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: Execute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7807,6 +7808,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437672632}
   m_CullTransparentMesh: 1
+--- !u!114 &1437672637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437672632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca1ae23936ec99458d2b3e0b8aee171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClickAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 41334808}
+        m_TargetAssemblyTypeName: CardDisplayManager, Assembly-CSharp
+        m_MethodName: ButtonSpawnCards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickSound: {fileID: 8300000, guid: 59d818fdff61bea40bcb3f6bd8295c4d, type: 3}
 --- !u!1 &1442703223
 GameObject:
   m_ObjectHideFlags: 0
@@ -8969,10 +8998,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1366153867}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0.6548346}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -70.5}
-  m_SizeDelta: {x: 0, y: 141}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_SizeDelta: {x: 0, y: -40.1405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1658893457
 MonoBehaviour:
@@ -9023,7 +9052,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.65
+  m_fontSize: 34.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10197,8 +10226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textTurnManager: {fileID: 1624631111}
   currentTurn: 0
-  playerStat: {fileID: 0}
-  displayStats: {fileID: 0}
+  playerStat: {fileID: 25230600783632397}
   attackMinion: {fileID: -1464819921075789957, guid: f0abe8153bbd97342a88ae4864603722, type: 3}
   diceRoller: {fileID: 1020523297}
   turnMinionBox: {fileID: 437522378}
@@ -10449,8 +10477,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00048828, y: 0}
-  m_SizeDelta: {x: 1000, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 880, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1948816525
 MonoBehaviour:
@@ -10844,7 +10872,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -376.01, y: 51.243}
+  m_AnchoredPosition: {x: -388.02, y: 51.243}
   m_SizeDelta: {x: 100, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2067628292
@@ -11166,7 +11194,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 63.000008, y: 0.0000047684}
+  m_AnchoredPosition: {x: 50.989, y: 0.0000047683}
   m_SizeDelta: {x: 778.0228, y: 452.4858}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2135734323
@@ -11424,6 +11452,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1020523297}
     - target: {fileID: 8136633515238122641, guid: 1e853863b453f764e884c037f212bb15, type: 3}
+      propertyPath: minionStat
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136633515238122641, guid: 1e853863b453f764e884c037f212bb15, type: 3}
       propertyPath: textShield
       value: 
       objectReference: {fileID: 0}
@@ -11431,6 +11463,10 @@ PrefabInstance:
       propertyPath: buttonAttack
       value: 
       objectReference: {fileID: 1963260722}
+    - target: {fileID: 8136633515238122641, guid: 1e853863b453f764e884c037f212bb15, type: 3}
+      propertyPath: actionManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8136633515238122641, guid: 1e853863b453f764e884c037f212bb15, type: 3}
       propertyPath: boxMessageAbility
       value: 

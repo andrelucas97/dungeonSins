@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 8
   abilityName: Sol Glorioso
   description: +5 de dano e -3 de ataque para o inimigo.
-  effectType: 2
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 

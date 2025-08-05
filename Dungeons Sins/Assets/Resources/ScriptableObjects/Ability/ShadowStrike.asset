@@ -17,6 +17,7 @@ MonoBehaviour:
   description: "Dobra o dano se estiver invis\xEDvel."
   effectType: 0
   targetType: 2
+  type: 0
   baseValue: 2
   requiresCondition: 0
   conditionText: 

@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 18
   abilityName: Venenoso
   description: Envenena inimigo por 3 rodadas.
-  effectType: 5
+  effectType: 0
   targetType: 2
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 

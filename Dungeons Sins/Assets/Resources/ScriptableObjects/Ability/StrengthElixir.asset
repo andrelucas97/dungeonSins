@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 22
   abilityName: "Elixir de for\xE7a"
   description: "Aumenta a for\xE7a."
-  effectType: 2
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 

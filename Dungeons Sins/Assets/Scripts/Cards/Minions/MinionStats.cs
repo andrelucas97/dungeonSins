@@ -12,9 +12,16 @@ public class MinionStats : MonoBehaviour, BaseStats
     [Header("Stats")]
     [SerializeField] private int levelMinion;
 
+    // HEALTH
     [SerializeField] private int currentHealth;
+
+    // SHIELD
     [SerializeField] private int shield;
+
+    // DAMAGE
     [SerializeField] private int damage;
+    private int bonusTempDamage;
+    public int TotalDamage => damage + bonusTempDamage;
 
     [Header("Canvas")]
     [SerializeField] private TextMeshProUGUI messageStats;
@@ -26,8 +33,8 @@ public class MinionStats : MonoBehaviour, BaseStats
 
     // VAR PUBLICAS
     public int CurrentHealth => currentHealth;
-    public int Shield => shield;
-    public int Damage => damage;
+    public int BaseShield => shield;
+    public int BaseDamage => damage;
     public CardData CardData => cardData;
     public void Initialize(MinionsCard card)
     {
@@ -43,17 +50,34 @@ public class MinionStats : MonoBehaviour, BaseStats
 
     }
 
-    public void TakeDamageApply(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
+    // DEBUFFS PUBLICAS
+    public void AdicionalDebuffDamage(int amount)
     {
-        ApplyDamage(hitDamage, resultDie);        
+        DebuffDamage(amount);
     }
 
-    private void ApplyDamage(int hitDamage, int resultDie)
+    public void ClearTempDebuffs()
+    {
+        ClearDebuggs();
+    }
+
+
+    public void TakeDamageApply(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
+    {
+        ApplyDamage(hitDamage);
+    }
+
+    public void ApplyDirectDamage(int value)
+    {
+        ApplyDamage(value);
+    }
+
+    private void ApplyDamage(int hitDamage)
     {
         currentHealth -= hitDamage;
         currentHealth = Mathf.Max(currentHealth, 0);
 
-        StatusDisplay.Instance.AttStatusMinion(this, cardData);        
+        StatusDisplay.Instance.AttStatusMinion(this, cardData);
 
         if (currentHealth == 0)
         {
@@ -93,5 +117,17 @@ public class MinionStats : MonoBehaviour, BaseStats
 
 
         }
+    }
+
+    // DEBUFFS PRIV
+    private void DebuffDamage(int amount)
+    {
+        bonusTempDamage -= amount;
+        StatusDisplay.Instance.AttStatusMinion(this, cardData);
+    }
+    private void ClearDebuggs()
+    {
+        bonusTempDamage = 0;
+        StatusDisplay.Instance.AttStatusMinion(this, cardData);
     }
 }

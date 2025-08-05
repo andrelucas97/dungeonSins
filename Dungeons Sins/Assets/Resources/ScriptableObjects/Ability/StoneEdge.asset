@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 21
   abilityName: Pedra Cortante
   description: Atordoa o inimigo.
-  effectType: 5
+  effectType: 0
   targetType: 2
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 

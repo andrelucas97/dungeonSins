@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 11
   abilityName: Invisibilidade
   description: "N\xE3o pode ser atacada neste turno."
-  effectType: 6
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -29,10 +30,10 @@ public class DiceRoller : MonoBehaviour
 
     [Header("Button Play")]
     [SerializeField] private GameObject buttonPlay;
-    private MinionStats minionStat;
+    [SerializeField] private MinionStats minionStat;
     
 
-    private bool isSucessful = true;
+    private bool isSuccessful = true;
     //private int resultDie;
 
     public TextMeshProUGUI ShieldText => resultDiceShield;
@@ -42,8 +43,14 @@ public class DiceRoller : MonoBehaviour
     // VAR PUBLICAS
     public GameObject TextShield => textShield;
 
+    // FUNÇÕES PUBLICAS
     // BUTTON
     #region Button 
+
+    private void Awake()
+    {
+        minionStat = FindObjectOfType<MinionStats>();
+    }
 
     public void OnClick_Shield()
     {
@@ -70,9 +77,17 @@ public class DiceRoller : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    // Dice Rolls
+    public IEnumerator RollDiceShield(int arrowCount, string attacking, ActionManager action, CardDisplayManager cardDisplay, AbilityInstance ability)
+    {
+        yield return RollMultipleDice(arrowCount, attacking, action, cardDisplay, ability);
+    }
+
+    // FUNÇÕES PRIVADAS
     private IEnumerator RollAndAttack(TextMeshProUGUI resultDice, string attacking, ActionManager action, CardDisplayManager cardDisplay)
     {
+
+        AbilityInstance lightArrowInstance = TakeDamage.Instance.GetAbility(CharacterAbility.LightArrow);
+
         if (minionStat == null)
         {
             minionStat = FindObjectOfType<MinionStats>();
@@ -80,10 +95,46 @@ public class DiceRoller : MonoBehaviour
 
         if (resultDice == resultDiceShield)
         {
+            if (attacking == "Minion" && lightArrowInstance != null && lightArrowInstance.IsActivated)
+            {
+                CombatLog.Instance.AddMessage($"Flecha de Luz ativada! Dado do {minionStat.CardData.CardName} reduzido para {(20-lightArrowInstance.Data.BaseValue)}");
+                yield return RollDice(1, 17, resultDiceShield, diceShield, attacking, action, cardDisplay);
+
+                TakeDamage.Instance.UseCurrentAbility();
+                lightArrowInstance.Desactivate();
+            }
+            else
+                yield return RollDice(1, 20, resultDiceShield, diceShield, attacking, action, cardDisplay);
+
+        }
+    }
+
+    private IEnumerator RollMultipleDice(int arrowCount, string attacking, ActionManager action, CardDisplayManager cardDisplay, AbilityInstance ability)
+    {
+        int hits = 0;       
+
+        for (int arrowIndex = 0; arrowIndex < arrowCount; arrowIndex++)
+        {
+            ShowDicePanel(true);
             yield return RollDice(1, 20, resultDiceShield, diceShield, attacking, action, cardDisplay);
 
-        }      
+            if (isSuccessful)
+            {
+                hits++;
+                CombatLog.Instance.AddMessage($"[{ability.Data.AbilityName}] Ataque {arrowIndex+1} acertou o inimigo!!");
+            }
+            else
+            {
+                CombatLog.Instance.AddMessage($"[{ability.Data.AbilityName}] Ataque {arrowIndex+1} errou o inimigo!!");
+
+            }
+
+        }
+
+        CombatLog.Instance.AddMessage($"[{ability.Data.AbilityName}] {hits}/{arrowCount} acertaram o inimigo!");
+
     }
+
     private IEnumerator RollDice(int min, int max, TextMeshProUGUI diceResultTxt, GameObject typeDie,string attacking, ActionManager action, CardDisplayManager cardDisplay, int rollTimes = 10, float delay = 0.1f)
     {
         int result = min;
@@ -92,7 +143,7 @@ public class DiceRoller : MonoBehaviour
         
         for (int i = 0; i < rollTimes; i++)
         {
-            result = Random.Range(min, max + 1);
+            result = UnityEngine.Random.Range(min, max + 1);
             if (diceResultTxt != null)
                 diceResultTxt.text = $"{result}";
 
@@ -116,34 +167,41 @@ public class DiceRoller : MonoBehaviour
     private IEnumerator ResultDice(int resultado, TextMeshProUGUI resultDieTxt, string attacking, ActionManager action, CardDisplayManager cardDisplay)
     {
 
-        BaseStats atkStats = null;
-        BaseStats defStats = null;
+        int damageStat = 0;
+        int shieldStat = 0;
+        BaseStats defenderStat = null;
+        BaseStats attackingStat = null;
+
 
         string nameAtk = null;
         string nameDef = null;
 
         if (attacking == "Player")
         {
-            defStats = minionStat;
-            atkStats = playerCard;
+
+            shieldStat = minionStat.BaseShield;
+            nameDef = minionStat.CardData.CardName;
+            defenderStat = minionStat;
 
             nameAtk = playerCard.CharData.CharName;
-            nameDef = minionStat.CardData.CardName;
+            damageStat = playerCard.TotalDamage;
+            attackingStat = playerCard;
 
         }
         else if (attacking == "Minion")
         {
-            defStats = playerCard;
-            atkStats = minionStat;
+            shieldStat = playerCard.TotalShield;
+            nameDef = playerCard.CharData.CharName;
+            defenderStat = playerCard;
 
             nameAtk = minionStat.CardData.CardName;
-            nameDef = playerCard.CharData.CharName;
-
+            damageStat = minionStat.TotalDamage;
+            attackingStat = minionStat;
         }
 
         if (resultDieTxt == resultDiceShield)
         {
-            if (resultado > defStats.Shield)
+            if (resultado > shieldStat)
             {
                 if (resultado == 20)
                 {
@@ -151,13 +209,13 @@ public class DiceRoller : MonoBehaviour
                     messageBox.SetActive(true);
                 }
 
-                isSucessful = true;
+                isSuccessful = true;
                 diceShield.GetComponent<Button>().interactable = false;
                 
             }
             else
             {
-                isSucessful = false;
+                isSuccessful = false;
                 if (resultado == 1)
                 {
                     textMessageBox.text = BattleMessages.Instance.CriticalFail();
@@ -171,20 +229,22 @@ public class DiceRoller : MonoBehaviour
                 diceShield.GetComponent<Button>().interactable = false;                
             }
 
-            yield return ResolveDiceRoll(isSucessful, resultado, atkStats, defStats, action, cardDisplay, attacking, nameAtk, nameDef);
+            yield return ResolveDiceRoll(isSuccessful, resultado, damageStat, shieldStat, action, cardDisplay, attacking, nameAtk, nameDef, defenderStat, attackingStat);
         }
         else if (resultDieTxt == resultDiceDamage)
         {           
 
-            yield return ResolveDiceRoll(isSucessful, resultado, atkStats, defStats, action, cardDisplay, attacking, nameAtk, nameDef);
+            yield return ResolveDiceRoll(isSuccessful, resultado, damageStat, shieldStat, action, cardDisplay, attacking, nameAtk, nameDef, defenderStat, attackingStat);
         }
     }
 
     // Panel
 
-    private IEnumerator ResolveDiceRoll(bool sucess, int result, BaseStats atkStats,BaseStats defStats, ActionManager action, CardDisplayManager cardDisplay, string attacking, string nameAtk, string nameDef)
+    private IEnumerator ResolveDiceRoll(bool sucess, int result, int atkStats,int defStats, ActionManager action, CardDisplayManager cardDisplay, string attacking, string nameAtk, string nameDef, BaseStats defenderStat, BaseStats attackingStat)
     {
         yield return new WaitForSeconds(2f);
+
+        AbilityInstance hurricaneArrowInstance = playerCard.Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.HurricaneArrow);
 
         gameObject.SetActive(false);
         messageBox.SetActive(false);
@@ -200,56 +260,87 @@ public class DiceRoller : MonoBehaviour
             var abilityData = TakeDamage.Instance.CurrentAbilityData;
 
             AbilityInstance bersekerInstance = playerCard.Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.Berseker);
+            AbilityInstance criticalArrowInstance = playerCard.Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.CriticalArrow);
 
-
+            // Berseker ativado
             if (abilityData != null && bersekerInstance != null && bersekerInstance.IsActivated && attacking == "Player")
-            {
+            {                
 
                 if (result == 20)
                 {
                     damageMultiplier = abilityData.BaseValue * 2;
-                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] CRÍTICO MÁXIMO DO BERSERKER!! O {nameAtk} causou {atkStats.Damage} (x{damageMultiplier})! Total: {atkStats.Damage * 4} de dano em {nameDef}");
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] CRÍTICO MÁXIMO DO BERSERKER!! O {nameAtk} causou {atkStats} (x{damageMultiplier})! Total: {atkStats * 4} de dano em {nameDef}");
                 }
-                else 
+                else
                 {
                     damageMultiplier = abilityData.BaseValue;
-                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Crítico do Berserker! O {nameAtk} atacou com força (dado: {result}), causando {atkStats.Damage} (x{damageMultiplier}) de dano em {nameDef}!");
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Crítico do Berserker! O {nameAtk} atacou com força (dado: {result}), causando {atkStats} (x{damageMultiplier}) de dano em {nameDef}!");
                 }
 
                 TakeDamage.Instance.UseCurrentAbility();
                 bersekerInstance.Desactivate();
+            }
+            // Flecha Critica ativada
+            else if (abilityData != null && criticalArrowInstance != null && criticalArrowInstance.IsActivated && attacking == "Player")
+            {
+                if (result >= abilityData.BaseValue)
+                {
+                    damageMultiplier = 2;
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Flecha Crítica ativada! O {nameAtk} acertou um disparo devastador (dado: {result}), causando {atkStats} (x2)! Total: {atkStats * 2} de dano em {nameDef}!");
+                    Debug.Log("Flecha critica ativada!!");
+                }
+                else
+                {
+                    damageMultiplier = 1;
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Flecha Crítica ativada! O {nameAtk} disparou (dado: {result}), mas não foi crítico. Causou {atkStats} de dano normal em {nameDef}.");
+                    Debug.Log("Flecha critica não está ativado!");
+
+                }
+
+                TakeDamage.Instance.UseCurrentAbility();
+                criticalArrowInstance.Desactivate();
             }
             else
             {
                 if (result == 20)
                 {
                     damageMultiplier = 2;
-                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Ataque crítico! O {nameAtk} causou {atkStats.Damage} (x2)! Total: {atkStats.Damage * 2} de dano em {nameDef}");
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Ataque crítico! O {nameAtk} rolou {result} no dado, causando {atkStats} (x2)! Total: {atkStats * 2} de dano em {nameDef}");
                 }
                 else
                 {
                     damageMultiplier = 1;
-                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] O {nameAtk} atacou com força (dado: {result}), causando {atkStats.Damage} de dano em {nameDef}!");
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] O {nameAtk} atacou com força (dado: {result}), causando {atkStats} de dano em {nameDef}!");
                 }
             }
+            
 
-            finalDamage = atkStats.Damage * damageMultiplier;
-            defStats.TakeDamageApply(finalDamage, result, action, cardDisplay);
+            finalDamage = atkStats * damageMultiplier;
+            defenderStat.TakeDamageApply(finalDamage, result, action, cardDisplay);
 
         }
         else if (result == 1) // Falha Critica
         {
-            atkStats.TakeDamageApply(atkStats.Damage, result, action, cardDisplay);
-            CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Falha crítica! {nameAtk} tomará {atkStats.Damage} de dano!");
+            attackingStat.TakeDamageApply(atkStats, result, action, cardDisplay);
+            CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Falha crítica! {nameAtk} tomará {atkStats} de dano!");
         }
         else
         {
-            CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}]O ataque falhou! O dado ({result}) do {nameAtk} não ultrapassou a defesa ({defStats.Shield}) do {nameDef}");
+            CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}]O ataque falhou! O dado ({result}) do {nameAtk} não ultrapassou a defesa ({defStats}) do {nameDef}");
         }
 
         if (attacking == "Player")
-            actionManager.CheckEndOfTurn(cardDisplayManager);
-        else actionManager.CallCheckEndOfTurn(cardDisplayManager);
+        {
+            if (hurricaneArrowInstance == null || !hurricaneArrowInstance.IsActivated)
+            {
+                //onFinished?.Invoke();
+                actionManager.CheckEndOfTurn(cardDisplayManager);
+            }
+        }
+        else if (attacking == "Minion")
+        {
+            actionManager.CallCheckEndOfTurn(cardDisplayManager);
 
+        }
     }
 }

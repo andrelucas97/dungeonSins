@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 13
   abilityName: Flecha de luz
   description: Reduz o valor do dado do inimigo em 3.
-  effectType: 3
+  effectType: 0
   targetType: 2
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 

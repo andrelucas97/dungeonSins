@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 7
   abilityName: Fuuuuton
   description: Ganha +5 de armadura.
-  effectType: 4
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 5
   requiresCondition: 0
   conditionText: 

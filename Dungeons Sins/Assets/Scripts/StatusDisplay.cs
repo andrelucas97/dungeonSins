@@ -39,11 +39,11 @@ public class StatusDisplay : MonoBehaviour
     public void AttStatusPlayer(CharStats charStats, CharacterData charData)
     {
 
-        ShowStatusNew(1, charStats.CurrentHealth, charStats.Shield, charStats.Damage, nivelPlayer, healthPlayer, shieldPlayer, damagePlayer);
+        ShowStatusNew(1, charStats.CurrentHealth, charStats.TotalShield, charStats.TotalDamage, nivelPlayer, healthPlayer, shieldPlayer, damagePlayer);
     }
     public void AttStatusMinion(MinionStats minionStats, CardData cardData)
     {
 
-        ShowStatusNew(1, minionStats.CurrentHealth, minionStats.Shield, minionStats.Damage, nivelMinion, healthMinion, shieldMinion, damageMinion);
+        ShowStatusNew(1, minionStats.CurrentHealth, minionStats.BaseShield, minionStats.TotalDamage, nivelMinion, healthMinion, shieldMinion, damageMinion);
     }
 }

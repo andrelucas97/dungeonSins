@@ -28,7 +28,7 @@ public class AbilityButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointe
         }
     }
 
-    public CharacterAbility AbilityData => abilityData;
+    //public CharacterAbility AbilityData => abilityData;
 
 
     public void OnPointerClick(PointerEventData eventData)
@@ -52,7 +52,7 @@ public class AbilityButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public void SetAbility(CharacterAbility ability)
     {
-        abilityData = ability;
+        //abilityData = ability;
     }
 
 

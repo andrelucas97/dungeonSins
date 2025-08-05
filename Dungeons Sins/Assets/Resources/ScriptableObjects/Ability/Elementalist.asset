@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 6
   abilityName: Elementalista
   description: Escolhe um elemento no turno. (define tipo de ataque)
-  effectType: 6
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 

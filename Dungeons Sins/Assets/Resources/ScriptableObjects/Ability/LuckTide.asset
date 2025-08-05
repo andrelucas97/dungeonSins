@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 14
   abilityName: "Mar\xE9 da sorte"
   description: Ganha um dado extra na rolagem.
-  effectType: 2
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 

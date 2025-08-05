@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface BaseStats
 {
-    int Shield { get; }
+    int BaseShield { get; }
     int CurrentHealth { get; }
-    int Damage { get; }
+    int BaseDamage { get; }
 
     void TakeDamageApply(int hitDamage, int damageMultiplier, ActionManager action, CardDisplayManager cardDisplay);
 

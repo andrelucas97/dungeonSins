@@ -1,12 +1,9 @@
 O QUE FAZER - ORDEM PRIORIDADE:
 
-- Colocar no relatório: Surgiu X Lacaio.
 - Armas: arma somente pra tal classe, e seus elementos.
 	- Adicionar classe pesadas (Gula, Orgulho e Akin)
 	e classes leves (Avareza, luxuria, Inveja e Preguiça)
 - Fazer troca de carta, mochila e etc
-- Adicionar habilidades dos personagens (como button e usa-los)
-
 - Finalizar MainMenu
 
 ARRUMAR:
@@ -16,3 +13,4 @@ ARRUMAR:
 
 HABILIDADES ADICIONADAS:
  - IRA: BERSEKER E LEROY OK
+ - GULA: PROVOCAR, CONSUMIR cresc. massa OK

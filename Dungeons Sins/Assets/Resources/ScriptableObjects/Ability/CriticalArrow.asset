@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 3
   abilityName: "Flecha cr\xEDtica"
-  description: "Acerto cr\xEDtico ocorre com rolagem de 17 a 20."
+  description: "Acerto cr\xEDtico ocorre com rolagem de 15 a 20."
   effectType: 2
   targetType: 0
-  baseValue: 17
+  type: 0
+  baseValue: 15
   requiresCondition: 0
   conditionText: 
   duration: 0

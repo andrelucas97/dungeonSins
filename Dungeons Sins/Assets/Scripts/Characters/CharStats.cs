@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,10 +12,21 @@ public class CharStats : MonoBehaviour, BaseStats
 
     [Header("Stats")]
     [SerializeField] private int currentHealth;
-    [SerializeField] private int shield;
-    [SerializeField] private int damage;
     [SerializeField] private Slider healthSlider;
     private Coroutine healthBarCoroutine;
+
+    // Shield
+    [SerializeField] private int baseShield;
+    private int equipShieldBonus;
+    private int tempShieldBonus;
+    private int maxShield = 20;
+    public int TotalShield => baseShield + equipShieldBonus + tempShieldBonus;
+
+    // Damage
+    [SerializeField] private int baseDamage;
+    private int equipDamageBonus;
+    private int tempDamageBonus;
+    public int TotalDamage => baseDamage + equipDamageBonus + tempDamageBonus;
 
     [Header("Class")]
     [SerializeField] private CharacterData charData;
@@ -30,8 +42,9 @@ public class CharStats : MonoBehaviour, BaseStats
 
     // VAR PUBLICAS
     public int CurrentHealth => currentHealth;
-    public int Shield => shield;
-    public int Damage => damage;
+    public int BaseShield => baseShield;
+    public int MaxShield => maxShield;
+    public int BaseDamage => baseDamage;
     public CharacterData CharData => charData;
     public List<AbilityInstance> Abilities => abilityInstances;
     private void Start()
@@ -49,8 +62,8 @@ public class CharStats : MonoBehaviour, BaseStats
 
         // Instanciando variaveis
         currentHealth = charData.MaxHealth;
-        shield = charData.Shield;
-        damage = charData.Damage;
+        baseShield = charData.Shield;
+        baseDamage = charData.Damage;
 
         // Instanciando Habilidades
         abilityInstances.Clear();
@@ -66,16 +79,16 @@ public class CharStats : MonoBehaviour, BaseStats
 
     }
 
-
-    // Chamada TESTE
-
     public void UpdateStatsSlot(string slotType)
     {
 
         if (slotType != "slotBackpack")
         {
-            shield = charData.Shield;
-            damage = charData.Damage;
+            baseShield = charData.Shield;
+            baseDamage = charData.Damage;
+
+            equipShieldBonus = 0;
+            equipDamageBonus = 0;
 
             foreach (Transform slot in equipmentSlots)
             {
@@ -89,10 +102,10 @@ public class CharStats : MonoBehaviour, BaseStats
                     switch (equip.CardStat)
                     {
                         case CardStats.ATK:
-                            damage += equip.AttackBonus;
+                            equipDamageBonus += equip.AttackBonus;
                             break;
                         case CardStats.DEF:
-                            shield += equip.DefenseBonus;
+                            equipShieldBonus += equip.DefenseBonus;
                             break;
                     }
                 }
@@ -108,14 +121,94 @@ public class CharStats : MonoBehaviour, BaseStats
         ApplyDamage(hitDamage, resultDie);
     }
 
+    public void AbilityDevour(int healBonus, int damageBonus, MinionStats minionStat)
+    {
+        ActivateAbility(healBonus, damageBonus, minionStat);
+    }
+
     public void AdicionalShield(int value)
     {
         AddShield(value);
     }
+    public void AdicionalDamage(int value)
+    {
+        AddDamage(value);
+    }
+    public void AdicionalLife(int value)
+    {
+        AddLife(value);
+    }
+    public void ApplyHeal(int value)
+    {
+        RestoreHealth(value);
+    }
 
+    public void RemoveShieldEndTurn(int value)
+    {
+        RemoveShieldBonus(value);
+    }
+    public void RemoveDamageEndTurn(int value)
+    {
+        RemoveDamageBonus(value);
+    }
+    public void ClearTempBonus()
+    {
+        ClearBonus();
+    }
+
+    // FUNCOES PRIVADAS
+    private void ActivateAbility(int healBonus, int damageBonus, MinionStats minionStat)
+    {
+
+        AbilityInstance massGrowthInstance = Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.MassGrowth);
+
+        RestoreHealth(healBonus);
+        minionStat.ApplyDirectDamage(damageBonus);
+    }
     private void AddShield(int amount)
     {
-        shield += amount;
+        tempShieldBonus += amount;
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+    }
+    private void AddDamage(int amount)
+    {
+        tempDamageBonus += amount;
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+    }
+    private void AddLife(int amount)
+    {
+        currentHealth += amount;
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+    }
+    private void RestoreHealth(int value)
+    {
+
+        if (currentHealth >= charData.MaxHealth)
+        {
+            Debug.Log("Vida máxima! Não é possivel curar!");
+            return;
+        }
+
+        currentHealth = Mathf.Min(currentHealth + value, charData.MaxHealth);
+        healthBarCoroutine = StartCoroutine(AnimateHealthBar(currentHealth));
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+
+    }
+    private void RemoveShieldBonus(int amount)
+    {
+        tempShieldBonus -= amount;
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+    }
+    private void RemoveDamageBonus(int amount)
+    {
+        tempDamageBonus -= amount;
+        StatusDisplay.Instance.AttStatusPlayer(this, charData);
+    }
+
+    private void ClearBonus()
+    {
+        tempShieldBonus = 0;
+        tempDamageBonus = 0;
         StatusDisplay.Instance.AttStatusPlayer(this, charData);
     }
 
@@ -156,4 +249,5 @@ public class CharStats : MonoBehaviour, BaseStats
         healthSlider.value = endValue;
 
     }
+
 }

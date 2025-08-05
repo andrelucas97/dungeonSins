@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityID: 17
   abilityName: Armadura perfeita
   description: "Escudo vira 20 e s\xF3 esse valor pode ser atingido."
-  effectType: 4
+  effectType: 0
   targetType: 0
+  type: 0
   baseValue: 20
   requiresCondition: 0
   conditionText: 

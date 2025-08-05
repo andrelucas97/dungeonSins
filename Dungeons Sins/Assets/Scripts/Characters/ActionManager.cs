@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using TMPro;
 using Unity.VisualScripting;
@@ -14,7 +15,8 @@ public class ActionManager : MonoBehaviour
 
     [Header("Action")]
     [SerializeField] private CharStats playerStat;
-    [SerializeField] private StatusDisplay displayStats;
+    [SerializeField] private MinionStats minionStat;
+    //[SerializeField] private StatusDisplay displayStats;
     [SerializeField] private MinionAttack attackMinion;
     [SerializeField] private DiceRoller diceRoller;
     [SerializeField] private GameObject turnMinionBox;
@@ -33,6 +35,8 @@ public class ActionManager : MonoBehaviour
             attackMinion = FindObjectOfType<MinionAttack>();
         }
 
+        if (minionStat == null)
+            minionStat = FindObjectOfType<MinionStats>();
         StartTurn();
     }
 
@@ -68,15 +72,54 @@ public class ActionManager : MonoBehaviour
         }
         else
         {
-           CombatLog.Instance.AddMessage($"<align=center>---- Resta(m) { currentAction} jogada(s) ----</align>");
+
+            CombatLog.Instance.AddMessage($"<align=center>---- Resta(m) { currentAction} jogada(s) ----</align>");
         }
     }
     private void InitializeTurn()
     {
         currentTurn++;
         currentAction = maxActions;
+
+        AbilityInstance tauntInstance = TakeDamage.Instance.GetAbility(CharacterAbility.Taunt);
+        AbilityInstance perfectArmorInstance = TakeDamage.Instance.GetAbility(CharacterAbility.PerfectArmor);
+        AbilityInstance sunGloryInstance = TakeDamage.Instance.GetAbility(CharacterAbility.GlorySun);
+
+
+        if (tauntInstance != null && tauntInstance.WasUsed)
+        {
+            playerStat.ClearTempBonus();
+        }
+
+        if (perfectArmorInstance != null && perfectArmorInstance.WasUsed)
+        {
+            playerStat.ClearTempBonus();
+        } 
+        
+        if (sunGloryInstance != null && sunGloryInstance.WasUsed)
+        {
+            playerStat.ClearTempBonus();
+            minionStat.ClearTempDebuffs();
+
+
+        }
+
+        ResetAbilitiesForPlayer();        
+
         UpdateTextAction(currentAction, currentTurn);
     }
+
+    private void ResetAbilitiesForPlayer()
+    {
+
+        if (playerStat == null) return;
+
+        foreach (var ability in playerStat.Abilities)
+        {
+            ability.ResetAbilities();
+        }
+    }
+
     private void ExecuteAction()
     {
         currentAction--;

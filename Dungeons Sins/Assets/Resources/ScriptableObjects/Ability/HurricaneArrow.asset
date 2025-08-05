@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: HurricaneArrow
   m_EditorClassIdentifier: 
   abilityID: 10
-  abilityName: "Flecha de Furac\xE3o"
+  abilityName: "Flecha Furac\xE3o"
   description: "Atira 3 flechas em um \xFAnico alvo."
   effectType: 0
   targetType: 2
+  type: 0
   baseValue: 0
   requiresCondition: 0
   conditionText: 
