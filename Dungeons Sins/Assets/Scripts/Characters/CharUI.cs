@@ -117,6 +117,5 @@ public class CharUI : MonoBehaviour
     {
         yield return new WaitForEndOfFrame(); // espera 1 frame
         button.interactable = false;
-        Debug.Log("Desativado com delay");
     }
 }

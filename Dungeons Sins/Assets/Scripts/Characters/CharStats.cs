@@ -11,6 +11,7 @@ public class CharStats : MonoBehaviour, BaseStats
     // VAR PRIVADAS
 
     [Header("Stats")]
+    // Health
     [SerializeField] private int currentHealth;
     [SerializeField] private Slider healthSlider;
     private Coroutine healthBarCoroutine;
@@ -121,27 +122,23 @@ public class CharStats : MonoBehaviour, BaseStats
         ApplyDamage(hitDamage, resultDie);
     }
 
-    public void AbilityDevour(int healBonus, int damageBonus, MinionStats minionStat)
-    {
-        ActivateAbility(healBonus, damageBonus, minionStat);
-    }
+    //public void AbilityDevour(int healBonus, int damageBonus, MinionStats minionStat)
+    //{
+    //    ActivateAbility(healBonus, damageBonus, minionStat);
+    //}
 
-    public void AdicionalShield(int value)
+    public void AdicionalBuffPlayer(int value, AbilityInstance abilityInstance)
     {
-        AddShield(value);
+        AddBuff(value, abilityInstance);
     }
-    public void AdicionalDamage(int value)
-    {
-        AddDamage(value);
-    }
-    public void AdicionalLife(int value)
-    {
-        AddLife(value);
-    }
-    public void ApplyHeal(int value)
-    {
-        RestoreHealth(value);
-    }
+    //public void AdicionalDamage(int value)
+    //{
+    //    AddDamage(value);
+    //}
+    //public void AdicionalLife(int value)
+    //{
+    //    RestoreHealth(value);
+    //}
 
     public void RemoveShieldEndTurn(int value)
     {
@@ -151,49 +148,75 @@ public class CharStats : MonoBehaviour, BaseStats
     {
         RemoveDamageBonus(value);
     }
-    public void ClearTempBonus()
+    public void ClearTempBonus(string type)
     {
-        ClearBonus();
+        ClearBonus(type);
     }
 
     // FUNCOES PRIVADAS
     private void ActivateAbility(int healBonus, int damageBonus, MinionStats minionStat)
     {
 
-        AbilityInstance massGrowthInstance = Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.MassGrowth);
+        AbilityInstance devourInstance = Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.Devour);
 
-        RestoreHealth(healBonus);
+        AddBuff(healBonus, devourInstance);
         minionStat.ApplyDirectDamage(damageBonus);
     }
-    private void AddShield(int amount)
-    {
-        tempShieldBonus += amount;
-        StatusDisplay.Instance.AttStatusPlayer(this, charData);
-    }
-    private void AddDamage(int amount)
-    {
-        tempDamageBonus += amount;
-        StatusDisplay.Instance.AttStatusPlayer(this, charData);
-    }
-    private void AddLife(int amount)
-    {
-        currentHealth += amount;
-        StatusDisplay.Instance.AttStatusPlayer(this, charData);
-    }
-    private void RestoreHealth(int value)
+    private void AddBuff(int amount, AbilityInstance abilityInstance)
     {
 
-        if (currentHealth >= charData.MaxHealth)
+        AbilityEffectType effectType = abilityInstance.Data.EffectType;
+
+        switch (effectType)
         {
-            Debug.Log("Vida máxima! Não é possivel curar!");
-            return;
-        }
+            case AbilityEffectType.Shield:
 
-        currentHealth = Mathf.Min(currentHealth + value, charData.MaxHealth);
-        healthBarCoroutine = StartCoroutine(AnimateHealthBar(currentHealth));
+                if (TotalShield < maxShield)                
+                    tempShieldBonus += amount;               
+
+                break;
+            case AbilityEffectType.Damage:
+                tempDamageBonus += amount;
+                break;
+            case AbilityEffectType.Heal:
+
+                if (currentHealth >= charData.MaxHealth)
+                {
+
+                    if (abilityInstance.Data.AbilityID == CharacterAbility.MassGrowth)
+                    {
+                        currentHealth += abilityInstance.Data.BaseValue;
+                        break;
+                    }
+                    
+                    Debug.Log("Vida máxima! Não é possivel curar!");
+                    return;
+                }
+
+                currentHealth = Mathf.Min(currentHealth + amount, charData.MaxHealth);
+                healthBarCoroutine = StartCoroutine(AnimateHealthBar(currentHealth));
+                break;
+        }        
         StatusDisplay.Instance.AttStatusPlayer(this, charData);
-
     }
+    //private void AddDamage(int amount)
+    //{
+    //    StatusDisplay.Instance.AttStatusPlayer(this, charData);
+    //}
+    //private void RestoreHealth(int value)
+    //{
+    //
+    //    if (currentHealth >= charData.MaxHealth)
+    //    {
+    //        Debug.Log("Vida máxima! Não é possivel curar!");
+    //        return;
+    //    }
+    //
+    //    currentHealth = Mathf.Min(currentHealth + value, charData.MaxHealth);
+    //    healthBarCoroutine = StartCoroutine(AnimateHealthBar(currentHealth));
+    //    StatusDisplay.Instance.AttStatusPlayer(this, charData);
+    //
+    //}
     private void RemoveShieldBonus(int amount)
     {
         tempShieldBonus -= amount;
@@ -205,10 +228,19 @@ public class CharStats : MonoBehaviour, BaseStats
         StatusDisplay.Instance.AttStatusPlayer(this, charData);
     }
 
-    private void ClearBonus()
+    private void ClearBonus(string typeBonus)
     {
-        tempShieldBonus = 0;
-        tempDamageBonus = 0;
+
+        switch (typeBonus)
+        {
+            case "Shield":
+                tempShieldBonus = 0;
+                break;
+            case "Damage":
+                tempDamageBonus = 0;
+                break;
+        }
+
         StatusDisplay.Instance.AttStatusPlayer(this, charData);
     }
 

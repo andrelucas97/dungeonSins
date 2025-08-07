@@ -5403,7 +5403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedCharacter: {fileID: 0}
-  defaultCharacter: {fileID: 11400000, guid: 8633e73c9f17c8f438a77a2bf915626e, type: 2}
+  defaultCharacter: {fileID: 11400000, guid: 7ddef16b03cf9624196f4f2dc9550f2c, type: 2}
 --- !u!4 &892482036
 Transform:
   m_ObjectHideFlags: 0
@@ -5907,6 +5907,7 @@ MonoBehaviour:
   textMessageBox: {fileID: 31982939}
   playerCard: {fileID: 25230600783632397}
   buttonPlay: {fileID: 1963260722}
+  minionStat: {fileID: 0}
 --- !u!1 &1027642779
 GameObject:
   m_ObjectHideFlags: 0
@@ -10227,6 +10228,7 @@ MonoBehaviour:
   textTurnManager: {fileID: 1624631111}
   currentTurn: 0
   playerStat: {fileID: 25230600783632397}
+  minionStat: {fileID: 0}
   attackMinion: {fileID: -1464819921075789957, guid: f0abe8153bbd97342a88ae4864603722, type: 3}
   diceRoller: {fileID: 1020523297}
   turnMinionBox: {fileID: 437522378}

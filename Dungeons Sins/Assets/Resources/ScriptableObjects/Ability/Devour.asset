@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityID: 5
   abilityName: Consumir
   description: Causa 3 de dano e recupera 5 de vida.
-  effectType: 0
+  effectType: 1
   targetType: 0
   type: 0
   baseValue: 3

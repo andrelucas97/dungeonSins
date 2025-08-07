@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityID: 23
   abilityName: Provocar
   description: Provoca inimigos. Ganha 5 de escudo.
-  effectType: 0
+  effectType: 4
   targetType: 0
   type: 0
   baseValue: 5

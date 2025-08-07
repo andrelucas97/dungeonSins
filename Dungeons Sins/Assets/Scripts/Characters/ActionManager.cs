@@ -84,24 +84,36 @@ public class ActionManager : MonoBehaviour
         AbilityInstance tauntInstance = TakeDamage.Instance.GetAbility(CharacterAbility.Taunt);
         AbilityInstance perfectArmorInstance = TakeDamage.Instance.GetAbility(CharacterAbility.PerfectArmor);
         AbilityInstance sunGloryInstance = TakeDamage.Instance.GetAbility(CharacterAbility.GlorySun);
+        AbilityInstance armorElixirInstance = TakeDamage.Instance.GetAbility(CharacterAbility.ArmorElixir);
+        AbilityInstance strengthElixirInstance = TakeDamage.Instance.GetAbility(CharacterAbility.StrengthElixir);
 
 
         if (tauntInstance != null && tauntInstance.WasUsed)
         {
-            playerStat.ClearTempBonus();
+            playerStat.ClearTempBonus("Shield");
         }
 
         if (perfectArmorInstance != null && perfectArmorInstance.WasUsed)
         {
-            playerStat.ClearTempBonus();
+            playerStat.ClearTempBonus("Shield");
         } 
         
         if (sunGloryInstance != null && sunGloryInstance.WasUsed)
         {
-            playerStat.ClearTempBonus();
+            playerStat.ClearTempBonus("Damage");
             minionStat.ClearTempDebuffs();
+        }
 
+        if (armorElixirInstance != null && armorElixirInstance.IsActivated)
+        {
+            playerStat.ClearTempBonus("Shield");
+            armorElixirInstance.Desactivate();
+        }
 
+        if (strengthElixirInstance != null && strengthElixirInstance.IsActivated)
+        {
+            playerStat.ClearTempBonus("Damage");
+            strengthElixirInstance.Desactivate();
         }
 
         ResetAbilitiesForPlayer();        

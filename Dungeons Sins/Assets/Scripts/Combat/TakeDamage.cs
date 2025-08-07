@@ -183,11 +183,20 @@ public class TakeDamage : MonoBehaviour
             return;
         }
 
+
+        // Habilidades a serem usadas mais de uma vez por turno
+        AbilityInstance armorElixir = GetAbility(CharacterAbility.ArmorElixir);
+        AbilityInstance strengthElixir = GetAbility(CharacterAbility.StrengthElixir);
+
         // Verifica se a habilidade está ativa.
         if (instance.IsActivated || instance.WasUsed)
         {
-            Debug.Log($"{abilityData.AbilityName} já está ativada ou usada. Nada será feito.");
-            return; 
+            if (instance != armorElixir && instance != strengthElixir)
+            {
+                Debug.Log($"{abilityData.AbilityName} já está ativada ou usada. Nada será feito.");
+                return;
+            }
+            
         } else if (instance.Data.Type == AbilityType.Passive)
         {
             Debug.LogWarning("Habilidade é uma passiva. Impossivel ativá-la!");
@@ -224,10 +233,7 @@ public class TakeDamage : MonoBehaviour
     {
 
         if (currentAbilityInstance.Data.Type == AbilityType.Active)
-        {
-            bool hasAction = actionManager.TryUseAction();
-
-            if (!hasAction) return;
+        {           
 
             if (currentAbilityAction != null && currentAbilityInstance != null)
             {
@@ -235,9 +241,7 @@ public class TakeDamage : MonoBehaviour
 
                 StartCoroutine(ExecuteAbilityAndCheckTurn(currentAbilityInstance));
 
-                boxMessageAbility.SetActive(false);
-
-                
+                boxMessageAbility.SetActive(false);                
             }
         } else
         {
@@ -250,8 +254,7 @@ public class TakeDamage : MonoBehaviour
     private IEnumerator ExecuteAbilityAndCheckTurn(AbilityInstance currentAbilityInstance)
     {
         if (currentAbilityAction != null)
-        {
-            
+        {            
             if (currentAbilityAction.Method.ReturnType == typeof(IEnumerator))
             {
                 yield return StartCoroutine((IEnumerator)currentAbilityAction.DynamicInvoke(currentAbilityInstance));
@@ -286,8 +289,10 @@ public class TakeDamage : MonoBehaviour
     // AVAREZA
     private IEnumerator UseHurricaneArrow(AbilityInstance ability)
     {
-        AbilityInstance hurricaneArrow = GetAbility(CharacterAbility.HurricaneArrow);
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
 
+        AbilityInstance hurricaneArrow = GetAbility(CharacterAbility.HurricaneArrow);
         yield return StartCoroutine(diceRoller.RollDiceShield(3, "Player", actionManager, cardDisplayManager, ability));
 
         ConsumeAbility();
@@ -296,23 +301,35 @@ public class TakeDamage : MonoBehaviour
     }
     private IEnumerator UseLightArrow(AbilityInstance ability)
     {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}! Ataca e ilumina o alvo.");
         yield break;
     }
     private IEnumerator UseCriticalArrow(AbilityInstance ability)
     {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}! Aplica dano crítico.");
         yield break;
     }
 
     // IRA
     private IEnumerator UseBerseker(AbilityInstance ability)
-    {        
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
     private IEnumerator  UseLeroy(AbilityInstance ability)
     {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
@@ -322,24 +339,27 @@ public class TakeDamage : MonoBehaviour
     {
 
         // nao gastar acao caso esteja de vida cheia?
-
-        AbilityInstance devourInstance = GetAbility(CharacterAbility.Devour);
-        AbilityInstance massGrowthInstance = GetAbility(CharacterAbility.MassGrowth);
-
         if (!ability.TryThisTurn())
         {
             Debug.Log("Provocar já foi usada neste turno.");
             yield break;
         }
 
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        AbilityInstance devourInstance = GetAbility(CharacterAbility.Devour);
+        AbilityInstance massGrowthInstance = GetAbility(CharacterAbility.MassGrowth);
         int damageBonus = ability.Data.BaseValue;
         int healBonus = 5;
-
         int actualHealth = playerCard.CurrentHealth; // comparando antes/depois se curou
 
-        playerCard.AbilityDevour(healBonus, damageBonus, minionStat);
+        //playerCard.AbilityDevour(healBonus, damageBonus, minionStat);
 
-        CombatLog.Instance.AddMessage($"{playerCard.CharData.CodeName} usou {ability.Data.AbilityName}, causando {ability.Data.BaseValue} e recuperando {(playerCard.CurrentHealth - actualHealth)} de vida!");
+        playerCard.AdicionalBuffPlayer(healBonus, devourInstance);
+        minionStat.ApplyDirectDamage(damageBonus);
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {playerCard.CharData.CodeName} usou {ability.Data.AbilityName}, causando {ability.Data.BaseValue} e recuperando {(playerCard.CurrentHealth - actualHealth)} de vida!");
 
         if (massGrowthInstance != null)
         {
@@ -352,29 +372,37 @@ public class TakeDamage : MonoBehaviour
     }
     private IEnumerator UseMassGrowth(AbilityInstance ability)
     {
+        //bool hasAction = actionManager.TryUseAction();
+        //if (!hasAction) yield break;
 
         AbilityInstance massGrowthInstance = GetAbility(CharacterAbility.MassGrowth);
-
-        playerCard.AdicionalLife(massGrowthInstance.Data.BaseValue);
-
-        CombatLog.Instance.AddMessage($"Passiva: {massGrowthInstance.Data.AbilityName} ativada! +{massGrowthInstance.Data.BaseValue} de vida temporária aplicada.");
+        playerCard.AdicionalBuffPlayer(massGrowthInstance.Data.BaseValue, massGrowthInstance);
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Passiva: {massGrowthInstance.Data.AbilityName} ativada! +{massGrowthInstance.Data.BaseValue} de vida temporária aplicada.");
     
         yield break;
     }
     private IEnumerator UseTaunt(AbilityInstance ability)
-    {       
-
-        AbilityInstance tauntInstance = GetAbility(CharacterAbility.Taunt);
-
+    {
         if (!ability.TryThisTurn())
         {
             Debug.Log("Provocar já foi usada neste turno.");
             yield break;
         }
 
-        playerCard.AdicionalShield(ability.Data.BaseValue);
+        if (playerCard.TotalShield >= playerCard.MaxShield)
+        {
+            CombatLog.Instance.AddMessage("Escudo máximo! Habilidade não ativada!");
+            ability.Desactivate();
+            yield break;
+        }
 
-        CombatLog.Instance.AddMessage($"{playerCard.CharData.CodeName} ganhou {ability.Data.BaseValue} de escudo ao utilizar {ability.Data.AbilityName}");
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        AbilityInstance tauntInstance = GetAbility(CharacterAbility.Taunt);
+        playerCard.AdicionalBuffPlayer(ability.Data.BaseValue, ability);
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {playerCard.CharData.CodeName} ganhou {ability.Data.BaseValue} de escudo ao utilizar {ability.Data.AbilityName}");
 
         ConsumeAbility();
         tauntInstance.Desactivate();
@@ -384,16 +412,19 @@ public class TakeDamage : MonoBehaviour
     // ORGULHO
     private IEnumerator  UseGlorySun(AbilityInstance ability)
     {
-        AbilityInstance glorySunInstance = GetAbility(CharacterAbility.GlorySun);
-
         if (!ability.TryThisTurn())
         {
             Debug.Log($"{ability.Data.AbilityName} já foi usada neste turno.");
             yield break;
         }
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
 
-        playerCard.AdicionalDamage(glorySunInstance.Data.BaseValue);
+        AbilityInstance glorySunInstance = GetAbility(CharacterAbility.GlorySun);
+        playerCard.AdicionalBuffPlayer(glorySunInstance.Data.BaseValue, glorySunInstance);
         minionStat.AdicionalDebuffDamage(3);
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {playerCard.CharData.CodeName} ganhou {ability.Data.BaseValue} de escudo ao utilizar {ability.Data.AbilityName} e reduziu {3} de força do {minionStat.CardData.CardName}");
 
         ConsumeAbility();
         glorySunInstance.Desactivate();
@@ -401,86 +432,169 @@ public class TakeDamage : MonoBehaviour
     }
     private IEnumerator  UsePerfectArmor(AbilityInstance ability)
     {
+
         if (!ability.TryThisTurn())
         {
             Debug.Log($"{ability.Data.AbilityName} já foi usada neste turno.");
             yield break;
         }
 
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+        
         int addShield = playerCard.MaxShield - playerCard.TotalShield;
 
-        playerCard.AdicionalShield(addShield);
+        playerCard.AdicionalBuffPlayer(addShield, ability);
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {playerCard.CharData.CodeName} aumentou teu escudo no máximo (+{addShield} - Total: {playerCard.TotalShield}).");
+
+        ConsumeAbility();
+        ability.Desactivate();
         yield break;
     }
 
-    // ---------------------------
+    // PREGUICA
     private IEnumerator UseArmorElixir(AbilityInstance ability)
     {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        AbilityInstance elixirArmorInstance = GetAbility(CharacterAbility.ArmorElixir);
+
+        playerCard.AdicionalBuffPlayer(elixirArmorInstance.Data.BaseValue, elixirArmorInstance);
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {playerCard.CharData.CodeName} ativou {ability.Data.AbilityName}, recebendo +{elixirArmorInstance.Data.BaseValue} de escudo!");
+
+        ConsumeAbility();
+        // ability.Desactivate(); // Sendo chamada no ActionManager, para limpar e desativa-lo
+
         yield break;
     }
-    private IEnumerator UseBurnBabyBurn(AbilityInstance ability)
+    private IEnumerator UseStrenghtElixir(AbilityInstance ability)
     {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
-    private IEnumerator UseDaggerThrow(AbilityInstance ability)
-    {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
-    private IEnumerator UseElementalist(AbilityInstance ability)
-    {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break ;
-    }
-    private IEnumerator  UseFuuton(AbilityInstance ability)
-    {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        AbilityInstance elixirStrengthInstance = GetAbility(CharacterAbility.StrengthElixir);
+
+        playerCard.AdicionalBuffPlayer(elixirStrengthInstance.Data.BaseValue, elixirStrengthInstance);
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {playerCard.CharData.CodeName} ativou {ability.Data.AbilityName}, recebendo +{elixirStrengthInstance.Data.BaseValue} de força!");
+
+        ConsumeAbility();
+        // ability.Desactivate(); // Sendo chamada no ActionManager, para limpar e desativa-lo
         yield break;
     }
     private IEnumerator  UseHeal(AbilityInstance ability)
     {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
-    private IEnumerator  UseInvisibility(AbilityInstance ability)
-    {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
-    private IEnumerator  UseLuckTide(AbilityInstance ability)
-    {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        
+
+        AbilityInstance healInstance = GetAbility(CharacterAbility.Heal);
+
+        if (playerCard.CurrentHealth >= playerCard.CharData.MaxHealth)
+        {
+            CombatLog.Instance.AddMessage("Vida máxima! Cura não utilizada.");
+            ability.Desactivate();
+            yield break;
+        }
+
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        playerCard.AdicionalBuffPlayer(healInstance.Data.BaseValue, healInstance);
+
+        ConsumeAbility();
+        ability.Desactivate();
         yield break;
     }
     private IEnumerator  UseNap(AbilityInstance ability)
     {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
     private IEnumerator  UsePoisonous(AbilityInstance ability)
     {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
     private IEnumerator  UseRevive(AbilityInstance ability)
     {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+
+
+    // ---------------------------
+    private IEnumerator UseBurnBabyBurn(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+    private IEnumerator UseDaggerThrow(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+    private IEnumerator UseElementalist(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break ;
+    }
+    private IEnumerator  UseFuuton(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+    private IEnumerator  UseInvisibility(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+    private IEnumerator  UseLuckTide(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
     private IEnumerator  UseShadowStrike(AbilityInstance ability)
     {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
     private IEnumerator  UseStoneEdge(AbilityInstance ability)
     {
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
-    private IEnumerator UseStrenghtElixir(AbilityInstance ability)
-    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
