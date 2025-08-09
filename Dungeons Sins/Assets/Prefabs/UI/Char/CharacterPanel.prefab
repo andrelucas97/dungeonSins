@@ -112,7 +112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150, y: 65}
+  m_AnchoredPosition: {x: -190, y: 65}
   m_SizeDelta: {x: 130, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1293564166451186780
@@ -193,8 +193,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.303, y: 0.015422725}
   m_AnchorMax: {x: 0.9125502, y: 0.7454227}
-  m_AnchoredPosition: {x: 0.6027832, y: 0.5}
-  m_SizeDelta: {x: -2.9479065, y: -1.5599976}
+  m_AnchoredPosition: {x: -15.131, y: 0.5}
+  m_SizeDelta: {x: 152.17, y: -1.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7128868403272617826
 CanvasRenderer:
@@ -478,7 +478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 150, y: 65}
+  m_AnchoredPosition: {x: 190, y: 65}
   m_SizeDelta: {x: 130, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4534730057265587643
@@ -744,8 +744,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.19861273, y: 0.209}
   m_AnchorMax: {x: 0.4808382, y: 0.73300004}
-  m_AnchoredPosition: {x: 75, y: -61.2}
-  m_SizeDelta: {x: -1, y: 3}
+  m_AnchoredPosition: {x: 100.02, y: -60.3}
+  m_SizeDelta: {x: -51.041, y: 2.9995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5138983932761209991
 CanvasRenderer:
@@ -2138,13 +2138,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 25
-  shield: 3
-  damage: 5
   healthSlider: {fileID: 3848144119158862886}
+  baseShield: 0
+  baseDamage: 0
   charData: {fileID: 11400000, guid: 8633e73c9f17c8f438a77a2bf915626e, type: 2}
   charUI: {fileID: 4457603868867313220}
   cardDisplayManager: {fileID: 0}
   actionManager: {fileID: 0}
+  abilityDatabase: {fileID: 0}
   equipmentSlots:
   - {fileID: 3379793701085024673}
   - {fileID: 5220386459130529043}
@@ -2164,12 +2165,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e9ec5f5f99e0748806142f0d3ef708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardDisplayManager: {fileID: 0}
   playerCard: {fileID: 6763875749158105962}
   diceRoller: {fileID: 0}
   buttonAttack: {fileID: 0}
   textShield: {fileID: 0}
   actionManager: {fileID: 0}
-  activeAbility: 1
+  boxMessageAbility: {fileID: 0}
+  minionStat: {fileID: 0}
 --- !u!1 &3460182769970835167
 GameObject:
   m_ObjectHideFlags: 0
@@ -2350,18 +2353,18 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3379793701085024673}
-  - {fileID: 5220386459130529043}
-  - {fileID: 1780947291947930645}
-  - {fileID: 7716520299072561478}
-  - {fileID: 3282935646091944670}
   - {fileID: 5631562538630803054}
+  - {fileID: 3282935646091944670}
+  - {fileID: 7716520299072561478}
+  - {fileID: 1780947291947930645}
+  - {fileID: 5220386459130529043}
+  - {fileID: 3379793701085024673}
   m_Father: {fileID: 696656665678655868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.303, y: 0.015422725}
   m_AnchorMax: {x: 0.9125502, y: 0.7454227}
-  m_AnchoredPosition: {x: 0.6027832, y: 0.5}
-  m_SizeDelta: {x: -2.9479065, y: -1.5599976}
+  m_AnchoredPosition: {x: -15.131, y: 0.5}
+  m_SizeDelta: {x: 152.17, y: -1.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1282828023812494143
 CanvasRenderer:
@@ -2436,8 +2439,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.36100003, y: 0.43}
   m_AnchorMax: {x: 0.6391291, y: 0.96300006}
-  m_AnchoredPosition: {x: 0, y: -0.69999695}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.045387268, y: -0.69999695}
+  m_SizeDelta: {x: -48.486, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8397987147803265267
 CanvasRenderer:
@@ -2716,7 +2719,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -75, y: -10}
+  m_AnchoredPosition: {x: -95, y: -10}
   m_SizeDelta: {x: 130, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &661399687747403485
@@ -3077,8 +3080,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.036000002, y: 0.43}
   m_AnchorMax: {x: 0.3204837, y: 0.96300006}
-  m_AnchoredPosition: {x: 0.5, y: -0.40000916}
-  m_SizeDelta: {x: -2.0000305, y: -0.0005187988}
+  m_AnchoredPosition: {x: 10.0604, y: -0.40000916}
+  m_SizeDelta: {x: -49.8021, y: -0.0005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3084994042487968
 CanvasRenderer:
@@ -3604,8 +3607,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6841291, y: 0.43}
   m_AnchorMax: {x: 0.9587745, y: 0.96300006}
-  m_AnchoredPosition: {x: 0.30000305, y: -1.199997}
-  m_SizeDelta: {x: 2, y: 0}
+  m_AnchoredPosition: {x: -11.252, y: -1.199997}
+  m_SizeDelta: {x: -45.0054, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3507768949287446460
 CanvasRenderer:
@@ -3697,8 +3700,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.36100003, y: 0.021000002}
   m_AnchorMax: {x: 0.6391291, y: 0.5547954}
-  m_AnchoredPosition: {x: -76.9, y: 58.4}
-  m_SizeDelta: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -95.22423, y: 58.4}
+  m_SizeDelta: {x: -45.2087, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2189537274065929549
 CanvasRenderer:
@@ -4343,7 +4346,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75, y: -10}
+  m_AnchoredPosition: {x: 95, y: -10}
   m_SizeDelta: {x: 130, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4763840835413535785
@@ -4570,8 +4573,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5257419, y: 0.209}
   m_AnchorMax: {x: 0.80300003, y: 0.73300004}
-  m_AnchoredPosition: {x: -0.099998474, y: -0.5}
-  m_SizeDelta: {x: 1, y: 3}
+  m_AnchoredPosition: {x: -7.6687, y: -0.5}
+  m_SizeDelta: {x: -47.5989, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8063558331234610052
 CanvasRenderer:

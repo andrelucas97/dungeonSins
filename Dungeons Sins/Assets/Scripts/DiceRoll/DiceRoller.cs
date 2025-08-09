@@ -31,7 +31,9 @@ public class DiceRoller : MonoBehaviour
     [Header("Button Play")]
     [SerializeField] private GameObject buttonPlay;
     [SerializeField] private MinionStats minionStat;
-    
+
+    [Header("Sound Dice roll")]
+    [SerializeField] private AudioClip diceRollClip;
 
     private bool isSuccessful = true;
     //private int resultDie;
@@ -63,11 +65,16 @@ public class DiceRoller : MonoBehaviour
     }
     public void ButtonDiceShield(string attacking, ActionManager action, CardDisplayManager cardDisplay)
     {
+
         StartCoroutine(RollAndAttack(resultDiceShield, attacking, action, cardDisplay));
     }
 
     public IEnumerator DiceShieldMinion(string attacking, ActionManager action, CardDisplayManager cardDisplay)
     {
+
+        if (diceRollClip != null)
+            AudioManager.Instance.PlaySound(diceRollClip);
+
         yield return RollAndAttack(resultDiceShield, attacking, action, cardDisplay);
     }
     #endregion
@@ -259,28 +266,30 @@ public class DiceRoller : MonoBehaviour
 
             var abilityData = TakeDamage.Instance.CurrentAbilityData;
 
-            AbilityInstance bersekerInstance = playerCard.Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.Berseker);
-            AbilityInstance criticalArrowInstance = playerCard.Abilities.FirstOrDefault(a => a.Data.AbilityID == CharacterAbility.CriticalArrow);
+            AbilityInstance bersekerInstance = TakeDamage.Instance.GetAbility(CharacterAbility.Berseker);
+            AbilityInstance criticalArrowInstance = TakeDamage.Instance.GetAbility(CharacterAbility.CriticalArrow);
+            AbilityInstance invisibilityInstance = TakeDamage.Instance.GetAbility(CharacterAbility.Invisibility);
+            AbilityInstance shadowStrikeInstance = TakeDamage.Instance.GetAbility(CharacterAbility.ShadowStrike);
 
-            // Berseker ativado
+            // Berseker Ativado
             if (abilityData != null && bersekerInstance != null && bersekerInstance.IsActivated && attacking == "Player")
-            {                
+            {
+                damageMultiplier = abilityData.BaseValue;
 
                 if (result == 20)
                 {
-                    damageMultiplier = abilityData.BaseValue * 2;
+                    damageMultiplier *= 2;
                     CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] CRÍTICO MÁXIMO DO BERSERKER!! O {nameAtk} causou {atkStats} (x{damageMultiplier})! Total: {atkStats * 4} de dano em {nameDef}");
                 }
                 else
                 {
-                    damageMultiplier = abilityData.BaseValue;
                     CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Crítico do Berserker! O {nameAtk} atacou com força (dado: {result}), causando {atkStats} (x{damageMultiplier}) de dano em {nameDef}!");
                 }
 
                 TakeDamage.Instance.UseCurrentAbility();
                 bersekerInstance.Desactivate();
             }
-            // Flecha Critica ativada
+            // Flecha Critica Ativada
             else if (abilityData != null && criticalArrowInstance != null && criticalArrowInstance.IsActivated && attacking == "Player")
             {
                 if (result >= abilityData.BaseValue)
@@ -300,6 +309,30 @@ public class DiceRoller : MonoBehaviour
                 TakeDamage.Instance.UseCurrentAbility();
                 criticalArrowInstance.Desactivate();
             }
+            // Insivibilidade Ativada
+            else if (abilityData != null && invisibilityInstance != null && invisibilityInstance.IsActivated && attacking == "Player")
+            {
+                Debug.Log("Invisibilidade ativada!");
+
+                damageMultiplier = shadowStrikeInstance.Data.BaseValue;
+
+                if (result == 20)
+                {
+                    damageMultiplier *= 2;
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] CRÍTICO MÁXIMO da Luxúria invisível!! {nameAtk} causou {atkStats} x{damageMultiplier} = {atkStats * damageMultiplier} de dano em {nameDef}!");
+                }
+                else
+                {                    
+                    CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Dano dobrado pela invisibilidade!! {nameAtk} (dado: {result}) causou {atkStats} x{damageMultiplier} = {atkStats * damageMultiplier} de dano em {nameDef}!");
+                }
+
+                TakeDamage.Instance.UseCurrentAbility();
+                invisibilityInstance.Desactivate();
+                shadowStrikeInstance.Desactivate();
+
+                CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Fim da invisibilidade!");
+            }
+
             else
             {
                 if (result == 20)

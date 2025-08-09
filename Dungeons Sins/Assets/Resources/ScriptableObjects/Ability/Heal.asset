@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: 9
   abilityName: Curar
-  description: Cura 20 de vida.
-  effectType: 0
+  description: Cura 10 de vida instantaneamente.
+  effectType: 1
   targetType: 0
   type: 0
-  baseValue: 20
+  baseValue: 10
   requiresCondition: 0
   conditionText: 
   duration: 0

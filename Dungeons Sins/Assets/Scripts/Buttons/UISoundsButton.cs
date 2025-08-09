@@ -21,6 +21,24 @@ public class UIButtonSound : MonoBehaviour
         }
     }
 
+    public void ExecuteInsta()
+    {
+        if (AudioManager.Instance != null && clickSound != null)
+        {
+            StartCoroutine(PlaySoundInsta());
+        }
+        else
+        {
+            onClickAction.Invoke();
+        }
+    }
+
+    private System.Collections.IEnumerator PlaySoundInsta()
+    {
+        onClickAction.Invoke();
+        yield return AudioManager.Instance.PlaySoundAndWait(clickSound);
+    }
+
     private System.Collections.IEnumerator PlaySoundThenInvoke()
     {
         yield return AudioManager.Instance.PlaySoundAndWait(clickSound);

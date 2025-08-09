@@ -510,8 +510,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.010756, y: 216.12}
-  m_SizeDelta: {x: 1074.8, y: 289.31}
+  m_AnchoredPosition: {x: -0.0089855, y: 216.12}
+  m_SizeDelta: {x: 1037.4, y: 289.31}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &41334805
 MonoBehaviour:
@@ -1577,6 +1577,7 @@ GameObject:
   - component: {fileID: 150864368}
   - component: {fileID: 150864367}
   - component: {fileID: 150864366}
+  - component: {fileID: 150864369}
   m_Layer: 5
   m_Name: ShieldDice
   m_TagString: Untagged
@@ -1648,9 +1649,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1020523297}
-        m_TargetAssemblyTypeName: DiceRoller, Assembly-CSharp
-        m_MethodName: OnClick_Shield
+      - m_Target: {fileID: 150864369}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: ExecuteInsta
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1698,6 +1699,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 150864363}
   m_CullTransparentMesh: 1
+--- !u!114 &150864369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150864363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca1ae23936ec99458d2b3e0b8aee171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClickAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1020523297}
+        m_TargetAssemblyTypeName: DiceRoller, Assembly-CSharp
+        m_MethodName: OnClick_Shield
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  clickSound: {fileID: 8300000, guid: a4a33e3426b5ea24eabd00c9d5a8cc2a, type: 3}
 --- !u!1 &167018277
 GameObject:
   m_ObjectHideFlags: 0
@@ -3124,8 +3153,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.0061645, y: -115}
-  m_SizeDelta: {x: 1156.3, y: 230}
+  m_AnchoredPosition: {x: -0.000080109, y: -115}
+  m_SizeDelta: {x: 1037.4, y: 230}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &437522380
 MonoBehaviour:
@@ -5403,7 +5432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedCharacter: {fileID: 0}
-  defaultCharacter: {fileID: 11400000, guid: 7ddef16b03cf9624196f4f2dc9550f2c, type: 2}
+  defaultCharacter: {fileID: 11400000, guid: a74a02011e9d4ac4cbb6c7ac6e7fbb8f, type: 2}
 --- !u!4 &892482036
 Transform:
   m_ObjectHideFlags: 0
@@ -5908,6 +5937,7 @@ MonoBehaviour:
   playerCard: {fileID: 25230600783632397}
   buttonPlay: {fileID: 1963260722}
   minionStat: {fileID: 0}
+  diceRollClip: {fileID: 8300000, guid: b3707876794ad464798460abf5f8a4b2, type: 3}
 --- !u!1 &1027642779
 GameObject:
   m_ObjectHideFlags: 0
@@ -7761,7 +7791,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1437672637}
         m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
-        m_MethodName: Execute
+        m_MethodName: ExecuteInsta
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7876,8 +7906,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: 232.07}
-  m_SizeDelta: {x: 1074.803, y: 584.22}
+  m_AnchoredPosition: {x: 28.701, y: 232.07}
+  m_SizeDelta: {x: 1037.4, y: 584.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1442703225
 MonoBehaviour:
@@ -10233,6 +10263,7 @@ MonoBehaviour:
   diceRoller: {fileID: 1020523297}
   turnMinionBox: {fileID: 437522378}
   textTurnMinion: {fileID: 1233893573}
+  cardDisplayManager: {fileID: 41334808}
   textActionManager: {fileID: 2116392732}
   currentAction: 0
 --- !u!1 &1920560522
@@ -10950,8 +10981,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030475, y: -256.4964}
-  m_SizeDelta: {x: 1156.3, y: 71.4671}
+  m_AnchoredPosition: {x: -0.012487, y: -256.4964}
+  m_SizeDelta: {x: 1037.4, y: 71.4671}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2077709475
 MonoBehaviour:

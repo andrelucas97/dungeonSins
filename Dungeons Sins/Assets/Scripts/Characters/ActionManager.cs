@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +22,12 @@ public class ActionManager : MonoBehaviour
     [SerializeField] private GameObject turnMinionBox;
     [SerializeField] private TextMeshProUGUI textTurnMinion;
 
+    [SerializeField] private CardDisplayManager cardDisplayManager;
     [SerializeField] private TextMeshProUGUI textActionManager;
 
     private int maxActions = 3;
     [SerializeField] private int currentAction;
+    private int countPoisonous = 0;
     public int CurrentTurn => currentTurn;
 
     void Start()
@@ -54,7 +56,7 @@ public class ActionManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Sem a��es disponiveis.");
+            Debug.Log("Sem ações disponiveis.");
             return false;
         }
     }
@@ -81,39 +83,83 @@ public class ActionManager : MonoBehaviour
         currentTurn++;
         currentAction = maxActions;
 
-        AbilityInstance tauntInstance = TakeDamage.Instance.GetAbility(CharacterAbility.Taunt);
-        AbilityInstance perfectArmorInstance = TakeDamage.Instance.GetAbility(CharacterAbility.PerfectArmor);
-        AbilityInstance sunGloryInstance = TakeDamage.Instance.GetAbility(CharacterAbility.GlorySun);
-        AbilityInstance armorElixirInstance = TakeDamage.Instance.GetAbility(CharacterAbility.ArmorElixir);
-        AbilityInstance strengthElixirInstance = TakeDamage.Instance.GetAbility(CharacterAbility.StrengthElixir);
+        var abilities = new Dictionary<CharacterAbility, AbilityInstance>();
 
+        CharacterAbility[] ids =
+        {
+            CharacterAbility.Taunt,
+            CharacterAbility.PerfectArmor,
+            CharacterAbility.GlorySun,
+            CharacterAbility.ArmorElixir,
+            CharacterAbility.StrengthElixir,
+            CharacterAbility.Poisonous,
+            CharacterAbility.Nap
+        };
 
-        if (tauntInstance != null && tauntInstance.WasUsed)
+        foreach (var id in ids)
+        {
+            var instance = TakeDamage.Instance.GetAbility(id);
+            if (instance != null)
+                abilities[id] = instance;
+        }
+        
+        if(abilities.TryGetValue(CharacterAbility.Nap, out var nap) && nap.IsActivated)
+        {
+
+            playerStat.AdicionalBuffPlayer(nap.Data.BaseValue, nap);
+
+            currentAction = 0;
+
+            CheckEndOfTurn(cardDisplayManager);
+            nap.Desactivate();
+
+            return;
+        }
+
+        if (abilities.TryGetValue(CharacterAbility.Poisonous, out var poisonous) && poisonous.IsActivated)
+        {
+            Debug.Log("Veneno ativado.");
+
+            if (poisonous.Data.Duration > countPoisonous)
+            {
+                CombatLog.Instance.AddMessage($"O veneno atinge o inimigo mais uma vez, levando {poisonous.Data.BaseValue} de dano! +{poisonous.Data.Duration- countPoisonous}turno(s) envenenado.");
+                minionStat.ApplyDirectDamage(poisonous.Data.BaseValue);
+                countPoisonous++;
+
+                if (poisonous.Data.Duration == countPoisonous)
+                {
+                    poisonous.Desactivate();
+                    countPoisonous = 0;
+                }
+            }
+        }
+
+        if (abilities.TryGetValue(CharacterAbility.Taunt, out var taunt) && taunt.WasUsed)
         {
             playerStat.ClearTempBonus("Shield");
         }
 
-        if (perfectArmorInstance != null && perfectArmorInstance.WasUsed)
+        if (abilities.TryGetValue(CharacterAbility.PerfectArmor, out var perfectArmor) && perfectArmor.WasUsed)
         {
             playerStat.ClearTempBonus("Shield");
         } 
         
-        if (sunGloryInstance != null && sunGloryInstance.WasUsed)
+        if (abilities.TryGetValue(CharacterAbility.GlorySun, out var sunGlory) && sunGlory.WasUsed)
         {
             playerStat.ClearTempBonus("Damage");
             minionStat.ClearTempDebuffs();
         }
 
-        if (armorElixirInstance != null && armorElixirInstance.IsActivated)
+        if (abilities.TryGetValue(CharacterAbility.ArmorElixir, out var armorElixir) && armorElixir.IsActivated)
         {
             playerStat.ClearTempBonus("Shield");
-            armorElixirInstance.Desactivate();
+            armorElixir.Desactivate();
         }
 
-        if (strengthElixirInstance != null && strengthElixirInstance.IsActivated)
+        if (abilities.TryGetValue(CharacterAbility.StrengthElixir, out var strengthElixir) && strengthElixir.IsActivated)
         {
             playerStat.ClearTempBonus("Damage");
-            strengthElixirInstance.Desactivate();
+            strengthElixir.Desactivate();
         }
 
         ResetAbilitiesForPlayer();        
@@ -142,7 +188,22 @@ public class ActionManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         turnMinionBox.SetActive(false);
 
-        yield return StartCoroutine(HandleMinionAttackThenStartTurn(minionAttack, cardDisplay));
+        AbilityInstance invisibilityInstance = TakeDamage.Instance.GetAbility(CharacterAbility.Invisibility);
+
+        if (invisibilityInstance != null && !invisibilityInstance.IsActivated)
+            yield return StartCoroutine(HandleMinionAttackThenStartTurn(minionAttack, cardDisplay));
+
+        else
+        {
+            CombatLog.Instance.AddMessage($"[T{CurrentTurn}] {playerStat.CharData.CodeName} está invisível! {minionStat.CardData.CardName} não conseguiu atacar!"
+            );
+
+            yield return new WaitForSeconds(1.5f);
+
+            CallCheckEndOfTurn(cardDisplayManager);
+        }
+
+
     }
 
     private IEnumerator HandleMinionAttackThenStartTurn(MinionAttack minionAttack, CardDisplayManager cardDisplay)
@@ -153,7 +214,7 @@ public class ActionManager : MonoBehaviour
     private void UpdateTextAction(int currentAction, int currentTurn)
     {
         textTurnManager.text = $"TURNO {currentTurn}";
-        textActionManager.text = $"A��ES: {currentAction}";
+        textActionManager.text = $"AÇÕES: {currentAction}";
 
     }
 

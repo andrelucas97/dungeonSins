@@ -172,8 +172,7 @@ public class CharStats : MonoBehaviour, BaseStats
             case AbilityEffectType.Shield:
 
                 if (TotalShield < maxShield)                
-                    tempShieldBonus += amount;               
-
+                    tempShieldBonus += amount;
                 break;
             case AbilityEffectType.Damage:
                 tempDamageBonus += amount;

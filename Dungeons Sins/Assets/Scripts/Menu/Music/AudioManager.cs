@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,9 @@ public class AudioManager : MonoBehaviour
 
     [Header("Button Click")]
     [SerializeField] private AudioSource clickSource;
+
+    [Header("Dice Roll")]
+    [SerializeField] private AudioSource audioSourceDice;
     void Awake()
     {
         if (Instance == null)
@@ -74,4 +78,8 @@ public class AudioManager : MonoBehaviour
         audioMixer.SetFloat("MusicVolume", dbVolume);
     }
 
+    internal void PlaySound(AudioClip diceRollClip)
+    {
+        audioSourceDice.PlayOneShot(diceRollClip);
+    }
 }

@@ -486,14 +486,13 @@ public class TakeDamage : MonoBehaviour
         yield break;
     }
     private IEnumerator  UseHeal(AbilityInstance ability)
-    {
-        
+    {       
 
         AbilityInstance healInstance = GetAbility(CharacterAbility.Heal);
 
         if (playerCard.CurrentHealth >= playerCard.CharData.MaxHealth)
         {
-            CombatLog.Instance.AddMessage("Vida máxima! Cura não utilizada.");
+            CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Vida máxima! Cura não utilizada.");
             ability.Desactivate();
             yield break;
         }
@@ -507,20 +506,24 @@ public class TakeDamage : MonoBehaviour
         ability.Desactivate();
         yield break;
     }
-    private IEnumerator  UseNap(AbilityInstance ability)
-    {
+    private IEnumerator  UsePoisonous(AbilityInstance ability)
+    {       
+
         bool hasAction = actionManager.TryUseAction();
         if (!hasAction) yield break;
 
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
-    private IEnumerator  UsePoisonous(AbilityInstance ability)
+    private IEnumerator  UseNap(AbilityInstance ability)
     {
         bool hasAction = actionManager.TryUseAction();
         if (!hasAction) yield break;
 
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
+
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {ability.Data.AbilityName} entra em efeito: o próximo turno dormirá, curando 10 de vida.");
+
         yield break;
     }
     private IEnumerator  UseRevive(AbilityInstance ability)
@@ -532,9 +535,22 @@ public class TakeDamage : MonoBehaviour
         yield break;
     }
 
+    // Luxuria
+    private IEnumerator  UseInvisibility(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
 
-    // ---------------------------
-    private IEnumerator UseBurnBabyBurn(AbilityInstance ability)
+        AbilityInstance shadowStrikeInstance = GetAbility(CharacterAbility.ShadowStrike);
+
+        shadowStrikeInstance.IsActivate();
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {ability.Data.AbilityName} ativado! Torna-se invisivel neste turno! (Passiva {shadowStrikeInstance.Data.AbilityName}: dano dobrado!!)");
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+    private IEnumerator  UseShadowStrike(AbilityInstance ability)
     {
         bool hasAction = actionManager.TryUseAction();
         if (!hasAction) yield break;
@@ -543,6 +559,16 @@ public class TakeDamage : MonoBehaviour
         yield break;
     }
     private IEnumerator UseDaggerThrow(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+
+    // ---------------------------
+    private IEnumerator UseBurnBabyBurn(AbilityInstance ability)
     {
         bool hasAction = actionManager.TryUseAction();
         if (!hasAction) yield break;
@@ -566,23 +592,7 @@ public class TakeDamage : MonoBehaviour
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
     }
-    private IEnumerator  UseInvisibility(AbilityInstance ability)
-    {
-        bool hasAction = actionManager.TryUseAction();
-        if (!hasAction) yield break;
-
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
     private IEnumerator  UseLuckTide(AbilityInstance ability)
-    {
-        bool hasAction = actionManager.TryUseAction();
-        if (!hasAction) yield break;
-
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
-    private IEnumerator  UseShadowStrike(AbilityInstance ability)
     {
         bool hasAction = actionManager.TryUseAction();
         if (!hasAction) yield break;
