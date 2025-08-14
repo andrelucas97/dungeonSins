@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private TemporaryMessageManager messageManager;
+    [SerializeField] private GameObject howToPlay;
+    [SerializeField] private GameObject mainMenu;
 
     private void Start()
     {
@@ -69,7 +71,8 @@ public class MainMenu : MonoBehaviour
     }
     private void HowToPlay()
     {
-        messageManager.ShowMessage(2f);
+        mainMenu.SetActive(false);
+        howToPlay.SetActive(true);
     }
     private void OpenCollections()
     {

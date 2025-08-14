@@ -18,7 +18,7 @@ public enum CharacterAbility
     Invisibility,
     Leroy,
     LightArrow,
-    LuckTide,
+    LuckyTide,
     MassGrowth,
     Nap,
     PerfectArmor,

@@ -59,7 +59,7 @@ public class TakeDamage : MonoBehaviour
             { CharacterAbility.Heal, UseHeal },
             { CharacterAbility.Invisibility, UseInvisibility },
             { CharacterAbility.Leroy, UseLeroy },
-            { CharacterAbility.LuckTide, UseLuckTide },
+            { CharacterAbility.LuckyTide, UseLuckyTide },
             { CharacterAbility.MassGrowth, UseMassGrowth },
             { CharacterAbility.Nap, UseNap },
             { CharacterAbility.PerfectArmor, UsePerfectArmor },
@@ -116,10 +116,6 @@ public class TakeDamage : MonoBehaviour
             {
                 minionStat = FindObjectOfType<MinionStats>();
             }
-
-            bool hasAction = actionManager.TryUseAction();
-
-            if (!hasAction) return;
 
             var abilityData = TakeDamage.Instance.CurrentAbilityData;
 
@@ -560,6 +556,12 @@ public class TakeDamage : MonoBehaviour
     }
     private IEnumerator UseDaggerThrow(AbilityInstance ability)
     {
+
+        //if (!tem adaga na lista de cartas)
+        //{
+        //      nao tenho, yield break;
+        //}
+        
         bool hasAction = actionManager.TryUseAction();
         if (!hasAction) yield break;
 
@@ -567,11 +569,46 @@ public class TakeDamage : MonoBehaviour
         yield break;
     }
 
-    // ---------------------------
+    // Inveja
     private IEnumerator UseBurnBabyBurn(AbilityInstance ability)
     {
         bool hasAction = actionManager.TryUseAction();
         if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+    private IEnumerator  UseLuckyTide(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+        yield break;
+    }
+    private IEnumerator  UseFuuton(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        AbilityInstance fuutonInstance = GetAbility(CharacterAbility.Fuuton);
+
+        playerCard.AdicionalBuffPlayer(fuutonInstance.Data.BaseValue, fuutonInstance);
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] {playerCard.CharData.CodeName} ativou {ability.Data.AbilityName}, recebendo +{fuutonInstance.Data.BaseValue} de escudo!");
+
+        Debug.Log($"Usou {ability.Data.AbilityName}!");
+
+        ConsumeAbility();
+        yield break;
+    }
+    private IEnumerator  UseStoneEdge(AbilityInstance ability)
+    {
+        bool hasAction = actionManager.TryUseAction();
+        if (!hasAction) yield break;
+
+        CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] O {ability.Data.AbilityName} despedaça o chão, atingindo o inimigo e deixando-o atordoado!");
+
 
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break;
@@ -584,29 +621,7 @@ public class TakeDamage : MonoBehaviour
         Debug.Log($"Usou {ability.Data.AbilityName}!");
         yield break ;
     }
-    private IEnumerator  UseFuuton(AbilityInstance ability)
-    {
-        bool hasAction = actionManager.TryUseAction();
-        if (!hasAction) yield break;
 
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
-    private IEnumerator  UseLuckTide(AbilityInstance ability)
-    {
-        bool hasAction = actionManager.TryUseAction();
-        if (!hasAction) yield break;
-
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
-    private IEnumerator  UseStoneEdge(AbilityInstance ability)
-    {
-        bool hasAction = actionManager.TryUseAction();
-        if (!hasAction) yield break;
-
-        Debug.Log($"Usou {ability.Data.AbilityName}!");
-        yield break;
-    }
+    // ---------------------------
     #endregion
 }

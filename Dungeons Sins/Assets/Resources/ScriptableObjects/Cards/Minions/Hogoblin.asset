@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hogoblin
   m_EditorClassIdentifier: 
   cardName: Hogoblin
-  description: "Um goblin ca\xE7ador. Ataca a dist\xE2ncia (5 casas)"
+  description: "Um goblin ca\xE7ador."
   artwork: {fileID: 21300000, guid: aac41f18a12742d4c8e2f292045aea89, type: 3}
   cardType: 2
   elementType: 0

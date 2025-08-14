@@ -71,7 +71,7 @@ public class DiceRoller : MonoBehaviour
 
     public IEnumerator DiceShieldMinion(string attacking, ActionManager action, CardDisplayManager cardDisplay)
     {
-
+        textShield.SetActive(false);
         if (diceRollClip != null)
             AudioManager.Instance.PlaySound(diceRollClip);
 
@@ -222,18 +222,34 @@ public class DiceRoller : MonoBehaviour
             }
             else
             {
-                isSuccessful = false;
-                if (resultado == 1)
+                AbilityInstance luckyTide = TakeDamage.Instance.GetAbility(CharacterAbility.LuckyTide);
+
+
+                if (luckyTide != null && luckyTide.IsActivated)
                 {
-                    textMessageBox.text = BattleMessages.Instance.CriticalFail();
-                    messageBox.SetActive(true);
+                    Debug.Log("Maré de sorte, gire o dado novamente!");
+                    TakeDamage.Instance.OnAttackButton();
+                    TakeDamage.Instance.UseCurrentAbility();
+                    luckyTide.Desactivate();
+                    yield break;
                 }
                 else
                 {
-                    textMessageBox.text = BattleMessages.Instance.GetRandomFailMessage();
-                    messageBox.SetActive(true);
+                    isSuccessful = false;
+
+                    if (resultado == 1)
+                    {
+                        textMessageBox.text = BattleMessages.Instance.CriticalFail();
+                        messageBox.SetActive(true);
+                    }
+                    else
+                    {
+                        textMessageBox.text = BattleMessages.Instance.GetRandomFailMessage();
+                        messageBox.SetActive(true);
+                    }
+                    diceShield.GetComponent<Button>().interactable = false;
                 }
-                diceShield.GetComponent<Button>().interactable = false;                
+
             }
 
             yield return ResolveDiceRoll(isSuccessful, resultado, damageStat, shieldStat, action, cardDisplay, attacking, nameAtk, nameDef, defenderStat, attackingStat);
@@ -362,11 +378,13 @@ public class DiceRoller : MonoBehaviour
             CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}]O ataque falhou! O dado ({result}) do {nameAtk} não ultrapassou a defesa ({defStats}) do {nameDef}");
         }
 
+
         if (attacking == "Player")
         {
+
             if (hurricaneArrowInstance == null || !hurricaneArrowInstance.IsActivated)
             {
-                //onFinished?.Invoke();
+                actionManager.TryUseAction();
                 actionManager.CheckEndOfTurn(cardDisplayManager);
             }
         }

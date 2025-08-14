@@ -13,6 +13,8 @@ public class CharacterData : ScriptableObject
 
     [Header("Class")]
     [SerializeField] private string classChar;
+    [SerializeField] private ClassChar typeClass;
+
     [Header("Image")]
     [SerializeField] private Sprite portrait; //image Personagem
 

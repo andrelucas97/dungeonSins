@@ -83,7 +83,7 @@ public class CharStats : MonoBehaviour, BaseStats
     public void UpdateStatsSlot(string slotType)
     {
 
-        if (slotType != "slotBackpack")
+        //if (slotType != SlotType.Backpack.ToString())
         {
             baseShield = charData.Shield;
             baseDamage = charData.Damage;
@@ -91,12 +91,17 @@ public class CharStats : MonoBehaviour, BaseStats
             equipShieldBonus = 0;
             equipDamageBonus = 0;
 
-            foreach (Transform slot in equipmentSlots)
+            for (int i = 0; i < equipmentSlots.Count; i++)
             {
+                Transform slot = equipmentSlots[i];
+
                 if (slot.childCount == 0) continue;
 
                 GameObject card = slot.GetChild(0).gameObject;
                 CardEquipUI cardEquipUI = card.GetComponent<CardEquipUI>();
+
+                if (i == 3) continue; // slot backpack
+
                 if (cardEquipUI != null)
                 {
                     EquipmentCard equip = cardEquipUI.CardData;
@@ -110,6 +115,7 @@ public class CharStats : MonoBehaviour, BaseStats
                             break;
                     }
                 }
+
             }
         }
 
@@ -122,23 +128,10 @@ public class CharStats : MonoBehaviour, BaseStats
         ApplyDamage(hitDamage, resultDie);
     }
 
-    //public void AbilityDevour(int healBonus, int damageBonus, MinionStats minionStat)
-    //{
-    //    ActivateAbility(healBonus, damageBonus, minionStat);
-    //}
-
     public void AdicionalBuffPlayer(int value, AbilityInstance abilityInstance)
     {
         AddBuff(value, abilityInstance);
     }
-    //public void AdicionalDamage(int value)
-    //{
-    //    AddDamage(value);
-    //}
-    //public void AdicionalLife(int value)
-    //{
-    //    RestoreHealth(value);
-    //}
 
     public void RemoveShieldEndTurn(int value)
     {
@@ -197,25 +190,7 @@ public class CharStats : MonoBehaviour, BaseStats
                 break;
         }        
         StatusDisplay.Instance.AttStatusPlayer(this, charData);
-    }
-    //private void AddDamage(int amount)
-    //{
-    //    StatusDisplay.Instance.AttStatusPlayer(this, charData);
-    //}
-    //private void RestoreHealth(int value)
-    //{
-    //
-    //    if (currentHealth >= charData.MaxHealth)
-    //    {
-    //        Debug.Log("Vida máxima! Não é possivel curar!");
-    //        return;
-    //    }
-    //
-    //    currentHealth = Mathf.Min(currentHealth + value, charData.MaxHealth);
-    //    healthBarCoroutine = StartCoroutine(AnimateHealthBar(currentHealth));
-    //    StatusDisplay.Instance.AttStatusPlayer(this, charData);
-    //
-    //}
+    }    
     private void RemoveShieldBonus(int amount)
     {
         tempShieldBonus -= amount;

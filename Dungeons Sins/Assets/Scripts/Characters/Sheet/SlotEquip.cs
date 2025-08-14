@@ -66,9 +66,10 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
             case SlotType.Backpack:
                 if (typeCard == "Weapon")
                     {
+                    typeCard = SlotType.Backpack.ToString();
                         EquipCardInSlot(cardEquip, typeCard);
                     }
-                break;
+                    break;
         }        
     }
 
@@ -151,9 +152,8 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
             case CardStats.ATK:
                 CombatLog.Instance.AddMessage($"Carta Equipada: {cardEquip.CardData.CardName} (+{cardEquip.CardData.AttackBonus} {cardEquip.CardData.CardStat})");
                 break;
-        }
+        }        
 
-        
 
         charStats.UpdateStatsSlot(typeCard);
     }
@@ -205,7 +205,7 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
             cardModifier.transform.SetParent(transform);
             cardModifier.transform.localPosition = Vector3.zero;
             cardModifier.transform.SetSiblingIndex(0);
-            Debug.Log("Modifier equipado: " + cardModifier.CardData.CardName);
+            CombatLog.Instance.AddMessage("Modifier equipado: " + cardModifier.CardData.CardName);
 
             cardManager.RemoveCardDeck(cardModifier.gameObject);
             cardManager.ClearShopCards();

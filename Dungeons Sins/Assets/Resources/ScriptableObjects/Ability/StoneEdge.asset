@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StoneEdge
   m_EditorClassIdentifier: 
   abilityID: 21
-  abilityName: Pedra Cortante
+  abilityName: Gume de Pedra
   description: Atordoa o inimigo.
   effectType: 0
   targetType: 2

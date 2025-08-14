@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 863022cc778b0e94d9cf492ab56c4f2f, type: 3}
-  m_Name: LuckTide
+  m_Name: LuckyTide
   m_EditorClassIdentifier: 
   abilityID: 14
   abilityName: "Mar\xE9 da sorte"
-  description: Ganha um dado extra na rolagem.
+  description: Ganha um dado extra na rolagem ao falhar.
   effectType: 0
   targetType: 0
   type: 0

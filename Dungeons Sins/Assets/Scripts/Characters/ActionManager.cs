@@ -6,12 +6,17 @@ using System.Security.Cryptography;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ActionManager : MonoBehaviour
 {
     [Header("Turn")]
     [SerializeField] private TextMeshProUGUI textTurnManager;
     [SerializeField] private int currentTurn = 1;
+
+    [Header("Buttons")]
+    [SerializeField] private Button attackButton;
+    [SerializeField] private Button deckButton;
 
     [Header("Action")]
     [SerializeField] private CharStats playerStat;
@@ -28,6 +33,7 @@ public class ActionManager : MonoBehaviour
     private int maxActions = 3;
     [SerializeField] private int currentAction;
     private int countPoisonous = 0;
+    private int countBurnBaby = 0;
     public int CurrentTurn => currentTurn;
 
     void Start()
@@ -69,7 +75,10 @@ public class ActionManager : MonoBehaviour
             turnMinionBox.SetActive(true);
             textTurnMinion.text = "TURNO DO LACAIO!!";
             CombatLog.Instance.AddMessage("TURNO DO LACAIO!!");
-        
+
+            attackButton.interactable = false;
+            deckButton.interactable = false;
+
             StartCoroutine(StartEnemy(attackMinion, cardDisplay));
         }
         else
@@ -83,6 +92,9 @@ public class ActionManager : MonoBehaviour
         currentTurn++;
         currentAction = maxActions;
 
+        attackButton.interactable = true;
+        deckButton.interactable = true;
+
         var abilities = new Dictionary<CharacterAbility, AbilityInstance>();
 
         CharacterAbility[] ids =
@@ -93,7 +105,10 @@ public class ActionManager : MonoBehaviour
             CharacterAbility.ArmorElixir,
             CharacterAbility.StrengthElixir,
             CharacterAbility.Poisonous,
-            CharacterAbility.Nap
+            CharacterAbility.Nap, 
+            CharacterAbility.BurnBabyBurn, 
+            CharacterAbility.Fuuton,
+            CharacterAbility.StoneEdge
         };
 
         foreach (var id in ids)
@@ -112,19 +127,22 @@ public class ActionManager : MonoBehaviour
 
             CheckEndOfTurn(cardDisplayManager);
             nap.Desactivate();
-
             return;
+        }
+
+        if (abilities.TryGetValue(CharacterAbility.StoneEdge, out var stoneEdge) && stoneEdge.IsActivated)
+        {
+            stoneEdge.Desactivate();
         }
 
         if (abilities.TryGetValue(CharacterAbility.Poisonous, out var poisonous) && poisonous.IsActivated)
         {
-            Debug.Log("Veneno ativado.");
-
             if (poisonous.Data.Duration > countPoisonous)
             {
-                CombatLog.Instance.AddMessage($"O veneno atinge o inimigo mais uma vez, levando {poisonous.Data.BaseValue} de dano! +{poisonous.Data.Duration- countPoisonous}turno(s) envenenado.");
                 minionStat.ApplyDirectDamage(poisonous.Data.BaseValue);
                 countPoisonous++;
+                
+                CombatLog.Instance.AddMessage($"O veneno atinge o inimigo mais uma vez, levando {poisonous.Data.BaseValue} de dano! +{poisonous.Data.Duration - countPoisonous}turno(s) envenenado.");
 
                 if (poisonous.Data.Duration == countPoisonous)
                 {
@@ -134,32 +152,62 @@ public class ActionManager : MonoBehaviour
             }
         }
 
-        if (abilities.TryGetValue(CharacterAbility.Taunt, out var taunt) && taunt.WasUsed)
+        if (abilities.TryGetValue(CharacterAbility.BurnBabyBurn, out var babyBurn) && babyBurn.IsActivated)
         {
-            playerStat.ClearTempBonus("Shield");
+            if (babyBurn.Data.Duration > countBurnBaby)
+            {
+
+                minionStat.ApplyDirectDamage(babyBurn.Data.BaseValue);
+                countBurnBaby++;
+               
+                CombatLog.Instance.AddMessage($"As chamas do Baby Burn Baby consomem o inimigo novamente, causando {babyBurn.Data.BaseValue} de dano! +{babyBurn.Data.Duration - countBurnBaby} turno(s) queimando.");
+
+                if (babyBurn.Data.Duration == countBurnBaby)
+                {
+                    babyBurn.Desactivate();
+                    countBurnBaby = 0;
+                }
+
+            }
         }
 
-        if (abilities.TryGetValue(CharacterAbility.PerfectArmor, out var perfectArmor) && perfectArmor.WasUsed)
+        var shieldAbilities = new[]
         {
-            playerStat.ClearTempBonus("Shield");
-        } 
-        
-        if (abilities.TryGetValue(CharacterAbility.GlorySun, out var sunGlory) && sunGlory.WasUsed)
+            CharacterAbility.Taunt,
+            CharacterAbility.PerfectArmor,
+            CharacterAbility.ArmorElixir,
+            CharacterAbility.Fuuton
+        };        
+
+        foreach (var abilityID in shieldAbilities)
         {
-            playerStat.ClearTempBonus("Damage");
-            minionStat.ClearTempDebuffs();
+            if (abilities.TryGetValue(abilityID, out var ability) && (ability.WasUsed || ability.IsActivated))
+            {
+                playerStat.ClearTempBonus("Shield");
+
+                if (abilityID == CharacterAbility.ArmorElixir)
+                    ability.Desactivate();
+            }
         }
 
-        if (abilities.TryGetValue(CharacterAbility.ArmorElixir, out var armorElixir) && armorElixir.IsActivated)
+        var damageAbilities = new[]
         {
-            playerStat.ClearTempBonus("Shield");
-            armorElixir.Desactivate();
-        }
+            CharacterAbility.GlorySun,
+            CharacterAbility.StrengthElixir
+        };
 
-        if (abilities.TryGetValue(CharacterAbility.StrengthElixir, out var strengthElixir) && strengthElixir.IsActivated)
+        foreach (var abilityID in damageAbilities)
         {
-            playerStat.ClearTempBonus("Damage");
-            strengthElixir.Desactivate();
+            if (abilities.TryGetValue(abilityID, out var ability) && (ability.WasUsed || ability.IsActivated))
+            {
+                playerStat.ClearTempBonus("Damage");
+
+                if (abilityID == CharacterAbility.StrengthElixir)
+                    ability.Desactivate();
+
+                if (abilityID == CharacterAbility.GlorySun)
+                    minionStat.ClearTempDebuffs();
+            }
         }
 
         ResetAbilitiesForPlayer();        
@@ -189,21 +237,25 @@ public class ActionManager : MonoBehaviour
         turnMinionBox.SetActive(false);
 
         AbilityInstance invisibilityInstance = TakeDamage.Instance.GetAbility(CharacterAbility.Invisibility);
+        AbilityInstance stoneEdgeInstance = TakeDamage.Instance.GetAbility(CharacterAbility.StoneEdge);
 
-        if (invisibilityInstance != null && !invisibilityInstance.IsActivated)
-            yield return StartCoroutine(HandleMinionAttackThenStartTurn(minionAttack, cardDisplay));
-
-        else
+        if ((invisibilityInstance != null && invisibilityInstance.IsActivated) || (stoneEdgeInstance != null && stoneEdgeInstance.IsActivated))
         {
-            CombatLog.Instance.AddMessage($"[T{CurrentTurn}] {playerStat.CharData.CodeName} está invisível! {minionStat.CardData.CardName} não conseguiu atacar!"
-            );
-
+            if (invisibilityInstance != null && invisibilityInstance.IsActivated)
+            {
+                CombatLog.Instance.AddMessage($"[T{CurrentTurn}] {playerStat.CharData.CodeName} está invisível! {minionStat.CardData.CardName} não conseguiu atacar!");
+                
+            } else if (stoneEdgeInstance != null && stoneEdgeInstance.IsActivated)
+            {
+                CombatLog.Instance.AddMessage($"[T{CurrentTurn}] {minionStat.CardData.CardName} está atordoado! Falha ao atacar.");
+            }
             yield return new WaitForSeconds(1.5f);
 
             CallCheckEndOfTurn(cardDisplayManager);
+        } else
+        {
+            yield return StartCoroutine(HandleMinionAttackThenStartTurn(minionAttack, cardDisplay));
         }
-
-
     }
 
     private IEnumerator HandleMinionAttackThenStartTurn(MinionAttack minionAttack, CardDisplayManager cardDisplay)
