@@ -8,8 +8,7 @@ public class EquipmentCard : CardData
     // VAR PRIVADAS
     [Header("Bonus")]
     [SerializeField] private CardStats cardStat;
-    [SerializeField] private int attackBonus;
-    [SerializeField] private int defenseBonus;
+    [SerializeField] private int valueBonus;
 
     [Header("Type")]
     [SerializeField] private TypeCardEquip typeCardEquip;
@@ -19,8 +18,7 @@ public class EquipmentCard : CardData
 
     // VAR PUBLICAS
     public CardStats CardStat => cardStat;
-    public int AttackBonus => attackBonus;
-    public int DefenseBonus => defenseBonus;
+    public int ValueBonus => valueBonus;
     public TypeCardEquip TypeCard => typeCardEquip;
     public CardLabel CardLabel => cardLabel;
 

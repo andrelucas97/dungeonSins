@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Hammer
   m_EditorClassIdentifier: 
   cardName: Martelo
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: "Quem toma um golpe dessa arma n\xE3o fica parado no lugar, repele
     o inimigo uma casa para tr\xE1s."
   artwork: {fileID: 21300000, guid: ced71d32ccc8a7a4194afa975f776a7d, type: 3}
   cardType: 0
-  cardStat: 1
-  attackBonus: 4
-  defenseBonus: 0
-  typeCardEquip: 3
+  cardStat: 0
+  valueBonus: 4
+  typeCardEquip: 0
   cardLabel: 1

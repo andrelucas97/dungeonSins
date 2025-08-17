@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: 
   cardName: Escudo
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: 'Um escudo redondo simples que te protege de algumas pancadas. '
   artwork: {fileID: 21300000, guid: 666bf3b7c394d7a4b92dd8cde5eea3f4, type: 3}
   cardType: 0
-  attackBonus: 0
-  defenseBonus: 1
-  typeCardEquip: 3
   cardStat: 0
+  valueBonus: 1
+  typeCardEquip: 0
   cardLabel: 0

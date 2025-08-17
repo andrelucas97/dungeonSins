@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Wolf Plush
   m_EditorClassIdentifier: 
   cardName: "Pel\xFAcia de Lobo"
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: "Aumenta seu ataque e ainda mant\xE9m a aparencia fofa de Oniro."
   artwork: {fileID: 21300000, guid: 5542b283a1273d142924022e6c4fdb06, type: 3}
   cardType: 0
-  attackBonus: 2
-  defenseBonus: 0
-  typeCardEquip: 3
-  cardStat: 1
+  cardStat: 0
+  valueBonus: 2
+  typeCardEquip: 0
   cardLabel: 0

@@ -32,6 +32,7 @@ public class MinionStats : MonoBehaviour, BaseStats
     [SerializeField] private ActionManager actionManager;
 
     // VAR PUBLICAS
+    public int LevelMinion => levelMinion;
     public int CurrentHealth => currentHealth;
     public int BaseShield => shield;
     public int BaseDamage => damage;
@@ -43,11 +44,38 @@ public class MinionStats : MonoBehaviour, BaseStats
         {
             actionManager = FindObjectOfType<ActionManager>();
         }
+
+        CurrentNivelMinion();
+
         cardData = card;
         ApplyStats(card);
-        StatusDisplay.Instance.AttStatusMinion(this, cardData);
-        CombatLog.Instance.AddMessage($"{card.CardName} | ATK: {card.Level1.Damage} | DEF: {card.Level1.Shield} | Vida: {card.Level1.Health}");       
 
+        if (StatusDisplay.Instance != null)
+        {
+            StatusDisplay.Instance.AttStatusMinion(this, cardData);
+            CombatLog.Instance.AddMessage($"Nivel {levelMinion}:{card.CardName} | ATK: {card.Level1.Damage} | DEF: {card.Level1.Shield} | Vida: {card.Level1.Health}");
+        }
+    }
+
+    private void CurrentNivelMinion()
+    {
+
+        if (actionManager == null)
+        {
+            levelMinion = 1;
+            return;
+        }
+
+        if (actionManager.CurrentKills >= 7)
+        {
+            levelMinion = 3;
+        } else if (actionManager.CurrentKills >= 4)
+        {
+            levelMinion = 2;
+        } else
+        {
+            levelMinion = 1;
+        }
     }
 
     // DEBUFFS PUBLICAS
@@ -86,6 +114,7 @@ public class MinionStats : MonoBehaviour, BaseStats
             if (cardDisplayManager == null)
                 cardDisplayManager = FindObjectOfType<CardDisplayManager>();
 
+            actionManager.AddKill();
             cardDisplayManager.SpawnMinion();
         }
     }

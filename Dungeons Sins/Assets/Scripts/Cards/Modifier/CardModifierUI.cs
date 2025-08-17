@@ -11,12 +11,16 @@ public class CardModifierUI : MonoBehaviour
 
     [Header("Card Data")]
     [SerializeField] private Image artworkImage;
+    [SerializeField] private Image backgroundImage;
 
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descriptionText;
 
     [Header("Effect")]
     [SerializeField] private TextMeshProUGUI effectDescript;
+
+    [Header("Card Preview")]
+    [SerializeField] private CardPreviewManager previewManager;
 
     private ModifierCard cardData;
 
@@ -40,14 +44,18 @@ public class CardModifierUI : MonoBehaviour
     }
 
     public void Setup(CardData card)
-    {      
-
+    {
+        var modifierCard = card as ModifierCard;
+        if (previewManager != null)
+        {
+            previewManager.Setup(modifierCard);
+        }
 
         artworkImage.sprite = card.Artwork;
         nameText.text = card.CardName;
         descriptionText.text = card.Description;
-        
-        var modifierCard = card as ModifierCard;
+        backgroundImage.sprite = card.Background;
+
 
         cardData = modifierCard;
 

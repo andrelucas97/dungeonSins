@@ -7,6 +7,7 @@ public abstract class CardData : ScriptableObject
     // VAR PRIVADAS
     [Header("Data base")]
     [SerializeField] private string cardName;
+    [SerializeField] private Sprite background;
     [SerializeField] private string description;
     [SerializeField] private Sprite artwork;
     [SerializeField] private CardType cardType;
@@ -14,6 +15,7 @@ public abstract class CardData : ScriptableObject
 
     // VAR PUBLICAS
     public string CardName => cardName;
+    public Sprite Background => background;
     public string Description => description;
     public Sprite Artwork => artwork;
     public CardType CardType => cardType;

@@ -16,6 +16,7 @@ MonoBehaviour:
   codeName: Luxuria
   age: 26
   classChar: Assassina
+  typeClass: 1
   portrait: {fileID: 21300000, guid: eafa7d1df26a3c643a0584473a7602eb, type: 3}
   charColor: 5
   maxHealth: 25

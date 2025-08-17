@@ -30,7 +30,7 @@ public class StatusDisplay : MonoBehaviour
 
     private void ShowStatusNew(int nivel, int health, int shield, int damage, TextMeshProUGUI nivelText, TextMeshProUGUI healthText, TextMeshProUGUI shieldText, TextMeshProUGUI damageText)
     {
-        nivelText.text = "1"; // adicionar!!!
+        nivelText.text = nivel.ToString();
         healthText.text = health.ToString();
         shieldText.text = shield.ToString();
         damageText.text = damage.ToString();
@@ -44,6 +44,6 @@ public class StatusDisplay : MonoBehaviour
     public void AttStatusMinion(MinionStats minionStats, CardData cardData)
     {
 
-        ShowStatusNew(1, minionStats.CurrentHealth, minionStats.BaseShield, minionStats.TotalDamage, nivelMinion, healthMinion, shieldMinion, damageMinion);
+        ShowStatusNew(minionStats.LevelMinion, minionStats.CurrentHealth, minionStats.BaseShield, minionStats.TotalDamage, nivelMinion, healthMinion, shieldMinion, damageMinion);
     }
 }

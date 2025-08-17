@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: GoblinChamp
   m_EditorClassIdentifier: 
   cardName: Goblin Champ
+  background: {fileID: 21300000, guid: c5bb177a7d54e3445bd6c53ed77b4e18, type: 3}
   description: O goblin entre os goblins, o mais poderoso de sua tribo
   artwork: {fileID: 21300000, guid: 33babb921e90f02498662781b92f46bc, type: 3}
   cardType: 2
-  elementType: 3
+  elementType: 0
   elementImage: {fileID: 21300000, guid: 4738e25fd6426434fb873a6e3a41da06, type: 3}
   level: 1
   level1:

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Short Sword
   m_EditorClassIdentifier: 
   cardName: Espada Curta
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: "Curta, mas afiada. N\xE3o \xE9 a melhor espada do mundo, mas aguenta
     umas boas brigas."
   artwork: {fileID: 21300000, guid: bc9a70cdf410c044599818728e440b0d, type: 3}
   cardType: 0
-  attackBonus: 2
-  defenseBonus: 0
-  typeCardEquip: 3
-  cardStat: 1
+  cardStat: 0
+  valueBonus: 2
+  typeCardEquip: 0
   cardLabel: 0

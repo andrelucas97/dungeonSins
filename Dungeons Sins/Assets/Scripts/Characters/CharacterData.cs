@@ -35,6 +35,7 @@ public class CharacterData : ScriptableObject
     public string CodeName => codeName;
     public int Age => age;
     public string ClassChar => classChar;
+    public ClassChar TypeClass => typeClass;
     public Sprite Portrait => portrait;
     public CharacterColors CharColor => charColor;
     public int MaxHealth => maxHealth;

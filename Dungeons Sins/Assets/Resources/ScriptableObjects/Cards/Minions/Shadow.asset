@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shadow
   m_EditorClassIdentifier: 
   cardName: Shadow
+  background: {fileID: 21300000, guid: c5bb177a7d54e3445bd6c53ed77b4e18, type: 3}
   description: Uma sombra inofensiva
   artwork: {fileID: 21300000, guid: 9ae2d75aa430048469f24cb259745399, type: 3}
   cardType: 2

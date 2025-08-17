@@ -31,6 +31,7 @@ public class CharStats : MonoBehaviour, BaseStats
 
     [Header("Class")]
     [SerializeField] private CharacterData charData;
+    [SerializeField] private ClassChar typeClass;
     [SerializeField] private CharUI charUI;
     [SerializeField] private CardDisplayManager cardDisplayManager;
     [SerializeField] private ActionManager actionManager;
@@ -40,13 +41,15 @@ public class CharStats : MonoBehaviour, BaseStats
     private List<AbilityInstance> abilityInstances = new List<AbilityInstance>();
 
     [SerializeField] private List<Transform> equipmentSlots;
-
+    [Header("Panel Death")]
+    [SerializeField] private GameObject panelDeath;
     // VAR PUBLICAS
     public int CurrentHealth => currentHealth;
     public int BaseShield => baseShield;
     public int MaxShield => maxShield;
     public int BaseDamage => baseDamage;
     public CharacterData CharData => charData;
+    public ClassChar TypeClass => typeClass;
     public List<AbilityInstance> Abilities => abilityInstances;
     private void Start()
     {
@@ -65,6 +68,7 @@ public class CharStats : MonoBehaviour, BaseStats
         currentHealth = charData.MaxHealth;
         baseShield = charData.Shield;
         baseDamage = charData.Damage;
+        typeClass = charData.TypeClass;
 
         // Instanciando Habilidades
         abilityInstances.Clear();
@@ -108,10 +112,10 @@ public class CharStats : MonoBehaviour, BaseStats
                     switch (equip.CardStat)
                     {
                         case CardStats.ATK:
-                            equipDamageBonus += equip.AttackBonus;
+                            equipDamageBonus += equip.ValueBonus;
                             break;
                         case CardStats.DEF:
-                            equipShieldBonus += equip.DefenseBonus;
+                            equipShieldBonus += equip.ValueBonus;
                             break;
                     }
                 }
@@ -121,6 +125,17 @@ public class CharStats : MonoBehaviour, BaseStats
 
         StatusDisplay.Instance.AttStatusPlayer(this, charData);
         actionManager.CheckEndOfTurn(cardDisplayManager);
+    }
+
+    public bool MatchesArmor(CardLabel armorLabel)
+    {
+        return (armorLabel == CardLabel.LightArmor && TypeClass == ClassChar.LightClass) ||
+               (armorLabel == CardLabel.HeavyArmor && TypeClass == ClassChar.HeavyClass);
+    }
+
+    public bool MatchesWeapon(CardLabel armorLabel)
+    {
+        throw new NotImplementedException();
     }
 
     public void TakeDamageApply(int hitDamage, int resultDie, ActionManager action, CardDisplayManager cardDisplay)
@@ -233,6 +248,7 @@ public class CharStats : MonoBehaviour, BaseStats
         if (currentHealth == 0)
         {
             CombatLog.Instance.AddMessage($"[T{actionManager.CurrentTurn}] Game Over! Você foi derrotado!!");
+            panelDeath.SetActive(true);
         }
     }
 

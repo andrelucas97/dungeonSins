@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -36,27 +37,48 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    void Start()
+    void OnEnable()
     {
-        PlayMusic(musicMenuSource);
-        SetMusicVolume(0.1f);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void Start()
+    {
+        PlayMenuMusic();
+        SetMusicVolume(0.1f);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu" || scene.name == "CharacterSelection")
+        {
+            PlayMenuMusic();
+        }
+        else if (scene.name == "GameScene")
+        {
+            PlayGameMusic();
+        }
     }
 
     public void PlayMenuMusic()
     {
-        PlayMusic(musicGameSource);
-
+        PlayMusic(musicMenuSource);
     }
 
     public void PlayGameMusic()
     {
         PlayMusic(musicGameSource);
-
     }
 
     private void PlayMusic(AudioClip clip)
     {
+        if (musicSource.clip == clip) return;
+
         musicSource.clip = clip;
         musicSource.loop = true;
         musicSource.Play();

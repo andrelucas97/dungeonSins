@@ -2142,6 +2142,7 @@ MonoBehaviour:
   baseShield: 0
   baseDamage: 0
   charData: {fileID: 11400000, guid: 8633e73c9f17c8f438a77a2bf915626e, type: 2}
+  typeClass: 0
   charUI: {fileID: 4457603868867313220}
   cardDisplayManager: {fileID: 0}
   actionManager: {fileID: 0}
@@ -2353,12 +2354,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7716520299072561478}
   - {fileID: 5631562538630803054}
   - {fileID: 3282935646091944670}
   - {fileID: 1780947291947930645}
   - {fileID: 5220386459130529043}
   - {fileID: 3379793701085024673}
-  - {fileID: 7716520299072561478}
   m_Father: {fileID: 696656665678655868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.303, y: 0.015422725}

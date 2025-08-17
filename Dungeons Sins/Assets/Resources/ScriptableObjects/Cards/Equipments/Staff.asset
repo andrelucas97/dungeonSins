@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Staff
   m_EditorClassIdentifier: 
   cardName: Cajado
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: "Apesar dela n\xE3o ser uma maga, ainda sim \xE9 muito legal ter um
     cajado."
   artwork: {fileID: 21300000, guid: c67e7acdffcd09d46b834ed9047697ff, type: 3}
   cardType: 0
-  attackBonus: 3
-  defenseBonus: 0
-  typeCardEquip: 3
-  cardStat: 1
+  cardStat: 0
+  valueBonus: 3
+  typeCardEquip: 0
   cardLabel: 1

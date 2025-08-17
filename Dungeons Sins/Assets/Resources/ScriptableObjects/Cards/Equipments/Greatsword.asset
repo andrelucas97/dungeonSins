@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Greatsword
   m_EditorClassIdentifier: 
   cardName: "Espad\xE3o"
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: "N\xE3o tente bancar o her\xF3i e sair girando que nem um pe\xE3o
     gritando o nome de sua cidade."
   artwork: {fileID: 21300000, guid: 262dcfa57a4bc704fa101f33fe86d9ff, type: 3}
   cardType: 0
-  cardStat: 1
-  attackBonus: 3
-  defenseBonus: 0
-  typeCardEquip: 3
+  cardStat: 0
+  valueBonus: 3
+  typeCardEquip: 0
   cardLabel: 0

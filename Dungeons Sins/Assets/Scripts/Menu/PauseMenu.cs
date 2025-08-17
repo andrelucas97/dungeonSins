@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -28,23 +30,42 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (panelConfig.activeSelf)
-                CloseSettings();
+                CloseConfig();
             else
-                OpenSettings();
+                OpenConfig();
         }
     }
-
-    public void ButtonOpenSettings()
+    // FUNC PUBLICAS
+    public void ButtonPlayAgain()
     {
-        OpenSettings();
+        PlayAgain();
     }
 
-    public void ButtonClosedSettings()
+
+    public void ButtonOpenConfig()
     {
-        CloseSettings();
+        OpenConfig();
+    }
+    public void ButtonClosedConfig()
+    {
+        CloseConfig();
+    }
+    public void ButtonMenu(string sceneManager)
+    {
+        GoToMenu(sceneManager);
     }
 
-    private void OpenSettings()
+    // FUNC PRIVADAS
+    private void PlayAgain()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+    private void GoToMenu(string sceneManager)
+    {
+        SceneManager.LoadScene(sceneManager);
+    }
+
+    private void OpenConfig()
     {
         if (!panelConfig.activeSelf)
         {
@@ -54,14 +75,12 @@ public class PauseMenu : MonoBehaviour
             }
 
             panelConfig.SetActive(true);
-            Time.timeScale = 0f;
             blockPanel.SetActive(true);
         }
     }
-    private void CloseSettings()
+    private void CloseConfig()
     {
         panelConfig.SetActive(false);
-        Time.timeScale = 1f;
         blockPanel.SetActive(false);
 
     }

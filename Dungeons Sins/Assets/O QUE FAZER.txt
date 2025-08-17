@@ -1,16 +1,12 @@
 O QUE FAZER - ORDEM PRIORIDADE:
 
-- Armas: arma somente pra tal classe, e seus elementos.
-	- Adicionar classe pesadas (Gula, Orgulho e Akin)
-	e classes leves (Avareza, luxuria, Inveja e Preguiça)
-- Fazer troca de carta, mochila e etc
+- Elementos: Adição de elementos Fogo, terra, ar e agua
+- Tela Morte
+- Armas: 
+	- Adicionar elementos.
+	- Fazer troca de carta, mochila e etc
 - Finalizar MainMenu
 
 ARRUMAR:
-- Quando voltar ao menu, tocar a musica correta
-- Atualizar Scriptable Equips: Deixar Value geral, separar somente CardStats! E não attack/defensebonus
-- desativar todos os botões quando estiver fazendo ação. Ex: Botao de atacar, não é capaz de clicar e baralho até girar o dado
 
-HABILIDADES ADICIONADAS:
- - IRA: BERSEKER E LEROY OK
- - GULA: PROVOCAR, CONSUMIR cresc. massa OK
+- Quando voltar ao menu, tocar a musica correta

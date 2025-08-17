@@ -16,6 +16,7 @@ MonoBehaviour:
   codeName: Avareza
   age: 23
   classChar: Arqueiro
+  typeClass: 1
   portrait: {fileID: 21300000, guid: 5c7d22bcb56b89b4ea79f9105fe8bec2, type: 3}
   charColor: 2
   maxHealth: 25

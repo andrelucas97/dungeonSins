@@ -11,19 +11,29 @@ public class Teste : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     private Vector2 originalPosition;
     private LayoutElement layoutElement;
     private Canvas canvas;
-    private CanvasGroup canvasGroup;
+    private CanvasGroup canvasGroup; 
 
-    [SerializeField] private CardDisplayManager cardManager;
-    [SerializeField] private CharStats charStats;
+    private bool draggable = false;
+    
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+
+        string nameScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        
+
+        if (nameScene == "GameScene")
+            draggable = true;
+        else draggable = false;
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!draggable) return;
+
         canvas = GetComponentInParent<Canvas>();
         if (canvas == null) return;
 
@@ -34,25 +44,23 @@ public class Teste : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         originalParent = transform.parent;
         originalPosition = rectTransform.anchoredPosition;
 
-        // 1. Ignora o layout
         if (layoutElement != null)
             layoutElement.ignoreLayout = true;
 
-        // 2. Muda o pai para fora do layout
         transform.SetParent(canvas.transform, true);
 
-        // 3. Centraliza o pivot pra evitar bugs de posição
         rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
         rectTransform.pivot = new Vector2(0.5f, 0.5f);
 
-        // 4. Permite passar por Raycasts
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!draggable) return;
+
         if (rectTransform == null) return;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -67,6 +75,7 @@ public class Teste : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!draggable) return;
 
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
@@ -83,4 +92,5 @@ public class Teste : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         rectTransform.localPosition = Vector3.zero;
 
     }
+    
 }

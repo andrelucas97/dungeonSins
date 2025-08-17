@@ -11,6 +11,7 @@ public class CardEquipUI : MonoBehaviour
     [Header("Card Data")]
     //IMG EQUIP
     [SerializeField] private Image artworkImage;
+    [SerializeField] private Image backgroudImage;
     // NAME-DESCRIPT EQUIP
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descriptionText;
@@ -23,17 +24,24 @@ public class CardEquipUI : MonoBehaviour
 
     [Header("Label")]
     // 1 mão ou 2 mãos
-    [SerializeField] private TextMeshProUGUI handLabel;    
+    [SerializeField] private TextMeshProUGUI typeLabel;
+
+    [SerializeField] private CardPreviewManager previewManager;
 
     private EquipmentCard cardData;
     private CardDisplayManager cardDisplayManager;
 
     // VAR PUBLICAS
     public EquipmentCard CardData => cardData;
-
+    public TextMeshProUGUI TypeLabel => typeLabel;
     public void Setup(CardData card)
     {
         var cardEquip = card as EquipmentCard;
+
+        if (previewManager != null)
+        {
+            previewManager.Setup(cardEquip);
+        }
 
         if (cardEquip == null)
         {
@@ -45,36 +53,28 @@ public class CardEquipUI : MonoBehaviour
         artworkImage.sprite = card.Artwork;
         nameText.text = card.CardName;
         descriptionText.text = card.Description;
+        backgroudImage.sprite = card.Background;
 
-        switch (cardEquip.CardStat)
-        {
-            case (CardStats.DEF):
-                stat.text = CardStats.DEF.ToString();
-                pointer.text = cardEquip.DefenseBonus.ToString();
-                break;
-            case (CardStats.ATK):
-                stat.text = CardStats.ATK.ToString();
-                pointer.text = cardEquip.AttackBonus.ToString();
-                break;
-        }
+        pointer.text = cardEquip.ValueBonus.ToString();
+        stat.text = cardEquip.CardStat.ToString();        
 
         switch (cardEquip.CardLabel)
         {
             case CardLabel.OneHand:
-                handLabel.text = "Arma de uma mão";
+                typeLabel.text = "Arma de uma mão";
                 break;
 
             case CardLabel.TwoHands:
-                handLabel.text = "Arma de duas mãos";
+                typeLabel.text = "Arma de duas mãos";
                 break;
             case CardLabel.LightArmor:
-                handLabel.text = "Armadura Leve";
+                typeLabel.text = "Armadura Leve";
                 break;
             case CardLabel.HeavyArmor:
-                handLabel.text = "Armadura Pesada";
+                typeLabel.text = "Armadura Pesada";
                 break;
             case CardLabel.None:
-                handLabel.text = "";
+                typeLabel.text = "";
                 break;
         }
     }

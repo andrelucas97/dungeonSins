@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Dracula
   m_EditorClassIdentifier: 
   cardName: "Dr\xE1cula"
+  background: {fileID: 21300000, guid: c5bb177a7d54e3445bd6c53ed77b4e18, type: 3}
   description: Cuidado com o seu sangue, isso o deixa mais motivado a lhe matar.
     Se cura em 2 a cada ataque bem sucedido.
   artwork: {fileID: 21300000, guid: 0b8b4385b919e1c4cbf37a73d1857df3, type: 3}
   cardType: 2
-  elementType: 4
+  elementType: 0
   elementImage: {fileID: 21300000, guid: d067fdc94509bdb4bb248eaccd25c563, type: 3}
   level: 1
   level1:

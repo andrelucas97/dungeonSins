@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: HeavyBoots
   m_EditorClassIdentifier: 
   cardName: Botas Pesadas
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: "Exigem pernas musculosas para serem usadas. N\xE3o recomend\xE1vel
     us\xE1-las para exerc\xEDcios."
   artwork: {fileID: 21300000, guid: f3658b9c197f5874fa49d096ad9f666d, type: 3}
   cardType: 0
-  attackBonus: 0
-  defenseBonus: 1
-  typeCardEquip: 0
   cardStat: 0
+  valueBonus: 1
+  typeCardEquip: 0
   cardLabel: 3

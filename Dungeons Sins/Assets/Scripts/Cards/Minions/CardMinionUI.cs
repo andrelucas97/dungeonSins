@@ -12,6 +12,7 @@ public class CardMinionUI : MonoBehaviour
     [SerializeField] private CardData cardData;
     //IMG EQUIP
     [SerializeField] private Image artworkImage;
+    [SerializeField] private Image backgroundImage;
 
     // NAME-DESCRIPT EQUIP
     [SerializeField] private TextMeshProUGUI nameText;
@@ -31,11 +32,13 @@ public class CardMinionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI shieldN3Text;
     [SerializeField] private TextMeshProUGUI damageN3Text;
 
-    [Header("Element    ")]
+    [Header("Element")]
     [SerializeField] private GameObject elementObj;
     //IMG ELEMENT
     [SerializeField] private Image elementImage;
 
+    [Header("Card Preview")]
+    [SerializeField] private CardPreviewManager previewManager;
     private MinionStats minionStat;
 
     // VAR PUBLICAS
@@ -43,12 +46,18 @@ public class CardMinionUI : MonoBehaviour
     public void Setup(CardData card)
     {
         cardData = card;
+        MinionsCard minion = card as MinionsCard;        
+
+        if (previewManager != null)
+        {
+            previewManager.Setup(minion);
+        }
 
         artworkImage.sprite = card.Artwork;
         nameText.text = card.CardName;
         descriptionText.text = card.Description;
+        backgroundImage.sprite = card.Background;
 
-        MinionsCard minion = card as MinionsCard;        
 
         elementImage.sprite = minion.ElementImage;
 
@@ -72,7 +81,7 @@ public class CardMinionUI : MonoBehaviour
         if (minionStat == null)
             minionStat = GetComponent<MinionStats>();
 
-        minionStat.Initialize(minion);       
+        minionStat.Initialize(minion);
 
 
 

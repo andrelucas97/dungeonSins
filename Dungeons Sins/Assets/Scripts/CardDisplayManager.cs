@@ -278,4 +278,17 @@ public class CardDisplayManager : MonoBehaviour
             hand.Remove(cardData);
         }
     }
+
+    public List<CardData> GetAllCards()
+    {
+        if (deckAllCards == null || deckAllCards.Count == 0)
+        {
+            deckAllCards = new List<CardData>();
+            deckAllCards.AddRange(deckMinions);
+            deckAllCards.AddRange(deckEquip);
+            deckAllCards.AddRange(deckModifier);
+        }
+
+        return deckAllCards;
+    }
 }

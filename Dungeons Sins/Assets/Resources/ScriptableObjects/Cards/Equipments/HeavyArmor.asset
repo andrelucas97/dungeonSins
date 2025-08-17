@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: HeavyArmor
   m_EditorClassIdentifier: 
   cardName: Peitural Pesado +1
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: "Quem diria que lama e pedras vulc\xE2nicas dariam uma boa armadura."
   artwork: {fileID: 21300000, guid: 56ca39aa8ab0f8f49a70898eea84b58b, type: 3}
   cardType: 0
-  attackBonus: 0
-  defenseBonus: 1
-  typeCardEquip: 1
   cardStat: 0
+  valueBonus: 1
+  typeCardEquip: 0
   cardLabel: 3

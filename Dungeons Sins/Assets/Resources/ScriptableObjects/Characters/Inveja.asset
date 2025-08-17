@@ -16,6 +16,7 @@ MonoBehaviour:
   codeName: Inveja
   age: 1914
   classChar: Feiticeira
+  typeClass: 1
   portrait: {fileID: 21300000, guid: 19ef3e2dd3e5a6d4b816b54214d8ab43, type: 3}
   charColor: 3
   maxHealth: 30

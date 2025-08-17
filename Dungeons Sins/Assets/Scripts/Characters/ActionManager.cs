@@ -13,10 +13,9 @@ public class ActionManager : MonoBehaviour
     [Header("Turn")]
     [SerializeField] private TextMeshProUGUI textTurnManager;
     [SerializeField] private int currentTurn = 1;
+    [SerializeField] private GameObject turnMinionBox;
+    [SerializeField] private TextMeshProUGUI textTurnMinion;
 
-    [Header("Buttons")]
-    [SerializeField] private Button attackButton;
-    [SerializeField] private Button deckButton;
 
     [Header("Action")]
     [SerializeField] private CharStats playerStat;
@@ -24,8 +23,14 @@ public class ActionManager : MonoBehaviour
     //[SerializeField] private StatusDisplay displayStats;
     [SerializeField] private MinionAttack attackMinion;
     [SerializeField] private DiceRoller diceRoller;
-    [SerializeField] private GameObject turnMinionBox;
-    [SerializeField] private TextMeshProUGUI textTurnMinion;
+
+    [Header("Kills")]
+    [SerializeField] private int currentKills;
+    [SerializeField] private TextMeshProUGUI textCurrentKill;
+
+    [Header("Buttons")]
+    [SerializeField] private Button attackButton;
+    [SerializeField] private Button deckButton;
 
     [SerializeField] private CardDisplayManager cardDisplayManager;
     [SerializeField] private TextMeshProUGUI textActionManager;
@@ -34,7 +39,9 @@ public class ActionManager : MonoBehaviour
     [SerializeField] private int currentAction;
     private int countPoisonous = 0;
     private int countBurnBaby = 0;
+    // VAR PUBLICAS
     public int CurrentTurn => currentTurn;
+    public int CurrentKills => currentKills;
 
     void Start()
     {
@@ -45,9 +52,12 @@ public class ActionManager : MonoBehaviour
 
         if (minionStat == null)
             minionStat = FindObjectOfType<MinionStats>();
+
+        currentKills = 0;
         StartTurn();
     }
 
+    // FUNÇÕES PUBLICAS
     public void StartTurn()
     {
         InitializeTurn();
@@ -87,6 +97,12 @@ public class ActionManager : MonoBehaviour
             CombatLog.Instance.AddMessage($"<align=center>---- Resta(m) { currentAction} jogada(s) ----</align>");
         }
     }
+
+    public void AddKill()
+    {
+        UpdateKill();
+    }
+    // FUNÇÕES PRIVADAS
     private void InitializeTurn()
     {
         currentTurn++;
@@ -268,6 +284,12 @@ public class ActionManager : MonoBehaviour
         textTurnManager.text = $"TURNO {currentTurn}";
         textActionManager.text = $"AÇÕES: {currentAction}";
 
+    }
+
+    private void UpdateKill()
+    {
+        currentKills++;
+        textCurrentKill.text = $"MATANÇAS: {currentKills}";
     }
 
     internal void CallCheckEndOfTurn(CardDisplayManager cardDisplayManager)

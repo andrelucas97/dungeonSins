@@ -76,7 +76,7 @@ public class MainMenu : MonoBehaviour
     }
     private void OpenCollections()
     {
-        messageManager.ShowMessage(2f);
+        SceneManager.LoadScene("Collection");
     }
     private void MenuSettings()
     {

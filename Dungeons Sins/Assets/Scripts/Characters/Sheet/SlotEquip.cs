@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ModifierSlot : MonoBehaviour, IDropHandler
+public class SlotEquip : MonoBehaviour, IDropHandler
 {
     public SlotType slotType;
 
@@ -77,6 +77,14 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
     {
         string typeEquip = cardEquip.CardData.CardLabel.ToString();
 
+        if (cardEquip.CardData.TypeCard == TypeCardEquip.Armor || cardEquip.CardData.TypeCard == TypeCardEquip.Helmet || cardEquip.CardData.TypeCard == TypeCardEquip.Boots)
+        {
+            if (!charStats.MatchesArmor(cardEquip.CardData.CardLabel))
+            {
+                CombatLog.Instance.AddMessage($"{cardEquip.TypeLabel.text} não é correspondente a sua classe ({charStats.CharData.ClassChar}). Arma não equipada!");
+                return;
+            }
+        }       
         if (typeEquip == "TwoHands")
         {
             // Verifica se Weapon1 ou Weapon2 estão ocupados
@@ -121,12 +129,12 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
             Transform marker = slotWeapon2.Find("TwoHandedMarker");
             if (marker != null)
             {
-                Debug.Log("Não é possível equipar arma de uma mão enquanto uma arma de duas mãos está equipada!");
+                CombatLog.Instance.AddMessage("Não é possível equipar arma de uma mão enquanto uma arma de duas mãos está equipada!");
                 // Exibir mensagem de aviso ou tela de troca
                 return;
             }
         }
-        
+
 
         // Armas normais (uma mão)
         RemoveOldCard(transform, cardEquip);
@@ -142,18 +150,9 @@ public class ModifierSlot : MonoBehaviour, IDropHandler
         cardManager.RemoveCardDeck(cardEquip.gameObject);
         cardManager.ClearShopCards();
         cardManager.AddCardSheet(cardEquip.gameObject);
-        cardManager.SkipCard();
+        cardManager.SkipCard();        
 
-        switch (cardEquip.CardData.CardStat) // Atualizar: Deixar Value em geral, e não separar
-        {
-            case CardStats.DEF:
-                CombatLog.Instance.AddMessage($"Carta Equipada: {cardEquip.CardData.CardName} (+{cardEquip.CardData.DefenseBonus} {cardEquip.CardData.CardStat})");
-                break;
-            case CardStats.ATK:
-                CombatLog.Instance.AddMessage($"Carta Equipada: {cardEquip.CardData.CardName} (+{cardEquip.CardData.AttackBonus} {cardEquip.CardData.CardStat})");
-                break;
-        }        
-
+        CombatLog.Instance.AddMessage($"Carta Equipada: {cardEquip.CardData.CardName} (+{cardEquip.CardData.ValueBonus} {cardEquip.CardData.CardStat})");
 
         charStats.UpdateStatsSlot(typeCard);
     }

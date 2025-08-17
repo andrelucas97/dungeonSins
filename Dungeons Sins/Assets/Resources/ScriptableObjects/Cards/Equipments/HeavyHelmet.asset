@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: HeavyHelmet
   m_EditorClassIdentifier: 
   cardName: Capacete Pesado
+  background: {fileID: 21300000, guid: 14054882fa9b941499b6b6a92b1eb219, type: 3}
   description: Protege contra espadas e flechas, a menos que acerte a viseira.
   artwork: {fileID: 21300000, guid: e0ac6785b2d4fb34dbd813c394c88d47, type: 3}
   cardType: 0
-  attackBonus: 0
-  defenseBonus: 1
-  typeCardEquip: 2
   cardStat: 0
+  valueBonus: 1
+  typeCardEquip: 0
   cardLabel: 3
