@@ -18,7 +18,7 @@ MonoBehaviour:
     cajado."
   artwork: {fileID: 21300000, guid: c67e7acdffcd09d46b834ed9047697ff, type: 3}
   cardType: 0
-  cardStat: 0
+  cardStat: 1
   valueBonus: 3
-  typeCardEquip: 0
+  typeCardEquip: 3
   cardLabel: 1

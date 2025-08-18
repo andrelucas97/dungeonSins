@@ -18,7 +18,7 @@ MonoBehaviour:
     umas boas brigas."
   artwork: {fileID: 21300000, guid: bc9a70cdf410c044599818728e440b0d, type: 3}
   cardType: 0
-  cardStat: 0
+  cardStat: 1
   valueBonus: 2
-  typeCardEquip: 0
+  typeCardEquip: 3
   cardLabel: 0

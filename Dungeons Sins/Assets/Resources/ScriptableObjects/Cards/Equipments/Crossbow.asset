@@ -17,7 +17,7 @@ MonoBehaviour:
   description: "Um nome curioso para uma cria\xE7\xE3o t\xE3o engenhosa."
   artwork: {fileID: 21300000, guid: 3d2bbd168d56dd146a26c1e83fbbd7cc, type: 3}
   cardType: 0
-  cardStat: 0
+  cardStat: 1
   valueBonus: 3
-  typeCardEquip: 0
+  typeCardEquip: 3
   cardLabel: 0

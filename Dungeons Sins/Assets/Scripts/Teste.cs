@@ -9,6 +9,7 @@ public class Teste : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     private RectTransform rectTransform;
     private Transform originalParent;
     private Vector2 originalPosition;
+    private Vector3 originalScale;
     private LayoutElement layoutElement;
     private Canvas canvas;
     private CanvasGroup canvasGroup; 
@@ -20,6 +21,7 @@ public class Teste : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        originalScale = rectTransform.localScale;
 
         string nameScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         
@@ -49,6 +51,7 @@ public class Teste : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
 
         transform.SetParent(canvas.transform, true);
 
+        rectTransform.localScale = Vector3.one * 0.75f;
         rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
         rectTransform.pivot = new Vector2(0.5f, 0.5f);
@@ -83,10 +86,11 @@ public class Teste : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHan
         {
             transform.SetParent(originalParent);
             layoutElement.ignoreLayout = false;
+            rectTransform.localScale = Vector3.one;
         }
         else
         {
-            CardUtils.SetCardSize(rectTransform, 0.75f);
+            CardUtils.SetCardSize(rectTransform, 1f);
         }
 
         rectTransform.localPosition = Vector3.zero;

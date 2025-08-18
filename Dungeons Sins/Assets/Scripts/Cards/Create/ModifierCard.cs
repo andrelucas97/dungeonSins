@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewModifier", menuName = "CardsGame/Cards/Modifier")]
 public class ModifierCard : CardData
 {
     // VAR PRIVADAS
-    [Header("")]
+    [Header("Effect Description")]
+    [SerializeField] private string effectDescription;
+
+    [Header("Stats")]
     [SerializeField] private int healAmount;
     [SerializeField] private int extraDiceRolls;
     [SerializeField] private int shieldAmount;
@@ -17,4 +21,5 @@ public class ModifierCard : CardData
 
     // VAR PUBLICAS
     public TypeCardEquip TypeCard => typeCard;
+    public string EffectDescription => effectDescription;
 }

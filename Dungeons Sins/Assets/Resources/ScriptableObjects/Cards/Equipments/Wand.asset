@@ -18,7 +18,7 @@ MonoBehaviour:
     bater nos outros ela serve."
   artwork: {fileID: 21300000, guid: f13f44f9bcf2c614f824aa6066fdafdd, type: 3}
   cardType: 0
-  cardStat: 0
+  cardStat: 1
   valueBonus: 2
-  typeCardEquip: 0
+  typeCardEquip: 3
   cardLabel: 0

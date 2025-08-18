@@ -38,8 +38,14 @@ public class CombatLog : MonoBehaviour
 
     public void MessageBoxAbility(string abilityName)
     {
-        textBoxAbility.text = $"Deseja ativar habilidade: \n" +
+        textBoxAbility.text = $"Deseja ativar habilidade \n" +
             $"{abilityName}?";
+    }
+
+    public void MessageBoxCard(string cardName)
+    {
+        textBoxAbility.text = $"Deseja ativar a carta \n" +
+            $"{cardName}?";
     }
 
 }

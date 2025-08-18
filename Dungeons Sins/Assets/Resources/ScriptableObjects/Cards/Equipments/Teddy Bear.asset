@@ -18,7 +18,7 @@ MonoBehaviour:
     esse s\xF3 protege."
   artwork: {fileID: 21300000, guid: 80a1976d97d528e42a62a7d66df0f177, type: 3}
   cardType: 0
-  cardStat: 0
+  cardStat: 1
   valueBonus: 2
-  typeCardEquip: 0
+  typeCardEquip: 3
   cardLabel: 0

@@ -18,7 +18,7 @@ MonoBehaviour:
     mas nada que um arqueiro experiente n\xE3o saiba resolver."
   artwork: {fileID: 21300000, guid: 500fd89f2597baf48bbe09853d0cec7a, type: 3}
   cardType: 0
-  cardStat: 0
+  cardStat: 1
   valueBonus: 2
-  typeCardEquip: 0
+  typeCardEquip: 3
   cardLabel: 0

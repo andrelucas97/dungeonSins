@@ -19,5 +19,5 @@ MonoBehaviour:
   cardType: 0
   cardStat: 0
   valueBonus: 1
-  typeCardEquip: 0
+  typeCardEquip: 2
   cardLabel: 3

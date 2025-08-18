@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Uma adaga enferrujada e suja de sangue. MElhor do que ficar no soco!
   artwork: {fileID: 21300000, guid: 34b265e2750eb1c41bb34f65386f93da, type: 3}
   cardType: 0
-  cardStat: 0
+  cardStat: 1
   valueBonus: 1
-  typeCardEquip: 0
+  typeCardEquip: 3
   cardLabel: 0

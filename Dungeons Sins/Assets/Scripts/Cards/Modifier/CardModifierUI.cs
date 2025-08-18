@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardModifierUI : MonoBehaviour
+public class CardModifierUI : MonoBehaviour, IPointerClickHandler
 {
     // VAR PRIVADAS
 
@@ -22,6 +22,8 @@ public class CardModifierUI : MonoBehaviour
     [Header("Card Preview")]
     [SerializeField] private CardPreviewManager previewManager;
 
+    [Header("Box Message Card")]
+    [SerializeField] private GameObject boxMessageCard;
     private ModifierCard cardData;
 
     // Arrastando Cards
@@ -54,11 +56,19 @@ public class CardModifierUI : MonoBehaviour
         artworkImage.sprite = card.Artwork;
         nameText.text = card.CardName;
         descriptionText.text = card.Description;
+        effectDescript.text = modifierCard.EffectDescription;
         backgroundImage.sprite = card.Background;
-
 
         cardData = modifierCard;
 
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log($"Carta {cardData.CardName} clicada!");
+
+        //boxMessageCard.SetActive(true);
+        //CombatLog.Instance.MessageBoxAbility(cardData.AbilityName);
     }
 
 }

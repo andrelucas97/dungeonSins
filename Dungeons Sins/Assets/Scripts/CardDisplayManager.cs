@@ -131,8 +131,13 @@ public class CardDisplayManager : MonoBehaviour
 
         if (deckAllCards.Count < 3)
         {
-            Debug.Log("Menos de 3 cartas disponíveis.");
-            return;
+            CombatLog.Instance.AddMessage("Menos de 3 cartas disponíveis.");
+
+            if (deckAllCards.Count == 0)
+            {
+                CombatLog.Instance.AddMessage("Baralho vazio!");
+                return;
+            }
         }
 
         var selected = deckAllCards.OrderBy(x => UnityRandom.value).Take(3).ToList();
@@ -145,7 +150,7 @@ public class CardDisplayManager : MonoBehaviour
 
         for (int i = 0; i < hand.Count; i++)
         {
-            GameObject cardGO = SpawnCard(hand[i], i, posEquips, 1);
+            GameObject cardGO = SpawnCard(hand[i], i, posEquips, 2);
             spawnedCardEquip.Add(cardGO);
         }
 
